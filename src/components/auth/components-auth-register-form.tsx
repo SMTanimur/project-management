@@ -1,7 +1,7 @@
 'use client';
-import IconLockDots from '@/components/icon/icon-lock-dots';
-import IconMail from '@/components/icon/icon-mail';
-import IconUser from '@/components/icon/icon-user';
+
+import { EyeInvisibleOutlined, EyeTwoTone, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -17,28 +17,22 @@ const ComponentsAuthRegisterForm = () => {
             <div>
                 <label htmlFor="Name">Name</label>
                 <div className="relative text-white-dark">
-                    <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" />
-                    <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                        <IconUser fill={true} />
-                    </span>
+                <Input size="large" placeholder="large size" prefix={<UserOutlined />} />
                 </div>
             </div>
             <div>
                 <label htmlFor="Email">Email</label>
                 <div className="relative text-white-dark">
-                    <input id="Email" type="email" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" />
-                    <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                        <IconMail fill={true} />
-                    </span>
+                <Input size="large" placeholder="large size" prefix={<MailOutlined />} />
                 </div>
             </div>
             <div>
                 <label htmlFor="Password">Password</label>
                 <div className="relative text-white-dark">
-                    <input id="Password" type="password" placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" />
-                    <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                        <IconLockDots fill={true} />
-                    </span>
+                <Input.Password
+          placeholder="input password"
+          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+      />
                 </div>
             </div>
             <div>
