@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
+    "@popperjs/core": "^2.11.8",
     "add": "^2.0.6",
     "antd": "^5.16.5",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "yarn": "^1.22.22"
+    "react-popper": "^2.3.0",
+    "yarn": "^1.22.22",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
