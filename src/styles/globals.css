@@ -1,3 +1,5 @@
+/* Animate css */
+@import './animate.css';
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
