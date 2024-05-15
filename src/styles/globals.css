@@ -134,10 +134,10 @@ hover:text-primary hover:before:!bg-primary before:mr-2  dark:before:bg-gray-500
     @apply ml-0 
 }
 .horizontal .sidebar {
-    @apply ltr:-left-[260px] rtl:-right-[260px];
+    @apply -left-[260px] ;
 }
 .horizontal.toggle-sidebar .sidebar {
-    @apply ltr:left-0  -left-[260px] ;
+    @apply left-0  ;
 }
 
 .horizontal .nav-item a div:first-child svg,

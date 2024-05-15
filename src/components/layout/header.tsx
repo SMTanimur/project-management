@@ -6,7 +6,6 @@ import { useGlobalStateStore } from "@/store/global-store";
 import { NotificationOutlined } from "@ant-design/icons";
 import {
   BellIcon,
-  ChevronDownIcon,
   Edit2Icon,
   Info,
   LayoutDashboardIcon,
@@ -68,10 +67,8 @@ const Header = () => {
     }
   }, [pathname]);
 
-  const [selectedPerson, setSelectedPerson] = useState(languageList[0])
-  const [query, setQuery] = useState('')
-
- 
+  const [selectedPerson, setSelectedPerson] = useState(languageList[0]);
+  const [query, setQuery] = useState("");
 
   const [messages, setMessages] = useState([
     {
@@ -146,52 +143,47 @@ const Header = () => {
       <div className="shadow-sm w-full">
         <div className="relative w-full  bg-white  py-2.5 dark:bg-black container flex  !justify-between ">
           <div className="flex items-center">
+            <div className=" flex items-center justify-between  mr-2 ">
+              <Link href="/" className="main-logo flex shrink-0 items-center">
+                <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 dark:text-white-light md:inline ml-1.5 ">
+                  SMTR
+                </span>
+              </Link>
+              <button
+                type="button"
+                className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden ml-2 "
+                onClick={() => toggleSidebar()}
+              >
+                <MenuIcon className="h-5 w-5" />
+              </button>
+            </div>
 
-          
-          <div className=" flex items-center justify-between  mr-2 ">
-            <Link href="/" className="main-logo flex shrink-0 items-center">
-             
-              <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 dark:text-white-light md:inline ml-1.5 ">
-                SMTR
-              </span>
-            </Link>
-            <button
-              type="button"
-              className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden ml-2 "
-              onClick={() => toggleSidebar()}
-            >
-              <MenuIcon className="h-5 w-5" />
-            </button>
-          </div>
-
-          <div className="hidden sm:block mr-2 ">
-            <ul className="flex items-center space-x-2 dark:text-[#d0d2d6] ">
-              <li>
-                <Link
-                  href="/apps/todolist"
-                  className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                >
-                  <Edit2Icon />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/apps/chat"
-                  className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                >
-                  <NotificationOutlined />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
+            <div className="hidden sm:block mr-2 ">
+              <ul className="flex items-center space-x-2 dark:text-[#d0d2d6] ">
+                <li>
+                  <Link
+                    href="/apps/todolist"
+                    className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
+                  >
+                    <Edit2Icon />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/apps/chat"
+                    className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
+                  >
+                    <NotificationOutlined />
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="flex items-center space-x-1.5 dark:text-[#d0d2d6]  lg:space-x-5  sm:ml-0   ">
-        
             {/* them setup */}
-            <div className=" shrink-0">
+            <div className="shrink-0">
               <Menu>
-                <MenuButton >
+                <MenuButton className="flex items-center">
                   {i18n.language && (
                     <img
                       className="h-5 w-5 rounded-full object-cover"
@@ -199,7 +191,7 @@ const Header = () => {
                       alt="flag"
                     />
                   )}
-                  <ChevronDownIcon className="size-4 fill-white/60" />
+                  <Icons.chevronDown className="size-4 fill-white/60" />
                 </MenuButton>
                 <Transition
                   enter="transition ease-out duration-75"
@@ -233,9 +225,7 @@ const Header = () => {
                                 alt="flag"
                                 className="h-5 w-5 rounded-full object-cover"
                               />
-                              <span className="ltr:ml-3 rtl:mr-3">
-                                {item.name}
-                              </span>
+                              <span className="ml-3 rtl:mr-3">{item.name}</span>
                             </button>
                           </li>
                         );
@@ -247,7 +237,7 @@ const Header = () => {
             </div>
             <div className="dropdown shrink-0">
               <Menu>
-                <MenuButton >
+                <MenuButton>
                   <MailIcon />
                 </MenuButton>
                 <Transition
@@ -276,8 +266,8 @@ const Header = () => {
               </Menu>
             </div>
             <div className="relative shrink-0">
-              <Menu >
-                <MenuButton >
+              <Menu>
+                <MenuButton>
                   <span>
                     <BellIcon />
                     <span className="absolute top-0 flex h-3 w-3 right-0 ">
@@ -344,7 +334,7 @@ const Header = () => {
                                     </div>
                                     <button
                                       type="button"
-                                      className="text-neutral-300 opacity-0 hover:text-danger group-hover:opacity-100 ltr:ml-auto rtl:mr-auto"
+                                      className="text-neutral-300 opacity-0 hover:text-danger group-hover:opacity-100 ml-auto "
                                       onClick={() =>
                                         removeNotification(notification.id)
                                       }
@@ -371,10 +361,7 @@ const Header = () => {
                             className="!grid min-h-[200px] place-content-center text-lg hover:!bg-transparent"
                           >
                             <div className="mx-auto mb-4 rounded-full ring-4 ring-primary/30">
-                              <Info
-                            
-                                className="h-10 w-10 text-primary"
-                              />
+                              <Info className="h-10 w-10 text-primary" />
                             </div>
                             No data available.
                           </button>
@@ -385,267 +372,266 @@ const Header = () => {
                 </Transition>
               </Menu>
             </div>
-            <div className="dropdown flex shrink-0">
-              {/* userMenu */}
-            </div>
+            <div className="dropdown flex shrink-0">{/* userMenu */}</div>
           </div>
         </div>
 
         {/* horizontal menu */}
         <div className=" border-t border-[#ebedf2] bg-white py-1.5 font-semibold text-black dark:border-[#191e3a] dark:bg-black dark:text-white-dark shadow-md">
-        <ul className="horizontal-menu hidden  lg:space-x-1.5 xl:space-x-8 container">
-          <li className="menu nav-item relative">
-            <button type="button" className="nav-link">
-              <div className="flex items-center">
-                <Icons.home className="shrink-0" />
-                <span className="px-1">{t("dashboard")}</span>
-              </div>
-              <div className="right_arrow">
-                <Icons.chevronDown className="w-5 h-5" />
-              </div>
-            </button>
-            <ul className="sub-menu">
-              <li>
-                <Link href="/">{t("sales")}</Link>
-              </li>
-              <li>
-                <Link href="/analytics">{t("analytics")}</Link>
-              </li>
-              <li>
-                <Link href="/finance">{t("finance")}</Link>
-              </li>
-              <li>
-                <Link href="/crypto">{t("crypto")}</Link>
-              </li>
-            </ul>
-          </li>
-          <li className="menu nav-item relative">
-            <button type="button" className="nav-link">
-              <div className="flex items-center">
-                <LayoutDashboardIcon className="shrink-0" />
-                <span className="px-1">{t("apps")}</span>
-              </div>
-              <div className="right_arrow">
-                <Icons.chevronDown className="w-5 h-5" />
-              </div>
-            </button>
-            <ul className="sub-menu">
-              <li>
-                <Link href="/apps/chat">{t("chat")}</Link>
-              </li>
-              <li>
-                <Link href="/apps/mailbox">{t("mailbox")}</Link>
-              </li>
-              <li>
-                <Link href="/apps/todolist">{t("todo_list")}</Link>
-              </li>
-              <li>
-                <Link href="/apps/notes">{t("notes")}</Link>
-              </li>
-              <li>
-                <Link href="/apps/scrumboard">{t("scrumboard")}</Link>
-              </li>
-              <li>
-                <Link href="/apps/contacts">{t("contacts")}</Link>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("invoice")}
-                  <div className="mr-auto rotate-90">
-                    <Icons.chevronDown className="w-5 h-5" />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/apps/invoice/list">{t("list")}</Link>
-                  </li>
-                  <li>
-                    <Link href="/apps/invoice/preview">{t("preview")}</Link>
-                  </li>
-                  <li>
-                    <Link href="/apps/invoice/add">{t("add")}</Link>
-                  </li>
-                  <li>
-                    <Link href="/apps/invoice/edit">{t("edit")}</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link href="/apps/calendar">{t("calendar")}</Link>
-              </li>
-            </ul>
-          </li>
-          {/* components nav */}
+          <ul className="horizontal-menu hidden  lg:space-x-1.5 xl:space-x-8 container">
+            <li className="menu nav-item relative text-sm">
+              <button type="button" className="nav-link">
+                <div className="flex items-center">
+                  <Icons.home className="shrink-0" />
+                  <span className="px-1">{t("dashboard")}</span>
+                </div>
+                <div className="right_arrow">
+                  <Icons.chevronRight className="w-5 h-5" />
+                </div>
+              </button>
+              <ul className="sub-menu">
+                <li>
+                  <Link href="/">{t("sales")}</Link>
+                </li>
+                <li>
+                  <Link href="/analytics">{t("analytics")}</Link>
+                </li>
+                <li>
+                  <Link href="/finance">{t("finance")}</Link>
+                </li>
+                <li>
+                  <Link href="/crypto">{t("crypto")}</Link>
+                </li>
+              </ul>
+            </li>
+            <li className="menu nav-item relative text-sm">
+              <button type="button" className="nav-link">
+                <div className="flex items-center">
+                  <LayoutDashboardIcon className="shrink-0" />
+                  <span className="px-1">{t("apps")}</span>
+                </div>
+                <div className="right_arrow">
+                  <Icons.chevronRight className="w-5 h-5" />
+                </div>
+              </button>
+              <ul className="sub-menu">
+                <li>
+                  <Link href="/apps/chat">{t("chat")}</Link>
+                </li>
+                <li>
+                  <Link href="/apps/mailbox">{t("mailbox")}</Link>
+                </li>
+                <li>
+                  <Link href="/apps/todolist">{t("todo_list")}</Link>
+                </li>
+                <li>
+                  <Link href="/apps/notes">{t("notes")}</Link>
+                </li>
+                <li>
+                  <Link href="/apps/scrumboard">{t("scrumboard")}</Link>
+                </li>
+                <li>
+                  <Link href="/apps/contacts">{t("contacts")}</Link>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("invoice")}
+                    <div className="mr-auto ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/apps/invoice/list">{t("list")}</Link>
+                    </li>
+                    <li>
+                      <Link href="/apps/invoice/preview">{t("preview")}</Link>
+                    </li>
+                    <li>
+                      <Link href="/apps/invoice/add">{t("add")}</Link>
+                    </li>
+                    <li>
+                      <Link href="/apps/invoice/edit">{t("edit")}</Link>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <Link href="/apps/calendar">{t("calendar")}</Link>
+                </li>
+              </ul>
+            </li>
+            {/* components nav */}
 
-          <li className="menu nav-item relative">
-            <button type="button" className="nav-link">
-              <div className="flex items-center">
-                <NotebookIcon className="shrink-0" />
-                <span className="px-1">{t("pages")}</span>
-              </div>
-              <div className="right_arrow">
-                <Icons.chevronDown className="w-5 h-5" />
-              </div>
-            </button>
-            <ul className="sub-menu">
-              <li className="relative">
-                <button type="button">
-                  {t("users")}
-                  <div className=" mr-auto rotate-90">
-                    <Icons.chevronDown className="w-5 h-5" />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/users/profile">{t("profile")}</Link>
-                  </li>
-                  <li>
-                    <Link href="/users/user-account-settings">
-                      {t("account_settings")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link href="/pages/knowledge-base">{t("knowledge_base")}</Link>
-              </li>
-              <li>
-                <Link href="/pages/contact-us-boxed" target="_blank">
-                  {t("contact_us_boxed")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/pages/contact-us-cover" target="_blank">
-                  {t("contact_us_cover")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/pages/faq">{t("faq")}</Link>
-              </li>
-              <li>
-                <Link href="/pages/coming-soon-boxed" target="_blank">
-                  {t("coming_soon_boxed")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/pages/coming-soon-cover" target="_blank">
-                  {t("coming_soon_cover")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/pages/maintenence" target="_blank">
-                  {t("maintenence")}
-                </Link>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("error")}
-                  <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                  <Icons.chevronDown className='w-5 h-5' />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/pages/error404" target="_blank">
-                      {t("404")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/pages/error500" target="_blank">
-                      {t("500")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/pages/error503" target="_blank">
-                      {t("503")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("login")}
-                  <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                  <Icons.chevronDown className='w-5 h-5' />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/auth/cover-login" target="_blank">
-                      {t("login_cover")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/boxed-signin" target="_blank">
-                      {t("login_boxed")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("register")}
-                  <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                  <Icons.chevronDown className='w-5 h-5' />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/auth/cover-register" target="_blank">
-                      {t("register_cover")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/boxed-signup" target="_blank">
-                      {t("register_boxed")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("password_recovery")}
-                  <div className="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                  <Icons.chevronDown className='w-5 h-5' />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/auth/cover-password-reset" target="_blank">
-                      {t("recover_id_cover")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/boxed-password-reset" target="_blank">
-                      {t("recover_id_boxed")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="relative">
-                <button type="button">
-                  {t("lockscreen")}
-                  <div className="  mr-auto rotate-90">
-                  <Icons.chevronDown className='w-5 h-5' />
-                  </div>
-                </button>
-                <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark ltr:left-[95%] rtl:right-[95%]">
-                  <li>
-                    <Link href="/auth/cover-lockscreen" target="_blank">
-                      {t("unlock_cover")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/auth/boxed-lockscreen" target="_blank">
-                      {t("unlock_boxed")}
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-
-        </ul>
+            <li className="menu nav-item relative text-sm">
+              <button type="button" className="nav-link">
+                <div className="flex items-center">
+                  <NotebookIcon className="shrink-0" />
+                  <span className="px-1">{t("pages")}</span>
+                </div>
+                <div className="right_arrow">
+                  <Icons.chevronRight className="w-5 h-5" />
+                </div>
+              </button>
+              <ul className="sub-menu w-[200px]">
+                <li className="relative">
+                  <button type="button">
+                    {t("users")}
+                    <div className=" mr-auto ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/users/profile">{t("profile")}</Link>
+                    </li>
+                    <li>
+                      <Link href="/users/user-account-settings">
+                        {t("account_settings")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <Link href="/pages/knowledge-base">
+                    {t("knowledge_base")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pages/contact-us-boxed" target="_blank">
+                    {t("contact_us_boxed")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pages/contact-us-cover" target="_blank">
+                    {t("contact_us_cover")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pages/faq">{t("faq")}</Link>
+                </li>
+                <li>
+                  <Link href="/pages/coming-soon-boxed" target="_blank">
+                    {t("coming_soon_boxed")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pages/coming-soon-cover" target="_blank">
+                    {t("coming_soon_cover")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pages/maintenence" target="_blank">
+                    {t("maintenence")}
+                  </Link>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("error")}
+                    <div className="- ml-auto  ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/pages/error404" target="_blank">
+                        {t("404")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/pages/error500" target="_blank">
+                        {t("500")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/pages/error503" target="_blank">
+                        {t("503")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("login")}
+                    <div className=" ml-auto">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/auth/cover-login" target="_blank">
+                        {t("login_cover")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auth/boxed-signin" target="_blank">
+                        {t("login_boxed")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("register")}
+                    <div className=" ml-auto ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/auth/cover-register" target="_blank">
+                        {t("register_cover")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auth/boxed-signup" target="_blank">
+                        {t("register_boxed")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("password_recovery")}
+                    <div className=" ml-auto ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/auth/cover-password-reset" target="_blank">
+                        {t("recover_id_cover")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auth/boxed-password-reset" target="_blank">
+                        {t("recover_id_boxed")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li className="relative">
+                  <button type="button">
+                    {t("lockscreen")}
+                    <div className="  mr-auto ">
+                      <Icons.chevronRight className="w-5 h-5" />
+                    </div>
+                  </button>
+                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
+                    <li>
+                      <Link href="/auth/cover-lockscreen" target="_blank">
+                        {t("unlock_cover")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auth/boxed-lockscreen" target="_blank">
+                        {t("unlock_boxed")}
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </header>
