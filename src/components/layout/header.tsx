@@ -218,6 +218,7 @@ const Header = () => {
                               }`}
                               onClick={() => {
                                 i18n.changeLanguage(item.code);
+                                router.refresh()
                               }}
                             >
                               <img
