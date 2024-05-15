@@ -118,16 +118,6 @@ hover:text-primary hover:before:!bg-primary before:mr-2  dark:before:bg-gray-500
     @apply transition-all duration-300 lg:ml-[260px] ;
 }
 
-/* Horizontal layouts */
-.horizontal .horizontal-menu {
-    @apply hidden  lg:flex;
-}
-.horizontal .main-container .main-content {
-    @apply ml-0 
-}
-.horizontal .sidebar {
-    @apply -left-[260px] ;
-}
 
 
 .horizontal .nav-item a div:first-child svg,
