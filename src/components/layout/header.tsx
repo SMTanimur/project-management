@@ -27,11 +27,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icons } from "../ui/icons";
+import { Button } from "../ui/button";
 
 const Header = () => {
   const pathname = usePathname();
   const { toggleSidebar, languageList } = useGlobalStateStore();
-
+const isAuth= false
   const router = useRouter();
   const { t, i18n } = getTranslation();
 
@@ -136,12 +137,12 @@ const Header = () => {
     setNotifications(notifications.filter((user) => user.id !== value));
   };
 
-  const [search, setSearch] = useState(false);
+ 
 
   return (
-    <header className={`z-40 horizontal `}>
-      <div className="shadow-sm w-full">
-        <div className="relative w-full  bg-white  py-2.5 dark:bg-black container flex  !justify-between ">
+    <header className={`z-[40] horizontal `}>
+      <div className="shadow-sm w-full bg-white">
+        <div className="relative w-full     py-2.5 dark:bg-black container flex  !justify-between ">
           <div className="flex items-center">
             <div className=" flex items-center justify-between  mr-2 ">
               <Link href="/" className="main-logo flex shrink-0 items-center">
@@ -373,7 +374,18 @@ const Header = () => {
                 </Transition>
               </Menu>
             </div>
-            <div className="dropdown flex shrink-0">{/* userMenu */}</div>
+            <div className="dropdown flex shrink-0">
+              {isAuth ? (
+                <div>
+                  userProfile
+                </div>
+              ) :(
+                <Button variant={"outline"} size={"default"}>
+                  <Link href="/auth/login">{t("login")}</Link>
+                </Button>
+              )
+}
+            </div>
           </div>
         </div>
 
