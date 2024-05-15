@@ -79,6 +79,7 @@ import {
   X,
   type LucideIcon,
   type LucideProps,
+  HomeIcon,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -102,6 +103,7 @@ export const Icons = {
   lock: LockIcon,
   success: BadgeCheck,
   arrowDown: ArrowDown,
+  home:HomeIcon,
   menu: Menu,
   attribute: Cog,
   tag: Tag,

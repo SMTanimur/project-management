@@ -61,3 +61,120 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+   /* Panel */
+   .panel {
+    @apply relative rounded-md bg-white p-5 shadow dark:bg-black;
+}
+/* Navbar */
+.navbar-sticky header,
+.navbar-floating header {
+    @apply sticky top-0 z-20;
+}
+.navbar-floating header {
+    @apply bg-[#fafafa]/90 px-6 pt-4 dark:bg-[#060818]/90;
+}
+.navbar-floating header > div > div:first-child {
+    @apply rounded-md;
+}
+.horizontal .navbar-floating header > div > div:first-child {
+    @apply rounded-b-none;
+}
+.horizontal .navbar-floating header .horizontal-menu {
+    @apply rounded-b-md;
+}
+
+/* Sidebar */
+.sidebar:hover .nav-item > a {
+    @apply w-auto;
+}
+
+.sidebar .nav-item > button,
+.sidebar .nav-item > a {
+    @apply mb-1 flex w-full items-center justify-between overflow-hidden whitespace-nowrap rounded-md p-2.5 text-[#506690] hover:bg-[#000]/[0.08] hover:text-black dark:hover:bg-[#181f32] dark:hover:text-white-dark;
+}
+.sidebar .nav-item > button.active,
+.sidebar .nav-item > a.active {
+    @apply bg-[#000]/[0.08] text-black dark:bg-[#181f32] dark:text-white-dark;
+}
+
+.sidebar .nav-item > button.active > div > span,
+.sidebar .nav-item > a.active > div > span {
+    @apply dark:!text-white-dark;
+}
+
+.sidebar ul.sub-menu li button,
+.sidebar ul.sub-menu li a {
+    @apply flex w-full items-center px-9 py-2.5 before:h-0.5 before:w-2 before:rounded before:bg-gray-300 hover:bg-gray-100
+hover:text-primary hover:before:!bg-primary before:mr-2  dark:before:bg-gray-500 dark:hover:bg-gray-900 dark:hover:text-primary;
+}
+.sidebar ul.sub-menu li button.active,
+.sidebar ul.sub-menu li a.active {
+    @apply text-primary before:bg-primary;
+}
+
+.sidebar .nav-item a div:first-child svg,
+.sidebar .nav-item button div:first-child svg {
+    @apply h-5 w-5 text-black/50 dark:text-white/50;
+}
+
+.main-container .main-content {
+    @apply transition-all duration-300 lg:ml-[260px] ;
+}
+
+/* Horizontal layouts */
+.horizontal .horizontal-menu {
+    @apply hidden  lg:flex;
+}
+.horizontal .horizontal-logo {
+    @apply flex;
+}
+.horizontal .main-container .main-content {
+    @apply ml-0 
+}
+.horizontal .sidebar {
+    @apply ltr:-left-[260px] rtl:-right-[260px];
+}
+.horizontal.toggle-sidebar .sidebar {
+    @apply ltr:left-0  -left-[260px] ;
+}
+
+.horizontal .nav-item a div:first-child svg,
+.horizontal .nav-item button div:first-child svg {
+    @apply h-5 w-5 text-black/50 dark:text-white/50;
+}
+
+.horizontal .dark .nav-item a div:first-child svg,
+.dark.horizontal .nav-item a div:first-child svg,
+.horizontal .dark .nav-item button div:first-child svg,
+.dark.horizontal .nav-item button div:first-child svg {
+    @apply text-white/50;
+}
+
+.horizontal-menu .nav-link {
+    @apply flex items-center rounded-lg px-2 py-2.5 hover:bg-[#000]/[0.08] hover:text-black dark:hover:bg-[#181f32] dark:hover:text-white-dark xl:px-4;
+}
+
+.horizontal-menu .nav-link.active {
+    @apply bg-[#000]/[0.08] text-black dark:bg-[#181f32] dark:text-white-dark;
+}
+
+.horizontal-menu ul.sub-menu {
+    @apply absolute top-full z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark;
+}
+
+.horizontal-menu ul.sub-menu a,
+.horizontal-menu ul.sub-menu button {
+    @apply flex w-full items-center justify-between px-4 py-2 hover:bg-gray-100 hover:text-primary dark:hover:bg-primary/10;
+}
+
+.horizontal-menu ul.sub-menu a.active,
+.horizontal-menu ul.sub-menu button.active {
+    @apply bg-gray-100 text-primary dark:bg-primary/10;
+}
+
+.horizontal-menu > li.nav-item:hover > ul.sub-menu,
+.horizontal-menu > li.nav-item > ul.sub-menu > li:hover > ul {
+    @apply block;
+}

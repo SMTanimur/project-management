@@ -1,9 +1,9 @@
 const cookieObj = typeof window === 'undefined' ? require('next/headers') : require('universal-cookie');
 
-import en from './public/locales/en.json';
-import bd from './public/locales/bn.json';
-import fr from './public/locales/fr.json';
-import ru from './public/locales/ru.json';
+import en from '../../public/locales/en.json';
+import bd from '../../public/locales/bn.json';
+import fr from '../../public/locales/fr.json';
+import ru from '../../public/locales/ru.json';
 
 const langObj: any = { en,  fr,  ru, bd };
 

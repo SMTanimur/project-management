@@ -26,6 +26,7 @@
     "react-popper": "^2.3.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "universal-cookie": "^6.1.1",
     "yarn": "^1.22.22",
     "zustand": "^4.5.2"
   },
