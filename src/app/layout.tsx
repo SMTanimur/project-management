@@ -1,9 +1,11 @@
+
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import themeConfig from "../../theme.config";
 import { QueryProvider } from "./provider/query.provider";
 import { ThemeProvider } from "./provider/theme.provider";
+import { GlobalProvider } from "./provider/global.provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <GlobalProvider>
         <QueryProvider>
           <ThemeProvider>
-            <div className={`${themeConfig.navbar}`}>{children}</div>
+            
+            <div className={`${themeConfig.navbar} `}>{children}</div>
+           
           </ThemeProvider>
         </QueryProvider>
+        </GlobalProvider>
       </body>
     </html>
   );

@@ -26,13 +26,15 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Icons } from "../ui/icons";
 import { Button } from "../ui/button";
+import { Icons } from "../ui/icons";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import Sidebar from "./sidebar";
 
 const Header = () => {
   const pathname = usePathname();
   const { toggleSidebar, languageList } = useGlobalStateStore();
-const isAuth= false
+  const isAuth = false;
   const router = useRouter();
   const { t, i18n } = getTranslation();
 
@@ -68,8 +70,7 @@ const isAuth= false
     }
   }, [pathname]);
 
-  const [selectedPerson, setSelectedPerson] = useState(languageList[0]);
-  const [query, setQuery] = useState("");
+
 
   const [messages, setMessages] = useState([
     {
@@ -137,8 +138,6 @@ const isAuth= false
     setNotifications(notifications.filter((user) => user.id !== value));
   };
 
- 
-
   return (
     <header className={`z-[40] horizontal `}>
       <div className="shadow-sm w-full bg-white">
@@ -150,13 +149,22 @@ const isAuth= false
                   SMTR
                 </span>
               </Link>
-              <button
+              {/* <button
                 type="button"
                 className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden ml-2 "
                 onClick={() => toggleSidebar()}
               >
                 <MenuIcon className="h-5 w-5" />
-              </button>
+              </button> */}
+              <Drawer direction="left">
+  <DrawerTrigger>
+  <MenuIcon className="h-5 w-5" />
+  </DrawerTrigger>
+  <DrawerContent className="w-[300px] h-full">
+    <Sidebar/>
+    
+  </DrawerContent>
+</Drawer>
             </div>
 
             <div className="hidden sm:block mr-2 ">
@@ -192,7 +200,6 @@ const isAuth= false
                       alt="flag"
                     />
                   )}
-              
                 </MenuButton>
                 <Transition
                   enter="transition ease-out duration-75"
@@ -219,7 +226,7 @@ const isAuth= false
                               }`}
                               onClick={() => {
                                 i18n.changeLanguage(item.code);
-                                router.refresh()
+                                router.refresh();
                               }}
                             >
                               <img
@@ -227,7 +234,9 @@ const isAuth= false
                                 alt="flag"
                                 className="h-5 w-5 rounded-full object-cover"
                               />
-                              <span className="ml-3 ">{item ? item.name : languageList[0].name}</span>
+                              <span className="ml-3 ">
+                                {item ? item.name : languageList[0].name}
+                              </span>
                             </button>
                           </li>
                         );
@@ -376,15 +385,12 @@ const isAuth= false
             </div>
             <div className="dropdown flex shrink-0">
               {isAuth ? (
-                <div>
-                  userProfile
-                </div>
-              ) :(
+                <div>userProfile</div>
+              ) : (
                 <Button variant={"outline"} size={"default"}>
                   <Link href="/auth/login">{t("login")}</Link>
                 </Button>
-              )
-}
+              )}
             </div>
           </div>
         </div>
@@ -522,16 +528,7 @@ const isAuth= false
                 <li>
                   <Link href="/pages/faq">{t("faq")}</Link>
                 </li>
-                <li>
-                  <Link href="/pages/coming-soon-boxed" target="_blank">
-                    {t("coming_soon_boxed")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/pages/coming-soon-cover" target="_blank">
-                    {t("coming_soon_cover")}
-                  </Link>
-                </li>
+
                 <li>
                   <Link href="/pages/maintenence" target="_blank">
                     {t("maintenence")}
@@ -571,11 +568,6 @@ const isAuth= false
                   </button>
                   <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
                     <li>
-                      <Link href="/auth/cover-login" target="_blank">
-                        {t("login_cover")}
-                      </Link>
-                    </li>
-                    <li>
                       <Link href="/auth/boxed-signin" target="_blank">
                         {t("login_boxed")}
                       </Link>
@@ -591,11 +583,6 @@ const isAuth= false
                   </button>
                   <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
                     <li>
-                      <Link href="/auth/cover-register" target="_blank">
-                        {t("register_cover")}
-                      </Link>
-                    </li>
-                    <li>
                       <Link href="/auth/boxed-signup" target="_blank">
                         {t("register_boxed")}
                       </Link>
@@ -609,18 +596,6 @@ const isAuth= false
                       <Icons.chevronRight className="w-5 h-5" />
                     </div>
                   </button>
-                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
-                    <li>
-                      <Link href="/auth/cover-password-reset" target="_blank">
-                        {t("recover_id_cover")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/auth/boxed-password-reset" target="_blank">
-                        {t("recover_id_boxed")}
-                      </Link>
-                    </li>
-                  </ul>
                 </li>
                 <li className="relative">
                   <button type="button">
@@ -629,18 +604,6 @@ const isAuth= false
                       <Icons.chevronRight className="w-5 h-5" />
                     </div>
                   </button>
-                  <ul className="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] ">
-                    <li>
-                      <Link href="/auth/cover-lockscreen" target="_blank">
-                        {t("unlock_cover")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/auth/boxed-lockscreen" target="_blank">
-                        {t("unlock_boxed")}
-                      </Link>
-                    </li>
-                  </ul>
                 </li>
               </ul>
             </li>

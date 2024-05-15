@@ -1,7 +1,9 @@
 import ContentAnimation from "@/components/layout/content-animation";
 import Header from "@/components/layout/header";
+import Overlay from "@/components/layout/overlay";
 import ScrollToTop from "@/components/layout/scroll-to-top";
 import Setting from "@/components/layout/setting";
+import Sidebar from "@/components/layout/sidebar";
 
 export default function DefaultLayout({
   children,
@@ -12,7 +14,7 @@ export default function DefaultLayout({
     <>
       {/* BEGIN MAIN CONTAINER */}
       <div className="relative">
-        {/* <Overlay /> */}
+        <Overlay />
         <ScrollToTop />
 
         {/* BEGIN APP SETTING LAUNCHER */}
@@ -22,6 +24,7 @@ export default function DefaultLayout({
         <div>
           {/* END SIDEBAR */}
           <div className="main-content flex min-h-screen flex-col">
+        
             {/* BEGIN TOP NAVBAR */}
             <Header />
             {/* END TOP NAVBAR */}
