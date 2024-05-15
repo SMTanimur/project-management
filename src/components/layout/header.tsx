@@ -203,7 +203,7 @@ const Header = () => {
                 >
                   <MenuItems
                     anchor="bottom end"
-                    className="w-[320px] px-4 py-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3"
+                    className="w-[320px] px-4 py-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
                   >
                     <ul className="grid w-[280px] grid-cols-2 gap-2 !px-2 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
                       {languageList.map((item: any) => {
@@ -251,7 +251,7 @@ const Header = () => {
                 >
                   <MenuItems
                     anchor="bottom end"
-                    className="w-[320px] origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3"
+                    className="w-[320px] origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
                   >
                     <MenuItem>
                       <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
@@ -287,7 +287,7 @@ const Header = () => {
                 >
                   <MenuItems
                     anchor="bottom end"
-                    className="max-w-[370px] mt-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-gray-900 [--anchor-gap:var(--spacing-1)] focus:outline-none relative "
+                    className="max-w-[370px] mt-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-gray-900 [--anchor-gap:var(--spacing-1)] focus:outline-none relative z-20"
                   >
                     <ul className="w-[300px] divide-y !py-0 text-dark dark:divide-white/10 dark:text-white-dark sm:w-[350px]">
                       <li onClick={(e) => e.stopPropagation()}>

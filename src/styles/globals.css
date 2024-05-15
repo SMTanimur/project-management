@@ -70,7 +70,7 @@
 /* Navbar */
 .navbar-sticky header,
 .navbar-floating header {
-    @apply sticky top-0 z-20;
+    @apply sticky top-0 z-10;
 }
 
 .horizontal .navbar-floating header > div > div:first-child {
