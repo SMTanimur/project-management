@@ -226,7 +226,7 @@ const Header = () => {
                                 alt="flag"
                                 className="h-5 w-5 rounded-full object-cover"
                               />
-                              <span className="ml-3 rtl:mr-3">{item.name}</span>
+                              <span className="ml-3 rtl:mr-3">{item ? item.name : languageList[0].name}</span>
                             </button>
                           </li>
                         );
