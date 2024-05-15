@@ -1,10 +1,11 @@
 'use client';
 
-import { EyeInvisibleOutlined, EyeTwoTone, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
-
+import { Input } from '../ui/input';
+import { PasswordInput } from '../ui/password-input';
+import { Button } from '../ui/button';
 const ComponentsAuthRegisterForm = () => {
     const router = useRouter();
 
@@ -17,21 +18,21 @@ const ComponentsAuthRegisterForm = () => {
             <div>
                 <label htmlFor="Name">Name</label>
                 <div className="relative text-white-dark">
-                <Input size="large" placeholder="large size" prefix={<UserOutlined />} />
+                <Input  placeholder="large size"  />
                 </div>
             </div>
             <div>
                 <label htmlFor="Email">Email</label>
                 <div className="relative text-white-dark">
-                <Input size="large" placeholder="large size" prefix={<MailOutlined />} />
+                <Input  placeholder="large size"  />
                 </div>
             </div>
             <div>
                 <label htmlFor="Password">Password</label>
                 <div className="relative text-white-dark">
-                <Input.Password
+                <PasswordInput
           placeholder="input password"
-          iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+         
       />
                 </div>
             </div>
@@ -41,9 +42,9 @@ const ComponentsAuthRegisterForm = () => {
                     <span className="text-white-dark">Subscribe to weekly newsletter</span>
                 </label>
             </div>
-            <button type="submit" className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+            <Button type="submit" className=" !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                 Sign Up
-            </button>
+            </Button>
         </form>
     );
 };
