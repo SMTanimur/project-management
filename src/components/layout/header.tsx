@@ -213,7 +213,7 @@ const Header = () => {
                               type="button"
                               className={`flex w-full hover:text-primary ${
                                 i18n.language === item.code
-                                  ? "bg-primary/10 text-primary"
+                                  ? "bg-primary/10 text-primary px-2 py-1 rounded-md"
                                   : ""
                               }`}
                               onClick={() => {
@@ -226,7 +226,7 @@ const Header = () => {
                                 alt="flag"
                                 className="h-5 w-5 rounded-full object-cover"
                               />
-                              <span className="ml-3 rtl:mr-3">{item ? item.name : languageList[0].name}</span>
+                              <span className="ml-3 ">{item ? item.name : languageList[0].name}</span>
                             </button>
                           </li>
                         );
