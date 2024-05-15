@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import { QueryProvider } from "./provider/query.provider";
 import { ThemeProvider } from "./provider/theme.provider";
 import themeConfig from "../../theme.config";
+import Setting from "@/components/layout/setting";
+import ContentAnimation from "@/components/layout/content-animation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,14 +23,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        
         <QueryProvider>
           <ThemeProvider>
+          <div className="relative">
+            <Setting/>
+        
         <div className={`${themeConfig.navbar}`}>
           <Header />
+          <ContentAnimation>
           {children}
+          </ContentAnimation>
+        </div>
+
         </div>
         </ThemeProvider>
         </QueryProvider>
+        
       </body>
     </html>
   );
