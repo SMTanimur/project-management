@@ -72,16 +72,11 @@
 .navbar-floating header {
     @apply sticky top-0 z-20;
 }
-.navbar-floating header {
-    @apply bg-[#fafafa]/90 px-6 pt-4 dark:bg-[#060818]/90;
-}
-.navbar-floating header > div > div:first-child {
-    @apply rounded-md;
-}
+
 .horizontal .navbar-floating header > div > div:first-child {
     @apply rounded-b-none;
 }
-.horizontal .navbar-floating header .horizontal-menu {
+.horizontal  header .horizontal-menu {
     @apply rounded-b-md;
 }
 
