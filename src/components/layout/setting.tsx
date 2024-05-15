@@ -10,7 +10,7 @@ const Setting = () => {
   
 
     const [showCustomizer, setShowCustomizer] = useState(false);
-    const {setAnimation}=useGlobalStateStore()
+    const {setAnimation,animation}=useGlobalStateStore()
 
     return (
         <div>
@@ -66,7 +66,7 @@ const Setting = () => {
                         <h5 className="mb-1 text-base leading-none dark:text-white">Router Transition</h5>
                         <p className="text-xs text-white-dark">Animation of main content.</p>
                         <div className="mt-3">
-                            <select className="form-select border-primary text-primary" value={themeConfig.animation} onChange={(e) => setAnimation(e.target.value)}>
+                            <select className="form-select border-primary text-primary" value={animation} onChange={(e) => setAnimation(e.target.value)}>
                                 <option value=" ">None</option>
                                 <option value="animate__fadeIn">Fade</option>
                                 <option value="animate__fadeInDown">Fade Down</option>

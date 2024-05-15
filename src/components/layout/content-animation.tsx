@@ -1,12 +1,11 @@
 'use client';
 
 import { useGlobalStateStore } from '@/store/global-store';
-import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 
 
 const ContentAnimation = ({ children }: { children: React.ReactNode }) => {
-    const pathname = usePathname();
    const {animation}=useGlobalStateStore()
     return (
         <>
