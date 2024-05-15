@@ -90,7 +90,7 @@ const Sidebar = () => {
                 className="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 dark:text-white-light dark:hover:bg-dark-light/10 "
               
               >
-                <Icons.chevronLeft className="m-auto " />
+                <Icons.chevronsLeft className="m-auto " />
               </button>
             </DrawerClose>
           </div>
