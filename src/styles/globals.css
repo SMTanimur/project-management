@@ -122,18 +122,13 @@ hover:text-primary hover:before:!bg-primary before:mr-2  dark:before:bg-gray-500
 .horizontal .horizontal-menu {
     @apply hidden  lg:flex;
 }
-.horizontal .horizontal-logo {
-    @apply flex;
-}
 .horizontal .main-container .main-content {
     @apply ml-0 
 }
 .horizontal .sidebar {
     @apply -left-[260px] ;
 }
-.horizontal.toggle-sidebar .sidebar {
-    @apply left-0  ;
-}
+
 
 .horizontal .nav-item a div:first-child svg,
 .horizontal .nav-item button div:first-child svg {

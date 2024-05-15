@@ -160,7 +160,7 @@ const Header = () => {
   <DrawerTrigger>
   <MenuIcon className="h-5 w-5" />
   </DrawerTrigger>
-  <DrawerContent className="w-[300px] h-full">
+  <DrawerContent className="w-[300px] h-full py-0">
     <Sidebar/>
     
   </DrawerContent>

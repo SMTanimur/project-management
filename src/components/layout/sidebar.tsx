@@ -70,10 +70,10 @@ const Sidebar = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <nav
         className={cn(
-          "sidebar  z-50 h-full min-h-screen w-full shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300  "
+          "sidebar  z-50 pt-0 mt-0 h-full min-h-screen w-full transition-all duration-300  "
         )}
       >
         <div className="h-full">
