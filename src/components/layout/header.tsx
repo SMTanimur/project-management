@@ -183,7 +183,7 @@ const Header = () => {
             {/* them setup */}
             <div className="shrink-0">
               <Menu>
-                <MenuButton className="flex items-center">
+                <MenuButton className="flex items-center bg-white-light/50 hover:bg-white-light px-2 py-2 rounded-full">
                   {i18n.language && (
                     <img
                       className="h-5 w-5 rounded-full object-cover"
@@ -191,7 +191,7 @@ const Header = () => {
                       alt="flag"
                     />
                   )}
-                  <Icons.chevronDown className="size-4 fill-white/60" />
+              
                 </MenuButton>
                 <Transition
                   enter="transition ease-out duration-75"
@@ -238,7 +238,7 @@ const Header = () => {
             </div>
             <div className="dropdown shrink-0">
               <Menu>
-                <MenuButton>
+                <MenuButton className="bg-white-light/50 hover:bg-white-light px-2 py-2 rounded-full">
                   <MailIcon />
                 </MenuButton>
                 <Transition
@@ -268,7 +268,7 @@ const Header = () => {
             </div>
             <div className="relative shrink-0">
               <Menu>
-                <MenuButton>
+                <MenuButton className="bg-white-light/50 hover:bg-white-light px-2 py-2 rounded-full">
                   <span>
                     <BellIcon />
                     <span className="absolute top-0 flex h-3 w-3 right-0 ">
