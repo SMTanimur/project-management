@@ -156,8 +156,8 @@ const Header = () => {
               >
                 <MenuIcon className="h-5 w-5" />
               </button> */}
-              <Drawer direction="left">
-  <DrawerTrigger>
+              <Drawer direction="left" >
+  <DrawerTrigger className="md:hidden" >
   <MenuIcon className="h-5 w-5" />
   </DrawerTrigger>
   <DrawerContent className="w-[300px] h-full py-0">
@@ -413,14 +413,12 @@ const Header = () => {
                   <Link href="/">{t("sales")}</Link>
                 </li>
                 <li>
-                  <Link href="/analytics">{t("analytics")}</Link>
+                  <Link href="/workflows">{t("workflows")}</Link>
                 </li>
                 <li>
-                  <Link href="/finance">{t("finance")}</Link>
+                  <Link href="/editor">{t("editor")}</Link>
                 </li>
-                <li>
-                  <Link href="/crypto">{t("crypto")}</Link>
-                </li>
+               
               </ul>
             </li>
             <li className="menu nav-item relative text-sm">

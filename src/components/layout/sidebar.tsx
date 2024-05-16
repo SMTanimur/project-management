@@ -73,7 +73,7 @@ const Sidebar = () => {
     <div className="">
       <nav
         className={cn(
-          "sidebar  z-50 pt-0 mt-0 h-full min-h-screen w-full transition-all duration-300  "
+          "sidebar  z-50 pt-0 mt-0 h-full min-h-screen w-full transition-all duration-300 md:hidden "
         )}
       >
         <div className="h-full">
@@ -127,13 +127,10 @@ const Sidebar = () => {
                       <Link href="/">{t("sales")}</Link>
                     </li>
                     <li>
-                      <Link href="/analytics">{t("analytics")}</Link>
+                      <Link href="/workflows">{t("workflows")}</Link>
                     </li>
                     <li>
-                      <Link href="/finance">{t("finance")}</Link>
-                    </li>
-                    <li>
-                      <Link href="/crypto">{t("crypto")}</Link>
+                      <Link href="/editor">{t("editor")}</Link>
                     </li>
                   </ul>
                 </AnimateHeight>

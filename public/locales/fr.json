@@ -1,7 +1,8 @@
 {
     "dashboard": "Tableau de bord",
     "sales": "Ventes",
-    "analytics": "Analytique",
+    "workflows": "Flux de travail",
+    "editor": "Éditeur",
     "apps": "applications",
     "components": "Composants",
     "elements": "Éléments",

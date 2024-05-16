@@ -1,7 +1,8 @@
 {
     "dashboard": "ড্যাশবোর্ড",
     "sales": "বিক্রয়",
-    "analytics": "বিশ্লেষণ",
+    "workflows": "কার্যপ্রণালী",
+    "editor": "সম্পাদক",
     "apps": "অ্যাপ্লিকেশন",
     "components": "উপাদানসমূহ",
     "elements": "উপাদান",
