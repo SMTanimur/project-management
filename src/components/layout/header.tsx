@@ -30,6 +30,7 @@ import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
 import Sidebar from "./sidebar";
+import { Badge } from "../ui/badge";
 
 const Header = () => {
   const pathname = usePathname();
@@ -297,16 +298,17 @@ const Header = () => {
                 >
                   <MenuItems
                     anchor="bottom end"
-                    className="max-w-[370px] mt-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-gray-900 [--anchor-gap:var(--spacing-1)] focus:outline-none relative z-20"
+                    className="max-w-[370px]  mt-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-gray-900 [--anchor-gap:var(--spacing-1)] focus:outline-none relative z-20"
                   >
-                    <ul className="w-[300px] divide-y !py-0 text-dark dark:divide-white/10 dark:text-white-dark sm:w-[350px]">
+                    <ul className=" divide-y !py-0 text-dark dark:divide-white/10 dark:text-white-dark sm:w-[350px]">
                       <li onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-between px-4 py-2 font-semibold">
                           <h4 className="text-lg">Notification</h4>
                           {notifications.length ? (
-                            <span className="badge bg-primary/80">
+                           
+                            <Badge >
                               {notifications.length}New
-                            </span>
+                            </Badge>
                           ) : (
                             ""
                           )}
@@ -359,9 +361,9 @@ const Header = () => {
                           })}
                           <li>
                             <div className="p-4">
-                              <button className="btn btn-primary btn-small block w-full">
+                              <Button className="block w-full rounded-lg">
                                 Read All Notifications
-                              </button>
+                              </Button>
                             </div>
                           </li>
                         </>
