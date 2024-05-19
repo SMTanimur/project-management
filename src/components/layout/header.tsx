@@ -3,8 +3,9 @@
 
 import { getTranslation } from "@/i18n/i18n";
 import { useGlobalStateStore } from "@/store/global-store";
-import { NotificationOutlined } from "@ant-design/icons";
+
 import {
+  Bell,
   BellIcon,
   Edit2Icon,
   Info,
@@ -26,11 +27,11 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { Icons } from "../ui/icons";
-import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
-import Sidebar from "./sidebar";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { Icons } from "../ui/icons";
+import Sidebar from "./sidebar";
 
 const Header = () => {
   const pathname = usePathname();
@@ -140,7 +141,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`z-[40] horizontal `}>
+    <header className={`z-10 horizontal `}>
       <div className="shadow-sm w-full bg-white">
         <div className="relative w-full     py-2.5 dark:bg-black container flex  !justify-between ">
           <div className="flex items-center">
@@ -150,13 +151,7 @@ const Header = () => {
                   SMTR
                 </span>
               </Link>
-              {/* <button
-                type="button"
-                className="collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden ml-2 "
-                onClick={() => toggleSidebar()}
-              >
-                <MenuIcon className="h-5 w-5" />
-              </button> */}
+            
               <Drawer direction="left" >
   <DrawerTrigger className="md:hidden" >
   <MenuIcon className="h-5 w-5" />
@@ -175,7 +170,7 @@ const Header = () => {
                     href="/apps/todolist"
                     className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
                   >
-                    <Edit2Icon />
+                    <Edit2Icon className="w-5 h-5"/>
                   </Link>
                 </li>
                 <li>
@@ -183,7 +178,7 @@ const Header = () => {
                     href="/apps/chat"
                     className="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
                   >
-                    <NotificationOutlined />
+                    <Bell className="w-5 h-5" />
                   </Link>
                 </li>
               </ul>
@@ -191,8 +186,8 @@ const Header = () => {
           </div>
           <div className="flex items-center space-x-1.5 dark:text-[#d0d2d6]  lg:space-x-5  sm:ml-0   ">
             {/* them setup */}
-            <div className="shrink-0">
-              <Menu>
+            <div className="shrink-0 ">
+              <Menu >
                 <MenuButton className="flex items-center bg-white-light/50 hover:bg-white-light px-2 py-2 rounded-full">
                   {i18n.language && (
                     <img
@@ -212,7 +207,8 @@ const Header = () => {
                 >
                   <MenuItems
                     anchor="bottom end"
-                    className="w-[320px] px-4 py-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
+                    
+                    className="w-[320px] !z-40 px-4 py-3 origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 "
                   >
                     <ul className="grid w-[280px] grid-cols-2 gap-2 !px-2 font-semibold text-dark dark:text-white-dark dark:text-white-light/90">
                       {languageList.map((item: any) => {
@@ -398,7 +394,7 @@ const Header = () => {
         </div>
 
         {/* horizontal menu */}
-        <div className=" border-t border-[#ebedf2] bg-white py-1.5 font-semibold text-black dark:border-[#191e3a] dark:bg-black dark:text-white-dark shadow-md">
+        <div className=" border-t z-10 border-[#ebedf2] bg-white py-1.5 font-semibold text-black dark:border-[#191e3a] dark:bg-black dark:text-white-dark shadow-md">
           <ul className="horizontal-menu hidden  lg:space-x-1.5 xl:space-x-8 container">
             <li className="menu nav-item relative text-sm">
               <button type="button" className="nav-link">
@@ -507,6 +503,7 @@ const Header = () => {
                       <Link href="/users/user-account-settings">
                         {t("account_settings")}
                       </Link>
+                      
                     </li>
                   </ul>
                 </li>

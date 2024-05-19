@@ -1,6 +1,6 @@
 import ContentAnimation from "@/components/layout/content-animation";
+import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
-import Overlay from "@/components/layout/overlay";
 import ScrollToTop from "@/components/layout/scroll-to-top";
 import Setting from "@/components/layout/setting";
 import Sidebar from "@/components/layout/sidebar";
@@ -14,7 +14,7 @@ export default function DefaultLayout({
     <>
       {/* BEGIN MAIN CONTAINER */}
       <div className="relative">
-        <Overlay />
+
         <ScrollToTop />
 
         {/* BEGIN APP SETTING LAUNCHER */}
@@ -34,7 +34,7 @@ export default function DefaultLayout({
             {/* END CONTENT AREA */}
 
             {/* BEGIN FOOTER */}
-            {/* <Footer /> */}
+            <Footer />
           </div>
         </div>
       </div>

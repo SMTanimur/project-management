@@ -5,6 +5,7 @@ import { Diamond, ListChecks, ThumbsUp } from "lucide-react";
 import { FC } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 interface ITodoSidebarProps {
+ 
   tabChanged: () => void;
   selectedTab: string;
   setSelectedTab: (value: string) => void;
@@ -12,7 +13,7 @@ interface ITodoSidebarProps {
   addEditTask: () => void;
 }
 
-const TodoSidebar: FC<ITodoSidebarProps> = ({
+const MobileTodoSidebar: FC<ITodoSidebarProps> = ({
   addEditTask,
   allTasks,
   selectedTab,
@@ -20,9 +21,11 @@ const TodoSidebar: FC<ITodoSidebarProps> = ({
   tabChanged,
 }) => {
   return (
-    
+    <div className="px-4 py-3">
     <Card
-      className={` absolute z-10 hidden h-full  w-[240px] max-w-full flex-none space-y-4 p-4 rounded-r-none  xl:relative xl:block xl:h-auto xl:rounded-r-md `}
+
+    className="px-2 py-2"
+    
     >
       <div className="flex h-full flex-col pb-16">
         <div className="pb-5">
@@ -200,7 +203,8 @@ const TodoSidebar: FC<ITodoSidebarProps> = ({
         </div>
       </div>
     </Card>
+    </div>
   );
 };
 
-export default TodoSidebar;
+export default MobileTodoSidebar;

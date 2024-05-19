@@ -12,14 +12,19 @@ import { Fragment, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Icons } from "@/components/ui/icons";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { todos } from "@/data/todo";
-import { cn } from "@/lib/utils";
 import { ITodo } from "@/types";
-import { DotSquareIcon, EllipsisVertical, RotateCcw } from "lucide-react";
 import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2";
 import TodoSidebar from "./todo-sidebar";
+import { cn } from "@/lib/utils";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { MenuIcon } from "lucide-react";
+import MobileTodoSidebar from "./mobile-sidebar";
 
 const ComponentsAppsTodoList = () => {
   const defaultParams = {
@@ -246,38 +251,53 @@ const ComponentsAppsTodoList = () => {
   };
 
   return (
-    <div>
+    <div className="sm:px-8">
       <div className="relative flex h-full gap-5 sm:h-[calc(100vh_-_150px)]">
         {/* sidebar */}
+     
         <TodoSidebar
           addEditTask={addEditTask}
           allTasks={allTasks}
-          isShowTaskMenu={isShowTaskMenu}
+      
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
           tabChanged={tabChanged}
         />
-        <div
-          className={`overlay absolute z-[5] hidden h-full w-full rounded-md bg-black/60 ${
-            isShowTaskMenu && "!block xl:!hidden"
-          }`}
-          onClick={() => setIsShowTaskMenu(!isShowTaskMenu)}
-        ></div>
-        <div className="panel h-full flex-1 overflow-auto p-0">
-          <div className="flex h-full flex-col">
-            <div className="flex w-full flex-col gap-4 p-4 sm:flex-row sm:items-center">
+
+
+
+   
+       
+        <div className="  flex-1  p-0">
+          <div className="flex flex-col ">
+           
+
+            {pagedTasks.length ? (
+          
+                <Table className="">
+                  <TableHeader className="w-full flex  flex-col ">
+               <div className="flex  flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center mr-3">
-                <button
-                  type="button"
-                  className="block hover:text-primary mr-3  xl:hidden"
-                  onClick={() => setIsShowTaskMenu(!isShowTaskMenu)}
-                >
-                  <Icons.menu />
-                </button>
-                <div className="group relative flex-1">
-                  <input
+              <Drawer direction="left"  >
+         <DrawerTrigger className="xl:hidden" >
+     <MenuIcon className="h-5 w-5" />
+    </DrawerTrigger>
+    <DrawerContent className="w-[300px] h-full py-0">
+    <MobileTodoSidebar
+          addEditTask={addEditTask}
+          allTasks={allTasks}
+    
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          tabChanged={tabChanged}
+        />
+    
+   </DrawerContent>
+  </Drawer>
+                <div className="group relative w-full">
+                  <Input
                     type="text"
-                    className="peer form-input !pr-10 "
+                    className=" !pr-10 min-w-[180px] "
                     placeholder="Search Task..."
                     value={searchTask}
                     onChange={(e) => setSearchTask(e.target.value)}
@@ -288,7 +308,7 @@ const ComponentsAppsTodoList = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:flex-auto sm:justify-end">
+              <div className="flex  items-center justify-center sm:flex-auto sm:justify-end">
                 <p className="mr-3 ">
                   {pager.startIndex +
                     1 +
@@ -320,352 +340,18 @@ const ComponentsAppsTodoList = () => {
                   <Icons.chevronDown className="h-5 w-5 -rotate-90 " />
                 </button>
               </div>
-            </div>
-            <div className="h-px w-full border-b border-white-light dark:border-[#1b2e4b]"></div>
 
-            {pagedTasks.length ? (
-              <div className="table-responsive min-h-[400px] grow overflow-y-auto sm:min-h-[300px]">
-                <table className="table-hover">
-                  <tbody>
-                    {pagedTasks.map((task: any) => {
-                      return (
-                        <tr
-                          className={`group cursor-pointer ${
-                            task.status === "complete"
-                              ? "bg-white-light/30 dark:bg-[#1a2941] "
-                              : ""
-                          }`}
-                          key={task.id}
-                        >
-                          <td className="w-1">
-                            <input
-                              type="checkbox"
-                              id={`chk-${task.id}`}
-                              className="form-checkbox"
-                              disabled={selectedTab === "trash"}
-                              onClick={() => taskComplete(task)}
-                              defaultChecked={task.status === "complete"}
-                            />
-                          </td>
-                          <td>
-                            <div onClick={() => viewTask(task)}>
-                              <div
-                                className={`whitespace-nowrap text-base font-semibold group-hover:text-primary ${
-                                  task.status === "complete"
-                                    ? "line-through"
-                                    : ""
-                                }`}
-                              >
-                                {task.title}
-                              </div>
-                              <div
-                                className={`line-clamp-1 min-w-[300px] overflow-hidden text-white-dark ${
-                                  task.status === "complete"
-                                    ? "line-through"
-                                    : ""
-                                }`}
-                              >
-                                {task.descriptionText}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="w-1">
-                            <div className="flex items-center space-x-2 justify-end  ">
-                              {task.priority && (
-                                <div className="dropdown">
-                                  <Menu>
-                                    <MenuButton >
-                                      <Badge
-                                        className={cn(
-                                          task.priority === "medium"
-                                            ? "border border-primary text-primary bg-transparent hover:bg-primary hover-text-white"
-                                            : task.priority === "low"
-                                            ? "bg-transparent border border-warning text-warning hover:text-white hover:bg-warning"
-                                            : task.priority === "high"
-                                            ? "bg-transparent border border-danger text-danger hover:text-white  hover:bg-danger"
-                                            : task.priority === "medium" &&
-                                              isPriorityMenu === task.id
-                                            ? "bg-primary  text-white"
-                                            : task.priority === "low" &&
-                                              isPriorityMenu === task.id
-                                            ? "bg-warning text-white"
-                                            : task.priority === "high" &&
-                                              isPriorityMenu === task.id
-                                            ? "bg-danger text-white"
-                                            : ""
-                                        )}
-                                      >
-                                        {task.priority}
-                                      </Badge>
-                                    </MenuButton>
-                                    <Transition
-                                      enter="transition ease-out duration-75"
-                                      enterFrom="opacity-0 scale-95"
-                                      enterTo="opacity-100 scale-100"
-                                      leave="transition ease-in duration-100"
-                                      leaveFrom="opacity-100 scale-100"
-                                      leaveTo="opacity-0 scale-95"
-                                    >
-                                      <MenuItems
-                                        anchor="bottom end"
-                                        className="w-[320px] origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
-                                      >
-                                        <ul className="text-medium text-sm">
-                                          <li>
-                                            <button
-                                              type="button"
-                                              className="text-danger text-left "
-                                              onClick={() =>
-                                                setPriority(task, "high")
-                                              }
-                                            >
-                                              High
-                                            </button>
-                                          </li>
-                                          <li>
-                                            <button
-                                              type="button"
-                                              className="text-primary text-left "
-                                              onClick={() =>
-                                                setPriority(task, "medium")
-                                              }
-                                            >
-                                              Medium
-                                            </button>
-                                          </li>
-                                          <li>
-                                            <button
-                                              type="button"
-                                              className="text-warning text-left "
-                                              onClick={() =>
-                                                setPriority(task, "low")
-                                              }
-                                            >
-                                              Low
-                                            </button>
-                                          </li>
-                                        </ul>
-                                      </MenuItems>
-                                    </Transition>
-                                  </Menu>
-                                </div>
-                              )}
-
-                              {task.tag && (
-                                <div className="dropdown">
-                                  <Menu>
-                                    <MenuButton className="">
-                                      <Badge
-                                        className={cn(
-                                          task.tag === "team"
-                                            ? "bg-transparent border outline-success hover:bg-success"
-                                            : task.tag === "update"
-                                            ? "bg-transparent border outline-info hover:bg-info"
-                                            : task.tag === "team" &&
-                                              isTagMenu === task.id
-                                            ? "bg-success border text-white "
-                                            : task.tag === "update" &&
-                                              isTagMenu === task.id
-                                            ? "bg-info border text-white "
-                                            : ""
-                                        )}
-                                      >
-                                        {task.priority}
-                                      </Badge>
-                                    </MenuButton>
-                                    <Transition
-                                      enter="transition ease-out duration-75"
-                                      enterFrom="opacity-0 scale-95"
-                                      enterTo="opacity-100 scale-100"
-                                      leave="transition ease-in duration-100"
-                                      leaveFrom="opacity-100 scale-100"
-                                      leaveTo="opacity-0 scale-95"
-                                    >
-                                      <MenuItems
-                                        anchor="bottom end"
-                                        className="w-[320px] origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
-                                      >
-                                        <ul className="text-medium text-sm">
-                                          <li>
-                                            <button
-                                              type="button"
-                                              className="text-success"
-                                              onClick={() =>
-                                                setTag(task, "team")
-                                              }
-                                            >
-                                              Team
-                                            </button>
-                                          </li>
-                                          <li>
-                                            <button
-                                              type="button"
-                                              className="text-info"
-                                              onClick={() =>
-                                                setTag(task, "update")
-                                              }
-                                            >
-                                              Update
-                                            </button>
-                                          </li>
-                                          <li>
-                                            <button
-                                              type="button"
-                                              onClick={() => setTag(task, "")}
-                                            >
-                                              None
-                                            </button>
-                                          </li>
-                                        </ul>
-                                      </MenuItems>
-                                    </Transition>
-                                  </Menu>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="w-1">
-                            <p
-                              className={`whitespace-nowrap font-medium text-white-dark ${
-                                task.status === "complete" ? "line-through" : ""
-                              }`}
-                            >
-                              {task.date}
-                            </p>
-                          </td>
-                          <td className="w-1">
-                            <div className="flex w-max items-center justify-between">
-                              <div className="flex-shrink-0 mr-2.5 .5">
-                                {task.path && (
-                                  <div>
-                                    <img
-                                      src={`/assets/images/${task.path}`}
-                                      className="h-8 w-8 rounded-full object-cover"
-                                      alt="avatar"
-                                    />
-                                  </div>
-                                )}
-                                {!task.path && task.assignee ? (
-                                  <div className="grid h-8 w-8 place-content-center rounded-full bg-primary text-sm font-semibold text-white">
-                                    {task.assignee.charAt(0) +
-                                      "" +
-                                      task.assignee.charAt(
-                                        task.assignee.indexOf(" ") + 1
-                                      )}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                                {!task.path && !task.assignee ? (
-                                  <div className="grid h-8 w-8 place-content-center rounded-full border border-gray-300 dark:border-gray-800">
-                                    <Icons.user className="h-4.5 w-4.5" />
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-                              <div className="dropdown">
-                                <Menu>
-                                  <MenuButton>
-                                    <EllipsisVertical className="opacity-70" />
-                                  </MenuButton>
-                                  <Transition
-                                    enter="transition ease-out duration-75"
-                                    enterFrom="opacity-0 scale-95"
-                                    enterTo="opacity-100 scale-100"
-                                    leave="transition ease-in duration-100"
-                                    leaveFrom="opacity-100 scale-100"
-                                    leaveTo="opacity-0 scale-95"
-                                  >
-                                    <MenuItems
-                                      anchor="bottom end"
-                                      className="w-[140px] origin-top-right rounded-xl border  bg-white p-1 text-sm/6 dark:text-white  text-dark [--anchor-gap:var(--spacing-1)] focus:outline-none mt-3 z-20"
-                                    >
-                                      <ul className="whitespace-nowrap ">
-                                        {selectedTab !== "trash" && (
-                                          <>
-                                            <li className="flex items-center">
-                                            <Icons.pencil className="h-4 w-4 shrink-0 mr-2 " />
-                                              <button
-                                                type="button"
-                                                onClick={() =>
-                                                  addEditTask(task)
-                                                }
-                                              >
-                                                
-                                                Edit
-                                              </button>
-                                            </li>
-                                            <li>
-                                              <button
-                                                type="button"
-                                                onClick={() =>
-                                                  deleteTask(task, "delete")
-                                                }
-                                              >
-                                                <Icons.trash className="shrink-0 mr-2 w-4 h-4 " />
-                                                Delete
-                                              </button>
-                                            </li>
-                                            <li>
-                                              <button
-                                                type="button"
-                                                onClick={() =>
-                                                  setImportant(task)
-                                                }
-                                              >
-                                                <Icons.star className="h-4 w-4 shrink-0 mr-2 " />
-                                                <span>
-                                                  {task.status === "important"
-                                                    ? "Not Important"
-                                                    : "Important"}
-                                                </span>
-                                              </button>
-                                            </li>
-                                          </>
-                                        )}
-                                        {selectedTab === "trash" && (
-                                          <>
-                                            <li>
-                                              <button
-                                                type="button"
-                                                onClick={() =>
-                                                  deleteTask(
-                                                    task,
-                                                    "deletePermanent"
-                                                  )
-                                                }
-                                              >
-                                                <Icons.trash className="shrink-0 mr-2 w-4 h-4" />
-                                                Permanent Delete
-                                              </button>
-                                            </li>
-                                            <li>
-                                              <button
-                                                type="button"
-                                                onClick={() =>
-                                                  deleteTask(task, "restore")
-                                                }
-                                              >
-                                                <RotateCcw className="shrink-0 mr-2 " />
-                                                Restore Task
-                                              </button>
-                                            </li>
-                                          </>
-                                        )}
-                                      </ul>
-                                    </MenuItems>
-                                  </Transition>
-                                </Menu>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
               </div>
+        
+            <div className="h-px w-full border-b border-white-light dark:border-[#1b2e4b]"></div>
+      </TableHeader>
+                  <TableBody>
+
+                    
+                    
+                  </TableBody>
+                </Table>
+          
             ) : (
               <div className="flex h-full min-h-[400px] items-center justify-center text-lg font-semibold sm:min-h-[300px]">
                 No data available

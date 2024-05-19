@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.6",
     "@headlessui/react": "^2.0.3",
     "@hookform/resolvers": "^3.4.0",
     "@popperjs/core": "^2.11.8",
@@ -21,7 +20,6 @@
     "@tanstack/react-query-devtools": "^5.36.0",
     "@tanstack/react-table": "^8.17.3",
     "add": "^2.0.6",
-    "antd": "^5.16.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "i18next": "^23.11.4",
@@ -42,7 +40,6 @@
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^6.1.1",
     "vaul": "^0.9.1",
-    "yarn": "^1.22.22",
     "zod": "^3.23.8",
     "zustand": "^4.5.2"
   },
