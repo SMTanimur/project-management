@@ -448,24 +448,9 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/apps/invoice/list'>{t('list')}</Link>
-                    </li>
-                    <li>
-                      <Link href='/apps/invoice/preview'>{t('preview')}</Link>
-                    </li>
-                    <li>
-                      <Link href='/apps/invoice/add'>{t('add')}</Link>
-                    </li>
-                    <li>
-                      <Link href='/apps/invoice/edit'>{t('edit')}</Link>
-                    </li>
-                  </ul>
+                
                 </li>
-                <li>
-                  <Link href='/apps/calendar'>{t('calendar')}</Link>
-                </li>
+               
               </ul>
             </li>
             {/* components nav */}
