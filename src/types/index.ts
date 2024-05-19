@@ -11,3 +11,16 @@ export interface ITodo{
     path?:string;
     status?:string;
 }
+
+export interface INote{
+ id:number;
+ user:string;
+ thumb:string;
+ title:string;
+ description:string;
+ date:string;
+ isFav:boolean;
+ tag?:string;
+
+
+}
