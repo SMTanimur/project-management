@@ -484,16 +484,8 @@ const Header = () => {
                     </li>
                   </ul>
                 </li>
-                <li>
-                  <Link href='/pages/knowledge-base'>
-                    {t('knowledge_base')}
-                  </Link>
-                </li>
-                <li>
-                  <Link href='/pages/contact-us-boxed' target='_blank'>
-                    {t('contact_us_boxed')}
-                  </Link>
-                </li>
+              
+             
               
                 <li>
                   <Link href='/pages/faq'>{t('faq')}</Link>
@@ -506,23 +498,7 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/pages/error404' target='_blank'>
-                        {t('404')}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href='/pages/error500' target='_blank'>
-                        {t('500')}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href='/pages/error503' target='_blank'>
-                        {t('503')}
-                      </Link>
-                    </li>
-                  </ul>
+                 
                 </li>
                 <li className='relative'>
                   <button type='button'>
