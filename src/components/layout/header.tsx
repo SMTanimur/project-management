@@ -438,9 +438,7 @@ const Header = () => {
                 <li>
                   <Link href='/apps/scrumboard'>{t('scrumboard')}</Link>
                 </li>
-                <li>
-                  <Link href='/apps/contacts'>{t('contacts')}</Link>
-                </li>
+              
                 <li className='relative'>
                   <button type='button'>
                     {t('invoice')}
@@ -507,13 +505,7 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/auth/boxed-signin' target='_blank'>
-                        {t('login_boxed')}
-                      </Link>
-                    </li>
-                  </ul>
+               
                 </li>
                 <li className='relative'>
                   <button type='button'>
