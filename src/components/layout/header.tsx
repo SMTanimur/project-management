@@ -494,20 +494,11 @@ const Header = () => {
                     {t('contact_us_boxed')}
                   </Link>
                 </li>
-                <li>
-                  <Link href='/pages/contact-us-cover' target='_blank'>
-                    {t('contact_us_cover')}
-                  </Link>
-                </li>
+              
                 <li>
                   <Link href='/pages/faq'>{t('faq')}</Link>
                 </li>
 
-                <li>
-                  <Link href='/pages/maintenence' target='_blank'>
-                    {t('maintenence')}
-                  </Link>
-                </li>
                 <li className='relative'>
                   <button type='button'>
                     {t('error')}
