@@ -1,48 +1,65 @@
 'use client';
 
-
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Input } from '../ui/input';
 import { PasswordInput } from '../ui/password-input';
 import { Button } from '../ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { useAuth } from '@/hooks/useAuth';
+import { Icons } from '../ui/icons';
 
 const ComponentsAuthLoginForm = () => {
-    const router = useRouter();
-    const submitForm = (e: any) => {
-        e.preventDefault();
-        router.push('/');
-    };
+  const router = useRouter();
 
-    return (
-        <form className="space-y-5 dark:text-white" onSubmit={submitForm}>
-            <div>
-                <label htmlFor="Email">Email</label>
-                <div className="relative text-white-dark">
-                <Input  placeholder="large size" className='w-full' />
-                    
-                </div>
-            </div>
-            <div>
-                <label htmlFor="Password">Password</label>
-                <div className="relative text-white-dark">
-                <PasswordInput
-          placeholder="input password"
-         
-      />
-                </div>
-            </div>
-            <div>
-                <label className="flex cursor-pointer items-center">
-                    <input type="checkbox" className="form-checkbox bg-white dark:bg-black" />
-                    <span className="text-white-dark">Subscribe to weekly newsletter</span>
-                </label>
-            </div>
-            <Button type="submit"  className=" !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                Sign in
-            </Button>
-        </form>
-    );
+  const { login, loginForm,isLoginPending } = useAuth();
+
+  return (
+    <Form {...loginForm}>
+      <form
+        className='space-y-5 dark:text-white'
+        onSubmit={login}
+      >
+        <FormField
+          control={loginForm.control}
+          name='email'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder='example@gmail.com' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+     <FormField
+          control={loginForm.control}
+          name='password'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <PasswordInput placeholder='**********' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+ <Button disabled={isLoginPending}>
+          {isLoginPending && (
+            <Icons.spinner
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-hidden='true'
+            />
+          )}
+          Sign in
+          <span className='sr-only'>Sign in</span>
+        </Button>
+      </form>
+    </Form>
+  );
 };
 
 export default ComponentsAuthLoginForm;
