@@ -16,9 +16,9 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => {
+  async(response:AxiosResponse) => {
   
-    return response
+    return  await response.data
   },
   async (error) => {
     if (error.response?.data?.message) {

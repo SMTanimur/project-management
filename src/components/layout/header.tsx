@@ -32,14 +32,19 @@ import { Button } from '../ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer';
 import { Icons } from '../ui/icons';
 import Sidebar from './sidebar';
+import { useUser } from '@/hooks/useUser';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 
 const Header = () => {
   const pathname = usePathname();
   const { toggleSidebar, languageList } = useGlobalStateStore();
-  const isAuth = false;
+
   const router = useRouter();
   const { t, i18n } = getTranslation();
-
+  const { profile } = useUser();
+  const { data, isPending } = profile();
+  console.log(data);
   useEffect(() => {
     const selector = document.querySelector(
       'ul.horizontal-menu a[href="' + window.location.pathname + '"]'
@@ -137,7 +142,6 @@ const Header = () => {
   const removeNotification = (value: number) => {
     setNotifications(notifications.filter(user => user.id !== value));
   };
-
 
   return (
     <header className={`z-10 horizontal `}>
@@ -376,8 +380,27 @@ const Header = () => {
               </Menu>
             </div>
             <div className='dropdown flex shrink-0'>
-              {isAuth ? (
-                <div>userProfile</div>
+              {data ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className='focus:outline-none'>
+                  <Avatar>
+  <AvatarImage src={data.avatar} />
+  <AvatarFallback>{data.firstName}</AvatarFallback>
+</Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className='w-[150px] '>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link href='/profile'>{t('profile')}</Link>
+
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href='/settings'>{t('settings')}</Link>
+                    </DropdownMenuItem>
+                 
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <Button variant={'outline'} size={'default'}>
                   <Link href='/auth/login'>{t('login')}</Link>
@@ -438,7 +461,7 @@ const Header = () => {
                 <li>
                   <Link href='/apps/scrumboard'>{t('scrumboard')}</Link>
                 </li>
-              
+
                 <li className='relative'>
                   <button type='button'>
                     {t('invoice')}
@@ -446,9 +469,7 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-                
                 </li>
-               
               </ul>
             </li>
             {/* components nav */}
@@ -482,9 +503,7 @@ const Header = () => {
                     </li>
                   </ul>
                 </li>
-              
-             
-              
+
                 <li>
                   <Link href='/pages/faq'>{t('faq')}</Link>
                 </li>
@@ -496,7 +515,6 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-                 
                 </li>
                 <li className='relative'>
                   <button type='button'>
@@ -505,7 +523,6 @@ const Header = () => {
                       <Icons.chevronRight className='w-5 h-5' />
                     </div>
                   </button>
-               
                 </li>
                 <li className='relative'>
                   <button type='button'>
