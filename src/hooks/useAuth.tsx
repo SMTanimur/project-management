@@ -46,8 +46,8 @@ export const useAuth = () => {
   const login = loginForm.handleSubmit(async (data:LogingInput) => {
     try {
      loginMutateAsync (data,{
-        onSuccess:({data})=>{
-        console.log({data})
+        onSuccess:(data)=>{
+        
           toast({
             title:data.message
           })
