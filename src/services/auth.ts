@@ -12,4 +12,6 @@ export const  auth ={
     return await api.post(API_PATHS.REGISTER, payload)
   },
 
+  LOGOUT: async ():Promise<string>=> await api.delete(API_PATHS.LOGOUT)
+
 }  
