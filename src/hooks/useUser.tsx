@@ -6,13 +6,12 @@ import { useQuery } from "@tanstack/react-query"
 
 export const useUser=()=> {
 
-  const profile = ()=> {
-    return useQuery({
+  const profile =  useQuery({
       queryKey:[QUERY_KEY.ME],
       queryFn: API_SERVICE.USER.ME,
 
     })
-  }
+  
 
   return {
     profile

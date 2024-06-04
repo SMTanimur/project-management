@@ -43,7 +43,7 @@ const Header = () => {
   const router = useRouter();
   const { t, i18n } = getTranslation();
   const { profile } = useUser();
-  const { data, isPending } = profile();
+  const { data, isPending } = profile
   console.log(data);
   useEffect(() => {
     const selector = document.querySelector(
