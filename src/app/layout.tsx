@@ -8,6 +8,7 @@ import { QueryProvider } from "./provider/query.provider";
 import { ThemeProvider } from "./provider/theme.provider";
 import { GlobalProvider } from "./provider/global.provider";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      
       <GlobalProvider>
         <QueryProvider>
           <ThemeProvider>
@@ -32,6 +34,7 @@ export default function RootLayout({
           </ThemeProvider>
         </QueryProvider>
         </GlobalProvider>
+       
       </body>
     </html>
   );

@@ -35,6 +35,7 @@ import Sidebar from './sidebar';
 import { useUser } from '@/hooks/useUser';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
   const pathname = usePathname();
@@ -43,6 +44,7 @@ const Header = () => {
   const router = useRouter();
   const { t, i18n } = getTranslation();
   const { profile } = useUser();
+  const {logout}=useAuth()
   const { data, isPending } = profile
   console.log(data);
   useEffect(() => {
@@ -384,9 +386,9 @@ const Header = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className='focus:outline-none'>
                   <Avatar>
-  <AvatarImage src={data.avatar} />
-  <AvatarFallback>{data.firstName}</AvatarFallback>
-</Avatar>
+            <AvatarImage src={data.avatar} />
+      <AvatarFallback>{data.firstName}</AvatarFallback>
+      </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className='w-[150px] '>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -397,6 +399,11 @@ const Header = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href='/settings'>{t('settings')}</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <button onClick={()=>logout()}>
+                        {t('logout')}
+                      </button>
                     </DropdownMenuItem>
                  
                   </DropdownMenuContent>
