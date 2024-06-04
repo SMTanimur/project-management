@@ -87,25 +87,19 @@ export const useAuth = () => {
     }
   });
 
-  // const logout = async () => {
-  //   try {
-  //     toast.promise(AUTH_API.logout(), {
-  //       loading: "Logging out...",
-  //       success: () => {
-  //         setLoggedIn(false);
-  //         push("/");
-  //         queryClient.removeQueries({ queryKey: ["me"], exact: true });
-  //         return "Logged out!";
-  //       },
-  //       error: (err) => {
-  //         console.log(err);
-  //         return err.message;
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const logout = async () => {
+    try {
+      await API_SERVICE.AUTH.LOGOUT();
+      queryClient.clear();
+      toast({
+        title: "Logged out",
+        icon: "success",
+      })
+      push("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  return { login, signUp,  registerForm, loginForm, isLoginPending, isRegisterPending, isLoginError, isRegisterError};
+  return { login, signUp,  registerForm, loginForm, isLoginPending, isRegisterPending, isLoginError, isRegisterError,logout};
 };
