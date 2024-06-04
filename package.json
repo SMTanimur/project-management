@@ -25,6 +25,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "i18next": "^23.11.4",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
+    "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20",
     "@types/react": "^18",
