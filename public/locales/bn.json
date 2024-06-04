@@ -12,6 +12,10 @@
     "datatables": "ডেটা টেবিল",
     "forms": "ফর্ম",
     "users": "ব্যবহারকারী",
+    "roles": "ভূমিকা",
+
+    "settings": "সেটিংস",
+  
     "pages": "পৃষ্ঠা",
     "authentication": "প্রামাণীকরণ",
     "drag_and_drop": "ড্র্যাগ এবং ড্রপ",
