@@ -16,12 +16,8 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => {
-    if (response.data.message) {
-      toast({
-        title: capitalize(response.data.message),
-      });
-    }
+  (response) => {
+  
     return response
   },
   async (error) => {

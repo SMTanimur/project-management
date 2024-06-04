@@ -46,12 +46,12 @@ export const useAuth = () => {
   const login = loginForm.handleSubmit(async (data:LogingInput) => {
     try {
      loginMutateAsync (data,{
-        onSuccess:(data)=>{
-        
+        onSuccess:({data})=>{
+        console.log({data})
           toast({
-            title:data
+            title:data.message
           })
-          push("/dashboard")
+          push("/")
         },
         onError:(error)=>{
           console.log({error})
