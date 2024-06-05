@@ -4,7 +4,7 @@ import { CreateWorkflowDto, IWorkflow, WorkflowStatus } from "@/types/workflow";
 
 export const workflow ={
   name:"WORKFLOW",
-  CREATE: async (input:CreateWorkflowDto) => {
+  CREATE: async (input:CreateWorkflowDto):Promise<IWorkflow> => {
     return await api.post(API_PATHS.CreateWorkflow, input)
   }
   ,
