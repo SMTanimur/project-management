@@ -1,5 +1,6 @@
 export const  QUERY_KEY = {
   LOGIN: 'login',
   REGISTER: 'register',
-  ME:'me'
+  ME:'me',
+  WORKFLOWS: 'workflows',
 }

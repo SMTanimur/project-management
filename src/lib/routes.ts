@@ -4,6 +4,13 @@ export const API_PATHS ={
     LOGOUT: 'v1/auth/logout',
     USERS: 'v1/users',
     USER: 'v1/users/:id',
-    ME:'v1/users/me'
+    ME:'v1/users/me',
+   //TODO: Workflows
+   CreateWorkflow: 'v1/workflows/create',
+   GetWorkflows: 'v1/workflows',
+   GetWorkflow: 'v1/workflows/:id',
+   UpdateWorkflow: 'v1/workflows/:id',
+   DeleteWorkflow: 'v1/workflows/:id',
+   //TODO: Tasks
   
 }
