@@ -8,9 +8,9 @@ export const API_PATHS ={
    //TODO: Workflows
    CreateWorkflow: 'v1/workflows/create',
    GetWorkflows: 'v1/workflows',
-   GetWorkflow: 'v1/workflows/:id',
-   UpdateWorkflow: 'v1/workflows/:id',
-   DeleteWorkflow: 'v1/workflows/:id',
+   GetWorkflow: 'v1/workflows',
+   UpdateWorkflow: 'v1/workflows',
+   DeleteWorkflow: 'v1/workflows',
    //TODO: Tasks
   
 }

@@ -13,9 +13,20 @@ const nodeSchema = z.object(
 export const workflowSchema = z.object({
   _id: z.string().optional(),
   title: z.string(),
-  description: z.string(),
-  status: workflowStatusSchema,
+  description: z.string().optional(),
+  status: z.string().optional(),
   nodes: z.array(nodeSchema).optional(),
 })
 
-export type Workflow = z.infer<typeof workflowSchema>
+export interface CreateWorkflowDto {
+  title: string;
+  description?: string;
+  status?: string;
+  nodes?:[
+    id: string,
+    type: string
+  ]
+
+}
+
+export type IWorkflow = z.infer<typeof workflowSchema>
