@@ -30,3 +30,14 @@ export interface CreateWorkflowDto {
 }
 
 export type IWorkflow = z.infer<typeof workflowSchema>
+
+
+export const actionSchema = z.object({
+  _id: z.string().optional(),
+  type: z.string(),
+  title: z.string(),
+  description: z.string(),
+  inputs: z.record(z.any()),
+})
+
+export type Action = z.infer<typeof actionSchema>
