@@ -36,7 +36,7 @@ const MobileTodoSidebar: FC<ITodoSidebarProps> = ({
             <h3 className="text-lg font-semibold ml-3 ">Todo list</h3>
           </div>
         </div>
-        <div className="mb-5 h-px w-full border-b border-white-light dark:border-[#1b2e4b]"></div>
+        <div className="mb-5 h-px w-full border-b border-white-light dark:border-[#1b2e4b] "></div>
         <PerfectScrollbar className="relative h-full grow -mr-3.5 pr-3.5 ">
           <div className="space-y-1">
             <button
