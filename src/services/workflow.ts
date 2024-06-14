@@ -3,12 +3,12 @@ import { API_PATHS } from "@/lib";
 import { CreateWorkflowDto, IWorkflow, WorkflowStatus } from "@/types/workflow";
 
 export const workflow ={
-  name:"WORKFLOW",
+  name:"WORKFLOWS",
   CREATE: async (input:CreateWorkflowDto):Promise<IWorkflow> => {
     return await api.post(API_PATHS.CreateWorkflow, input)
   }
   ,
-  GETALL:async ():Promise<IWorkflow[]> => {
+  GET_WORKFLOWS:async ():Promise<IWorkflow[]> => {
     return await api.get(API_PATHS.GetWorkflows)
   },
   GET:async (id:string):Promise<IWorkflow> => {
