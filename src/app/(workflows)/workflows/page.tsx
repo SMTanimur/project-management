@@ -1,8 +1,10 @@
 import React from 'react'
+import WorkflowsScreen from './screen/workflows-screen'
 
-const WorkflowsPage = () => {
+const WorkflowsPage =async() => {
   return (
-    <div>
+    <div className='px-14'>
+      <WorkflowsScreen/>
       
     </div>
   )
