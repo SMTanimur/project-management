@@ -3,7 +3,7 @@ import { API_SERVICE } from "@/services";
 import { IWorkflow } from "@/types/workflow";
 import { useQuery } from "@tanstack/react-query";
 
-export const getWorkflows=  () => {
+export const GetWorkflows=  () => {
   try {
     return useQuery<IWorkflow[]>({
       queryKey: [API_SERVICE.WORKFLOW.name],

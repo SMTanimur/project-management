@@ -1,14 +1,14 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { getWorkflows } from '@/hooks/workflow/workflow';
+import { GetWorkflows } from '@/hooks/workflow/workflow';
 import { useGlobalModalStateStore } from '@/store/modal';
 
 
 import React  from 'react';
 
 const WorkflowsScreen = () => {
-  const workflows = getWorkflows();
+  const workflows = GetWorkflows();
 
 
   const {onOpenModal}=useGlobalModalStateStore()
