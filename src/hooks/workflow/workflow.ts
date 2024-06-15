@@ -12,9 +12,6 @@ export const getWorkflows=  () => {
     
   } catch (error: any) {
     console.log(error);
-    toast({
-      title: error.message,
-      icon: error,
-    });
+    
   }
 };
