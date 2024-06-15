@@ -394,3 +394,35 @@ export const Icons = {
         </svg>
  )
 };
+
+
+export function getFlairSize(size: "sm" | "md" | "lg"): string {
+  switch (size) {
+    case "sm":
+      return "size-2"
+    case "lg":
+      return "size-6"
+    default:
+      return "size-4"
+  }
+}
+
+// export function getIcon(
+//   key: string,
+//   props?: IconProps & Record<string, any>
+// ): JSX.Element {
+//   // Try exact match
+//   if (UDFIcons[key]) {
+//     return UDFIcons[key](props ?? {})
+//   }
+
+//   const [namespace, name] = key.split(".")
+
+//   // Try top level namespace match
+//   if (UDFIcons[namespace]) {
+//     return UDFIcons[namespace](props ?? {})
+//   }
+
+//   // return default icon
+//   return <Bolt {...props} />
+// }
