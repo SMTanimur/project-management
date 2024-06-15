@@ -7,6 +7,7 @@ import themeConfig from "../../theme.config";
 import { QueryProvider } from "./provider/query.provider";
 import { ThemeProvider } from "./provider/theme.provider";
 import { GlobalProvider } from "./provider/global.provider";
+import GlobalModals from "./provider/GlobalModals";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,7 +29,7 @@ export default function RootLayout({
       <GlobalProvider>
         <QueryProvider>
           <ThemeProvider>
-            
+            <GlobalModals/>
             <div className={`${themeConfig.navbar} `}>{children}</div>
            
           </ThemeProvider>
