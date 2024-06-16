@@ -398,7 +398,7 @@ const Header = () => {
 
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link href='/taskflows'>taskflows</Link>
+                      <Link href='/botflows'>botflows</Link>
 
                     </DropdownMenuItem>
                     <DropdownMenuItem>

@@ -3,20 +3,27 @@
 import { Card } from '@/components/ui/card';
 import { useBotFlowsStore } from '@/store/botfllow/botflows';
 import { useGlobalModalStateStore } from '@/store/modal';
+import { useRouter } from 'next/navigation';
 
 
 import React  from 'react';
 
 const BotflowsScreen = () => {
 
+const navigate = useRouter()
 
-
-  const {onOpenModal}=useGlobalModalStateStore()
+  const {setBotflowModal}=useGlobalModalStateStore()
   const {botflows}=useBotFlowsStore()
+  const handleOnClick = (id:string) =>{
+    
+    if(id){
+      navigate.push(`/botflow/${id}`)
+    }
+  }
   return (
     <div className='grid content-start grid-cols-1 gap-4 px-12 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
       <Card className='relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5 cursor-pointer'
-      onClick={()=>onOpenModal()}
+      onClick={()=>setBotflowModal(true)}
       
       >
         <div className='grow p-2 rounded-t-xl'>
@@ -29,7 +36,10 @@ const BotflowsScreen = () => {
       </Card>
       {botflows?.map(botflow => (
         <React.Fragment key={botflow.id}>
-          <Card className='group flex col-span-1 bg-white border-2  rounded-xl shadow-sm min-h-[160px]  flex-col transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg'>
+          <Card className='group flex col-span-1 bg-white border-2  rounded-xl shadow-sm min-h-[160px]  flex-col transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg'
+          
+          onClick={()=>handleOnClick(botflow.id)}
+          >
             <div className='flex pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
               <div className='relative shrink-0'>
                 <span>🤖</span>

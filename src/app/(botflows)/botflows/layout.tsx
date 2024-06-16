@@ -15,9 +15,6 @@ export default function DefaultLayout({
       <div className="relative">
 
         <ScrollToTop />
-
-       
-
         <div>
           {/* END SIDEBAR */}
           <div className="main-content flex min-h-screen flex-col">
