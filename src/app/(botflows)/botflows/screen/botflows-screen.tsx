@@ -21,12 +21,12 @@ const navigate = useRouter()
     }
   }
   return (
-    <div className='grid content-start grid-cols-1 gap-4 px-12 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
-      <Card className='relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5 cursor-pointer'
+    <div className='grid content-start grid-cols-1 gap-4 px-8 md:px-14 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
+      <Card className=' relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5'
       onClick={()=>setBotflowModal(true)}
       
       >
-        <div className='grow p-2 rounded-t-xl'>
+        <div className='grow p-2 rounded-t-xl w-full'>
           <div className='px-6 pt-2 pb-1 text-xs font-medium leading-[18px] text-gray-500'>
             CREATE APP
           </div>
@@ -36,7 +36,7 @@ const navigate = useRouter()
       </Card>
       {botflows?.map(botflow => (
         <React.Fragment key={botflow.id}>
-          <Card className='group flex col-span-1 bg-white border-2  rounded-xl shadow-sm min-h-[160px]  flex-col transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg'
+          <Card className='relative col-span-1 cursor-pointer flex flex-col justify-between min-h-[160px] bg-white rounded-xl border-[0.5px] border-black/5'
           
           onClick={()=>handleOnClick(botflow.id)}
           >

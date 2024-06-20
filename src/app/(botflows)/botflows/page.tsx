@@ -4,7 +4,7 @@ import BotflowsScreen from './screen/botflows-screen'
 
 const BotflowsPage =async() => {
   return (
-    <div className='px-14'>
+    <div className=''>
       <BotflowsScreen/>
       
     </div>

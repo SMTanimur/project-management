@@ -11,7 +11,7 @@ const GlobalModals = () => {
 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
-    <div className="p-3">
+    <div className="">
       
       <Modal
         size="md"
