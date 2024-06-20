@@ -18,6 +18,10 @@ const BotSidebar = () => {
            {collapsed ? <ChevronsRight/> : <ChevronsLeft />}
          </button>
       </div>
+
+      <div>
+        
+      </div>
       
     </div>
   )

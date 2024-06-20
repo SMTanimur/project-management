@@ -1,26 +1,38 @@
-"use client"
-import { useBotFlowsStore } from '@/store/botfllow/botflows'
-import { useParams } from 'next/navigation'
-import React from 'react'
-import BotSidebar from './sidbar'
+'use client';
+import { useBotFlowsStore } from '@/store/botfllow/botflows';
+import { useParams } from 'next/navigation';
+import React from 'react';
+import BotSidebar from './sidbar';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import Link from 'next/link';
+import { ChevronRight, HomeIcon } from 'lucide-react';
+import BotHeader from './bot-header';
 
 const BotScreen = () => {
   const { id } = useParams<{
-    id: string
-  }>()
+    id: string;
+  }>();
 
- const {getBotflowById}= useBotFlowsStore()
- const botflow = getBotflowById(id)
+  const { getBotflowById } = useBotFlowsStore();
+  const botflow = getBotflowById(id);
   return (
-    <div className='flex '>
-    
-      <BotSidebar/>
-      <div>
-      <h1>{botflow?.name}</h1>
+    <div>
+      <div className='flex '>
+        <BotSidebar />
+      <BotHeader/>
+       
       </div>
-      
-    </div>
-  )
-}
+      <div className=''>
 
-export default BotScreen
+</div>
+    </div>
+  );
+};
+
+export default BotScreen;
