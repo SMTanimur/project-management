@@ -25,6 +25,7 @@
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "elkjs": "^0.9.3",
     "i18next": "^23.11.4",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
