@@ -1,5 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '@/components/ui/breadcrumb'
-import { ChevronRight, HomeIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ChevronRight, HomeIcon, Plus } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -19,6 +20,19 @@ const BotHeader = () => {
               {/* ... */}
             </BreadcrumbList>
           </Breadcrumb>
+
+          <div>
+           <h1>title</h1>
+          </div>
+          <div className='flex items-center gap-2'>
+          <Button variant={"outline"} className='flex gap-1 items-center'>
+            <Plus size={16}/>
+            <span>New Bot</span>
+          </Button>
+          <Button size={"lg"} className='rounded-xl'>
+            Save
+          </Button>
+          </div>
     </div>
   )
 }
