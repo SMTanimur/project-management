@@ -7,6 +7,7 @@ export interface TextNode extends Node {
  interface MessageNode extends Node {
   message: string;
   to_message: string;
+  
  }
 
  interface FollowUpNode extends Node {
@@ -15,6 +16,9 @@ export interface TextNode extends Node {
 
 export type IBotNode = TextNode | MessageNode | FollowUpNode & {
   botflowId: string
+  parentId?: string
+  isParent?: boolean
+  color?: string
 }
 
 

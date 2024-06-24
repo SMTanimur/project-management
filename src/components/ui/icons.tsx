@@ -1,3 +1,4 @@
+import { IconProps } from "@radix-ui/react-icons/dist/types";
 import {
   AlarmClock,
   AlertTriangle,
@@ -80,6 +81,7 @@ import {
   type LucideIcon,
   type LucideProps,
   HomeIcon,
+  Bolt,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -407,22 +409,3 @@ export function getFlairSize(size: "sm" | "md" | "lg"): string {
   }
 }
 
-// export function getIcon(
-//   key: string,
-//   props?: IconProps & Record<string, any>
-// ): JSX.Element {
-//   // Try exact match
-//   if (UDFIcons[key]) {
-//     return UDFIcons[key](props ?? {})
-//   }
-
-//   const [namespace, name] = key.split(".")
-
-//   // Try top level namespace match
-//   if (UDFIcons[namespace]) {
-//     return UDFIcons[namespace](props ?? {})
-//   }
-
-//   // return default icon
-//   return <Bolt {...props} />
-// }

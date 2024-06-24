@@ -2,16 +2,8 @@
 import { useBotFlowsStore } from '@/store/botfllow/botflows';
 import { useParams } from 'next/navigation';
 import React from 'react';
-import BotSidebar from './sidbar';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import Link from 'next/link';
-import { ChevronRight, HomeIcon } from 'lucide-react';
+import BotSidebar from './sidebar';
+
 import BotHeader from './bot-header';
 import { useEdgesState, useNodesState } from 'reactflow';
 
