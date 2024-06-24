@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import { ChevronRight, HomeIcon } from 'lucide-react';
 import BotHeader from './bot-header';
+import { useEdgesState, useNodesState } from 'reactflow';
 
 const BotScreen = () => {
   const { id } = useParams<{
@@ -21,7 +22,10 @@ const BotScreen = () => {
 
   const { getBotflowById } = useBotFlowsStore();
   const botflow = getBotflowById(id);
-  return (
+  const [nodes, setNodes, onNodesChange] = useNodesState(botflow?.nodes || []);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(botflow?.edges || [])
+
+   return(
     <div>
       <div className='flex '>
         <BotSidebar />

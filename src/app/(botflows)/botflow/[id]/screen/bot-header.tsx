@@ -15,7 +15,7 @@ const BotHeader = () => {
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <ChevronRight className='size-5' />
-              <h4>Botflow</h4>
+              <h4 className='text-xl '>Botflow</h4>
               {/* ... */}
             </BreadcrumbList>
           </Breadcrumb>
