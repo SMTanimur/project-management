@@ -25,7 +25,7 @@ import {
 
 
 
-export const useFlow = () => {
+export const useBot = () => {
 
   const { getNode, getEdges, getNodes, setNodes, setEdges} = useReactFlow();
 
