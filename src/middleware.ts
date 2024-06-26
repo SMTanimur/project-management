@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  // const userToken = req.cookies.get('ummahlink_sid')?.value
+
 
   const sessionToken = req.cookies.has('orga_sid');
 
