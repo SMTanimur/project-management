@@ -1,5 +1,5 @@
 
-import { IBotNode } from "@/types";
+import {  IBotNodeData} from "@/types";
 import { Edge, Node } from "reactflow";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -8,7 +8,7 @@ export interface IBotFlows {
   id:string
   name: string;
   description:string;
-  nodes: IBotNode[];
+  nodes: IBotNodeData[];
   edges: Edge[];
 }
 
@@ -18,9 +18,9 @@ export interface BotFlowsStore {
   addBotflows:(botflow:IBotFlows)=>void
   removeflows:(botflow:IBotFlows)=>void
   clearflows:()=>void
-  addNode: (flowId: string, node: IBotNode) => void;
+  addNode: (flowId: string, node: IBotNodeData) => void;
   getBotflowById: (id: string) => IBotFlows | undefined;
-  updateNode: (flowId: string, node: IBotNode) => void;
+  updateNode: (flowId: string, node: IBotNodeData) => void;
   removeNode: (flowId: string, nodeId: string) => void;
   addEdge: (flowId: string, edge: Edge) => void;
   removeEdge: (flowId: string, edgeId: string) => void;
@@ -56,14 +56,14 @@ export const useBotFlowsStore = create(
        getBotflowById: (id: string) => {
         return get().botflows.find((flow) => flow.id === id);
       },
-       addNode: (flowId: string, node: IBotNode) => {
+       addNode: (flowId: string, node: IBotNodeData) => {
         set((state) => ({
           botflows: state.botflows.map((flow) =>
             flow.id === flowId ? { ...flow, nodes: [...flow.nodes, node] } : flow
           ),
         }));
       },
-      updateNode: (flowId: string, node: IBotNode) => {
+      updateNode: (flowId: string, node: IBotNodeData) => {
         set((state) => ({
           botflows: state.botflows.map((flow) =>
             flow.id === flowId
