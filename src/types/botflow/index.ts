@@ -1,24 +1,51 @@
+import { Icons } from "@/components/ui/icons";
 import { Node } from "reactflow";
 
-export interface TextNode extends Node {
-  text: string;
-  
-}
- interface MessageNode extends Node {
-  message: string;
-  to_message: string;
-  
- }
 
- interface FollowUpNode extends Node {
-  output: string;
- }
 
-export type IBotNode = TextNode | MessageNode | FollowUpNode & {
+export interface BaseNode {
   botflowId: string
   parentId?: string
   isParent?: boolean
   color?: string
+  icon: keyof typeof Icons
+  label: string
+  description?: string
+}
+ interface MessageNode  {
+  message: string;
+  to_message: string;
+  
+ }
+ export interface TextNode {
+  text: string;
+  
+}
+
+ interface FollowUpNode  {
+  output: string;
+ }
+
+export interface IBotNode extends BaseNode   {
+  text_data:TextNode,
+  follow_up_data:FollowUpNode
+  message_data:MessageNode
+} 
+
+export interface IBotNodeData extends Node {
+  data: IBotNode
+}
+export enum EdgeType {
+  DEFAULT = "default",
+  CUSTOM = "custom"
+
+}
+
+export enum NodeType {
+  START="start",
+  TEXT="text",
+  MESSAGE="message",
+  FOLLOW_UP="follow_up",
 }
 
 
