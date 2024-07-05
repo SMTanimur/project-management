@@ -1,3 +1,4 @@
+import { ISidebarNavigation } from "@/types/config";
 
 
 
@@ -16,7 +17,7 @@ export enum INodeType {
  }
 
 
-export const sidebarNavigation = [
+export const sidebarNavigation:ISidebarNavigation[] = [
    
 
     {
@@ -24,26 +25,26 @@ export const sidebarNavigation = [
      type:"action",
      children:[
         {
-        name:"Email",
+        label:"Email",
         id:INodeType.EMAIL,
         icon: "mail"
 
      },
      {
-        name:"SMS",
+        label:"SMS",
         id:INodeType.SMS,
         icon: "message",
 
      },
      {
-        name:"Update Profile Property",
+        label:"Update Profile Property",
         icon: "user",
         id:INodeType.UPDATE_PROFILE,
  
         
      },
      {
-        name:"Notification",
+        label:"Notification",
         icon:"bell",
         id:INodeType.NOTIFICATION,
 
