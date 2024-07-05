@@ -8,9 +8,7 @@ export const FollowUpNode = (node: IBotNodeData) => {
   return (
     <div className='relative'>
       <BaseLayout {...{ node }}>
-        <div className='flex flex-col items-center justify-center gap-2 bg-gray-200  px-2 py-5 '>
-        
-        </div>
+        <div className='flex flex-col items-center justify-center gap-2 bg-gray-200  px-2 py-5 '></div>
       </BaseLayout>
       <Handle type='target' position={Position.Left} id='a' isConnectable />
       <Handle

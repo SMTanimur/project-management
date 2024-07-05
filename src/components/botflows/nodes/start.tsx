@@ -1,10 +1,9 @@
 import { Handle, Position } from 'reactflow';
-
-import { ISelectNode } from 'src/types';
 import { BaseLayout } from './base';
-import { HandleClickMenu } from '../flow-bot/handle-cllick-menu';
+import { IBotNodeData } from '@/types';
+import { HandleClickMenu } from '../shared/handle-cllick-menu';
 
-export const StartNode = (node: ISelectNode) => {
+export const StartNode = (node: IBotNodeData) => {
   return (
     <div className='relative'>
       <BaseLayout {...{ node }}></BaseLayout>
