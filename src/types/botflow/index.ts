@@ -27,6 +27,7 @@ export interface BaseNode {
  }
 
 export interface IBotNode extends BaseNode   {
+
   text_data:TextNode,
   follow_up_data:FollowUpNode
   message_data:MessageNode
