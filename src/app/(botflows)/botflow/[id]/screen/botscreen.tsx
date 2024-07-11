@@ -9,14 +9,16 @@ const BotHeader = dynamic(() => import('./bot-header'), { ssr: false })
 import ReactFlow, {
   Background,
   Controls,
+  NodeTypes,
   Panel,
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
 } from 'reactflow';
-import { useBot } from '@/hooks/useBot';
+
 import CustomEdge from '@/components/botflows/edges/custom-edge';
 import dynamic from 'next/dynamic';
+import { useBot } from '@/hooks';
 
 const BotScreen = () => {
   const { id } = useParams<{
@@ -48,7 +50,7 @@ const BotScreen = () => {
               onEdgesChange={onEdgesChange}
               fitView
               onConnect={onConnect}
-              nodeTypes={nodeTypes}
+              nodeTypes={nodeTypes as any}
               edgeTypes={edgeTypes}
               maxZoom={10}
               minZoom={0.1}
