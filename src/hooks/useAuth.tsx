@@ -54,7 +54,6 @@ export const useAuth = () => {
           push("/")
         },
         onError:(error)=>{
-          console.log({error})
           toast({
             title: error.message,
             icon: "error",

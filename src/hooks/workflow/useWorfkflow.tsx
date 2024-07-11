@@ -23,7 +23,6 @@ export const useWorkflow = () => {
   });
 
   const createWorkflow = async (data:CreateWorkflowDto) => {
-    console.log(data,"data")
      try {
       mutateAsync(data,{
         onSuccess(data) {
@@ -38,7 +37,6 @@ export const useWorkflow = () => {
           router.push(`/workflow/${data._id}`);
         },
         onError(error) {
-          console.log(error,"error")
           toast({
             title: error.message,
             icon: 'error',
@@ -46,7 +44,6 @@ export const useWorkflow = () => {
         },
       })
      } catch (error:any) {
-      console.log(error,"error")
       toast({
         title: error,
         icon: 'error',

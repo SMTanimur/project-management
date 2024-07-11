@@ -35,7 +35,6 @@ const CreateBotflowForm = () => {
       });
      setBotflowModal(false)
      } catch (error:any) {
-      console.log(error,"error")
       toast({
         title: error,
         icon: 'error',

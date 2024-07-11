@@ -46,7 +46,6 @@ const Header = () => {
   const { profile } = useUser();
   const {logout}=useAuth()
   const { data, isPending } = profile
-  console.log(data);
   useEffect(() => {
     const selector = document.querySelector(
       'ul.horizontal-menu a[href="' + window.location.pathname + '"]'
