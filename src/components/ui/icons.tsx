@@ -82,6 +82,8 @@ import {
   type LucideProps,
   HomeIcon,
   Bolt,
+  Mail,
+  Bell,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -140,6 +142,8 @@ export const Icons = {
   message: MessageSquare,
   reset: RefreshCw,
   send: Send,
+  email:Mail,
+  bell:Bell,
   copy: Copy,
   downlaod: Download,
   warning: AlertTriangle,

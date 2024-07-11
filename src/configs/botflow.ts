@@ -27,7 +27,7 @@ export const sidebarNavigation:ISidebarNavigation[] = [
         {
         label:"Email",
         id:INodeType.EMAIL,
-        icon: "mail"
+        icon: "email"
 
      },
      {
