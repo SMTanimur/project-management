@@ -11,21 +11,42 @@ import { Icons } from '../ui/icons'
 import { CreateWorkflowDto } from '@/types/workflow'
 import { toast } from '@/lib'
 import { IBotFlows, useBotFlowsStore } from '@/store/botfllow/botflows'
+import { Node } from '@xyflow/react'
+import { IBotNodeData } from '@/types'
 
 const CreateBotflowForm = () => {
 
   const {workflowForm,isCreating}=useWorkflow()
   const {addBotflows}=useBotFlowsStore()
   const {setBotflowModal}=useGlobalModalStateStore()
+
+  
   const createBotflow = async (data:CreateWorkflowDto) => {
- 
      try {
        const id = nanoid()
+
+      const initialNode:IBotNodeData={
+        id:"start_node",
+        data:{
+          icon:"star",
+          label:"Start",
+          botflowId:id,
+        },
+        position: { x: 0, y: 0 },
+        description: "", // Add the missing property
+        type: "start",
+        dragging: false,
+        zIndex: 0,
+        isConnectable: true,
+        positionAbsoluteX: 0, // Add the missing property
+        positionAbsoluteY: 0, // Add the missing property
+        // Add any other missing properties
+      }
        const botData:IBotFlows= {
         id,
         description: data?.description as string,
         name: data.name,
-        nodes:[],
+        nodes:[initialNode],
         edges:[]
        }
        addBotflows(botData)

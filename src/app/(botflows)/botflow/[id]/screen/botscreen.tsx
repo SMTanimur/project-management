@@ -38,10 +38,8 @@ export const BotScreen = () => {
 
   const { getBotflowById } = useBotFlowsStore();
   const botflow = getBotflowById(id);
-  const [nodes, setNodes, onNodesChange] = useNodesState(botflow?.nodes.map(node => ({
-    ...node,
-    data: node as unknown as Record<string, unknown>,
-  })) || []);
+  console.log({botflow})
+  const [nodes, setNodes, onNodesChange] = useNodesState(botflow?.nodes.map(node => ({ ...node,  data: node.data as unknown as Record<string, unknown> })) || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(botflow?.edges || []);
   const edgeTypes: any = useMemo(
     () => ({

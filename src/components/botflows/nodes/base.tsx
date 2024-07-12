@@ -34,14 +34,14 @@ export const BaseLayout = ({ children, node }: BaseLayoutProps) => {
       <CardContent className='pb-0 px-0'>
         <div className='flex items-center gap-8 px-3'>
           {/* icon */}
-          <Icon className='size-6' />
+          {/* <Icon className='size-6' /> */}
           <div className='flex flex-col'>
             <h3 className='text-lg text-gray-900 font-bold'>
               {node?.data.label}
             </h3>
-            {node?.data.description && (
+            {node?.description && (
               <p className='text-gray-600 text-lg w-[120px] text-wrap'>
-                {node?.data?.description}
+                {node?.description}
               </p>
             )}
           </div>
