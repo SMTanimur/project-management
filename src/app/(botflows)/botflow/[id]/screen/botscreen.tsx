@@ -9,6 +9,7 @@ const BotHeader = dynamic(() => import('./bot-header'), { ssr: false })
 import ReactFlow, {
   Background,
   Controls,
+  MiniMap,
   NodeTypes,
   Panel,
   ReactFlowProvider,
@@ -20,7 +21,7 @@ import CustomEdge from '@/components/botflows/edges/custom-edge';
 import dynamic from 'next/dynamic';
 import { useBot } from '@/hooks';
 
-const BotScreen = () => {
+export const BotScreen = () => {
   const { id } = useParams<{
     id: string;
   }>();
@@ -38,11 +39,11 @@ const BotScreen = () => {
   const { nodeTypes, onConnect, onDragOver } = useBot();
   return (
     <div>
-      <div className='flex'>
+      <div className='flex relative'>
         <BotSidebar />
         <div className='flex flex-col w-full'>
           <BotHeader botflow={botflow as IBotFlows} />
-          <div className='w-full h-[calc(100vh-78px)] relative'>
+          <div className=' h-[calc(100vh-78px)] '>
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -55,12 +56,14 @@ const BotScreen = () => {
               maxZoom={10}
               minZoom={0.1}
             >
-              <Background />
-              <Panel position={'bottom-left'}>
-                <div>dfgdgh</div>
-              </Panel>
-              <Controls />
+            
+             
+              <Background/>
+              <Controls/>
+              <MiniMap position='bottom-right'/>
+             
             </ReactFlow>
+          
           </div>
         </div>
       </div>
@@ -68,10 +71,3 @@ const BotScreen = () => {
   );
 };
 
-export default function FlowWithProvider() {
-  return (
-    <ReactFlowProvider>
-      <BotScreen />
-    </ReactFlowProvider>
-  );
-}

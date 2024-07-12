@@ -117,26 +117,7 @@ export const useBot = () => {
     setNodes(prev => prev.concat(newNode));
     setEdges(prev => prev.concat(newEdge as Edge));
   };
-  const onSidebarNodeClick = (item: any) => {
-   
-    const newNodeId = nanoid();
  
-    const newNode: any = {
-      id: newNodeId,
-      data: { label: item.label, icon: item.icon },
-      position: {
-        x: 0,
-        y: 0
-      },
-      type: lowerCase(item.label),
-    };
-  
-   
-    setNodes(prev => prev.concat(newNode));
-   
-  };
-
-
   const onDrop = useCallback(
     (event: any) => {
       event.preventDefault();
@@ -186,7 +167,6 @@ export const useBot = () => {
     initialNodes,
     setEdgeStyleType,
     addNodeClick,
-    onSidebarNodeClick,
     onDrop,
     onDragOver,
     setReactBotInstance
