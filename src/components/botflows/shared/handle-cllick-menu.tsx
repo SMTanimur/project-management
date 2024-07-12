@@ -2,12 +2,12 @@ import { cn } from '@/lib/utils';
 
 import { sidebarNavigation } from '@/configs';
 
-import { useNodeId } from 'reactflow';
 import { useState } from 'react';
 import { useBot } from '@/hooks';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Icons } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
+import { useNodeId } from '@xyflow/react';
 
 
 interface IHandleClickMenuProps {

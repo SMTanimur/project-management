@@ -1,18 +1,12 @@
 import { nanoid } from 'nanoid';
 import { DragEvent, useCallback,  useMemo, useRef, useState } from 'react';
-import {
-  Edge,
-  EdgeUpdatable,
-  Node,
-  ReactFlowInstance,
-  addEdge,
-  useReactFlow,
-} from 'reactflow';
+
 
 import { EdgeType, NodeType } from '@/types';
 
 import { lowerCase } from 'lodash';
 import { FollowUpNode, MessageNode, StartNode, TextNode } from '@/components/botflows/nodes';
+import { addEdge, Edge, Node, ReactFlowInstance, useReactFlow } from '@xyflow/react';
 
 
 const initialNodes: Node[] = [
@@ -27,7 +21,7 @@ const initialNodes: Node[] = [
     position: { x: 350, y: 200 },
   },
 ];
-const initialEdges: Edge<EdgeUpdatable>[] = [];
+const initialEdges: Edge[] = [];
 
 export const useBot = () => {
   const {  getNodes, setEdges, setNodes } = useReactFlow();
@@ -119,17 +113,16 @@ export const useBot = () => {
   };
  
   const onDrop = useCallback(
-    (event: any) => {
+    (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      const reactBotBounds: any =
-        reactBotWrapper?.current?.getBoundingClientRect();
+      const reactBotBounds = reactBotWrapper?.current?.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow/type');
       const label = event.dataTransfer.getData('application/reactflow/label');
       const icon = event.dataTransfer.getData('application/reactflow/icon');
       const description = event.dataTransfer.getData('application/reactflow/description');
       if (typeof type === 'undefined' || !type || !reactBotBounds) return;
 
-      const position = reactBotInstance?.project({
+      const position = reactBotInstance?.screenToFlowPosition({
         x: event.clientX - reactBotBounds.left,
         y: event.clientY - reactBotBounds.top,
       });
@@ -141,7 +134,7 @@ export const useBot = () => {
         id: nanoid(),
         type,
         position,
-        data: { label, icon,description},
+        data: { label, icon, description },
       };
 
 
