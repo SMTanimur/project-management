@@ -1,7 +1,8 @@
 'use client';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled.js'
-import { Node, Edge } from 'reactflow';
+
 import { fromElk, traverseElk } from './util_elk';
+import { Edge, Node } from '@xyflow/react';
 
 const elk = new ELK();
 

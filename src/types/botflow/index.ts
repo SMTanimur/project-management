@@ -1,5 +1,6 @@
 import { Icons } from "@/components/ui/icons";
-import { Node } from "reactflow";
+import { Node, NodeProps } from "@xyflow/react";
+
 
 
 
@@ -33,8 +34,10 @@ export interface IBotNode extends BaseNode   {
   message_data:MessageNode
 } 
 
-export interface IBotNodeData extends Node {
-  data: IBotNode
+export interface IBotNodeData extends Omit<NodeProps<Node>, 'data'> {
+  position: { x: number; y: number };
+  
+   data: IBotNode
 }
 export enum EdgeType {
   DEFAULT = "default",

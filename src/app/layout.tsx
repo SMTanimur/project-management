@@ -1,6 +1,7 @@
 
 import "@/styles/globals.css";
 import "sweetalert2/dist/sweetalert2.min.css";
+import '@xyflow/react/dist/style.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import themeConfig from "../../theme.config";

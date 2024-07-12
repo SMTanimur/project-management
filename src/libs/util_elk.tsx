@@ -1,7 +1,8 @@
 'use client';
 
+import { Edge, Node } from '@xyflow/react';
 import { ElkNode, ElkExtendedEdge } from 'elkjs/lib/elk.bundled.js'
-import { Node, Edge } from 'reactflow';
+
 
 let rootID = 'root';
 
@@ -60,7 +61,7 @@ export function toElk({ nodes, edges }: { nodes: Node[], edges: Edge[] }): ElkNo
                 y: node.position.y,
                 width: node.width === null ? undefined : node.width,
                 height: node.height === null ? undefined : node.height,
-                labels: [{text: node.data.label }],
+                labels: [{text: node.data.label as string }],
                 children: [],
                 edges: [],
             }

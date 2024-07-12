@@ -1,6 +1,7 @@
 
 import {  IBotNodeData} from "@/types";
-import { Edge, Node } from "reactflow";
+import { Edge } from "@xyflow/react";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

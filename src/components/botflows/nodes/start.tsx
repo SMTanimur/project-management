@@ -1,7 +1,8 @@
-import { Handle, Position } from 'reactflow';
+
 import { BaseLayout } from './base';
 import { IBotNodeData } from '@/types';
 import { HandleClickMenu } from '../shared/handle-cllick-menu';
+import { Handle, Position } from '@xyflow/react';
 
 export const StartNode = (node: IBotNodeData) => {
   return (

@@ -1,10 +1,11 @@
-import { Handle, Position } from 'reactflow';
+
 
 import { BaseLayout } from './base';
 
 import React from 'react';
 import { IBotNodeData } from '@/types';
 import { HandleClickMenu } from '../shared/handle-cllick-menu';
+import { Handle, Position } from '@xyflow/react';
 
 export const MessageNode = (node: IBotNodeData) => {
   return (

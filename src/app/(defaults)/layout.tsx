@@ -3,7 +3,7 @@ import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import ScrollToTop from "@/components/layout/scroll-to-top";
 import Setting from "@/components/layout/setting";
-import Sidebar from "@/components/layout/sidebar";
+
 
 export default function DefaultLayout({
   children,

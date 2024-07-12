@@ -6,16 +6,26 @@ import BotSidebar from './sidebar';
 
 
 const BotHeader = dynamic(() => import('./bot-header'), { ssr: false })
-import ReactFlow, {
+import {
+  ReactFlow,
+  addEdge,
+  applyNodeChanges,
+  applyEdgeChanges,
+  type Node,
+  type Edge,
+  type FitViewOptions,
+  type OnConnect,
+  type OnNodesChange,
+  type OnEdgesChange,
+  type OnNodeDrag,
+  type NodeTypes,
+  type DefaultEdgeOptions,
   Background,
   Controls,
   MiniMap,
-  NodeTypes,
-  Panel,
-  ReactFlowProvider,
-  useEdgesState,
   useNodesState,
-} from 'reactflow';
+  useEdgesState,
+} from '@xyflow/react';
 
 import CustomEdge from '@/components/botflows/edges/custom-edge';
 import dynamic from 'next/dynamic';
@@ -28,7 +38,10 @@ export const BotScreen = () => {
 
   const { getBotflowById } = useBotFlowsStore();
   const botflow = getBotflowById(id);
-  const [nodes, setNodes, onNodesChange] = useNodesState(botflow?.nodes || []);
+  const [nodes, setNodes, onNodesChange] = useNodesState(botflow?.nodes.map(node => ({
+    ...node,
+    data: node as unknown as Record<string, unknown>,
+  })) || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(botflow?.edges || []);
   const edgeTypes: any = useMemo(
     () => ({

@@ -13,7 +13,7 @@ interface BaseLayoutProps extends PropsWithChildren {
 }
 
 export const BaseLayout = ({ children, node }: BaseLayoutProps) => {
-  const { selected } = node;
+  const { data,selected } = node;
   const Icon = Icons[node.data.icon];
   const { setBotNodeData,setShowBotProperty } = useBotPropertyStore();
 

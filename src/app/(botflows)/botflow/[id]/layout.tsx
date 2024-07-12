@@ -1,5 +1,7 @@
 "use client"
-import { ReactFlowProvider } from "reactflow";
+
+import { ReactFlowProvider } from "@xyflow/react";
+
 
 
 export default function DefaultLayout({
@@ -10,13 +12,14 @@ export default function DefaultLayout({
   return (
     <>
      
-        <div>
+        
         <ReactFlowProvider>
+          <div className="relative">
             {children}
             {/* END CONTENT AREA */}
-
+            </div>
             </ReactFlowProvider>
-      </div>
+      
     </>
   );
 }
