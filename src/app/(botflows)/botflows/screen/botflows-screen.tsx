@@ -1,8 +1,11 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { useBotFlowsStore } from '@/store/botfllow/botflows';
+import { Icons } from '@/components/ui/icons';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { IBotFlows, useBotFlowsStore } from '@/store/botfllow/botflows';
 import { useGlobalModalStateStore } from '@/store/modal';
+import { Ellipsis } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 
@@ -13,12 +16,17 @@ const BotflowsScreen = () => {
 const navigate = useRouter()
 
   const {setBotflowModal}=useGlobalModalStateStore()
-  const {botflows}=useBotFlowsStore()
+  const {botflows,removeflow}=useBotFlowsStore()
   const handleOnClick = (id:string) =>{
     
     if(id){
       navigate.push(`/botflow/${id}`)
     }
+  }
+
+  const handleRemoveFlow = (botFlow:IBotFlows) =>{
+    removeflow(botFlow)
+
   }
   return (
     <div className='grid content-start grid-cols-1 gap-4 px-8 md:px-14 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
@@ -40,7 +48,7 @@ const navigate = useRouter()
           
           onClick={()=>handleOnClick(botflow.id)}
           >
-            <div className='flex pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
+            <div className='flex justify-between pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
               <div className='relative shrink-0'>
                 <span>🤖</span>
                 <span className='absolute bottom-[-3px] right-[-3px] w-4 h-4 p-0.5 bg-white rounded border-[0.5px] border-[rgba(0,0,0,0.02)] shadow-sm'>
@@ -82,6 +90,24 @@ const navigate = useRouter()
                   <h3 className='truncate'>{botflow.name}</h3>
                 </div>
               </div>
+
+              <Popover>
+  <PopoverTrigger onClick={(e)=>e.stopPropagation()}>
+    <Ellipsis className='size-6'/>
+  </PopoverTrigger>
+  <PopoverContent align='start' className='w-52 flex flex-col'>
+     <button className='flex gap-1 items-center text-red-500'
+     onClick={(e)=>{
+       e.stopPropagation()
+       handleRemoveFlow(botflow)
+     }}
+     >
+      <Icons.trash className='size-4'/>
+       <span>Delete</span>
+     </button>
+
+  </PopoverContent>
+</Popover>
             </div>
           </Card>
         </React.Fragment>

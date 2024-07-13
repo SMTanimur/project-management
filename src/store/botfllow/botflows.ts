@@ -17,7 +17,7 @@ export interface IBotFlows {
 export interface BotFlowsStore {
   botflows:IBotFlows[]
   addBotflows:(botflow:IBotFlows)=>void
-  removeflows:(botflow:IBotFlows)=>void
+  removeflow:(botflow:IBotFlows)=>void
   clearflows:()=>void
   addNode: (flowId: string, node: IBotNodeData) => void;
   getBotflowById: (id: string) => IBotFlows | undefined;
@@ -37,7 +37,7 @@ export const useBotFlowsStore = create(
           botflows:[...state.botflows,botflow]
         }))
        },
-       removeflows:(botflow:IBotFlows)=>{
+       removeflow:(botflow:IBotFlows)=>{
         set((state)=>({
           botflows:state.botflows.filter((flow)=>flow.id!==botflow.id)
         }))
