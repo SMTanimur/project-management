@@ -28,8 +28,9 @@ const CreateBotflowForm = () => {
       const initialNode:IBotNodeData={
         id:"start_node",
         data:{
-          icon:"star",
-          label:"Start",
+          icon:"dress",
+          label:"Starting Point",
+          description:"where you bot begins",
           botflowId:id,
         },
         position: { x: 0, y: 0 },
@@ -40,7 +41,7 @@ const CreateBotflowForm = () => {
         isConnectable: true,
         positionAbsoluteX: 0, // Add the missing property
         positionAbsoluteY: 0, // Add the missing property
-        // Add any other missing properties
+     
       }
        const botData:IBotFlows= {
         id,

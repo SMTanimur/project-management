@@ -4,13 +4,12 @@ import { ISidebarNavigation } from "@/types/config";
 
 
 export enum INodeType {
-   EMAIL = "email",
-   SMS = "sms",
+  
+   TEXT = "text",
    // PUSH = "push",
-   FOLLOW_UP = "follow_up",
-   UPDATE_PROFILE = "updateProfileProperty",
-   NOTIFICATION = "notification",
-   CONDITION = "condition",
+   FOLLOW_UP = "followUp",
+   MESSAGE = "message",
+
 
 
   
@@ -24,29 +23,24 @@ export const sidebarNavigation:ISidebarNavigation[] = [
      label:"Actions",
      type:"action",
      children:[
-        {
-        label:"Email",
-        id:INodeType.EMAIL,
-        icon: "email"
-
-     },
+      
      {
-        label:"SMS",
-        id:INodeType.SMS,
+        label:"Text",
+        id:INodeType.TEXT,
         icon: "message",
 
      },
      {
-        label:"Update Profile Property",
-        icon: "user",
-        id:INodeType.UPDATE_PROFILE,
- 
-        
+        label:"Message",
+        id:INodeType.MESSAGE,
+        icon: "message",
+
      },
+    
      {
-        label:"Notification",
+        label:"Follow",
         icon:"bell",
-        id:INodeType.NOTIFICATION,
+        id:INodeType.FOLLOW_UP
 
      }
     

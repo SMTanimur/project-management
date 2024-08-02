@@ -14,7 +14,7 @@ const initialNodes: Node[] = [
     id: 'start_1',
     type: NodeType.START,
     data: {
-      icon: 'flag',
+      icon: 'dress',
       label: 'Starting Point',
       description: 'where you bot begins',
     },
@@ -37,7 +37,7 @@ export const useBot = () => {
       start: StartNode,
       text: TextNode,
       message: MessageNode,
-      followUp: FollowUpNode,
+      follow: FollowUpNode,
     };
   }, []);
 

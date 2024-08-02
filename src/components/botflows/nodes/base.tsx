@@ -13,6 +13,7 @@ interface BaseLayoutProps extends PropsWithChildren {
 }
 
 export const BaseLayout = ({ children, node }: BaseLayoutProps) => {
+  console.log({node,sff:"ssdg"})
   const { data,selected } = node;
   const Icon = Icons[node.data.icon];
   const { setBotNodeData,setShowBotProperty } = useBotPropertyStore();
@@ -25,6 +26,7 @@ export const BaseLayout = ({ children, node }: BaseLayoutProps) => {
     setShowBotProperty(true);
     setBotNodeData(node);
   };
+ 
   return (
     <Card
       className={`flex flex-col   py-3 rounded-md shadow-md bg-white min-w-[250px] max-w-72 overflow-hidden relative hover:ring-4
@@ -34,7 +36,7 @@ export const BaseLayout = ({ children, node }: BaseLayoutProps) => {
       <CardContent className='pb-0 px-0'>
         <div className='flex items-center gap-8 px-3'>
           {/* icon */}
-          {/* <Icon className='size-6' /> */}
+          <Icon className='size-6' />
           <div className='flex flex-col'>
             <h3 className='text-lg text-gray-900 font-bold'>
               {node?.data.label}

@@ -52,7 +52,7 @@ export enum NodeType {
   START="start",
   TEXT="text",
   MESSAGE="message",
-  FOLLOW_UP="follow_up",
+  FOLLOW_UP="followUp",
 }
 
 
