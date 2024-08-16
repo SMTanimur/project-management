@@ -4,7 +4,6 @@ export interface NavItem {
   title?: string;
   href?: string;
   id?: string;
-  component?: any;
   targetId?: string;
   description?: string;
   disabled?: boolean;
