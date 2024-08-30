@@ -1,7 +1,7 @@
 import { Handle, Position } from '@xyflow/react';
 import { BaseLayout } from './base';
 
-const FileReader = (node: any) => {
+export const FileReader = (node: any) => {
 
 
   return (
@@ -15,4 +15,4 @@ const FileReader = (node: any) => {
   );
 };
 
-export default FileReader;
+
