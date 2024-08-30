@@ -2,24 +2,13 @@
 import { IBotFlows, useBotFlowsStore } from '@/store/botfllow/botflows';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
-import BotSidebar from './sidebar';
+
 
 
 const BotHeader = dynamic(() => import('./bot-header'), { ssr: false })
 import {
   ReactFlow,
-  addEdge,
-  applyNodeChanges,
-  applyEdgeChanges,
-  type Node,
-  type Edge,
-  type FitViewOptions,
-  type OnConnect,
-  type OnNodesChange,
-  type OnEdgesChange,
-  type OnNodeDrag,
-  type NodeTypes,
-  type DefaultEdgeOptions,
+
   Background,
   Controls,
   MiniMap,
@@ -34,8 +23,9 @@ import { useFlow } from '@/hooks';
 import { IBotflow } from '@/types/workflow';
 import { GetWorkflowById } from '@/hooks/botflow/useGetBotflow';
 import { useBotFlow } from '@/hooks/botflow/useBotflow';
+import { BotSidebar } from './sidebar';
 
-
+const defaultViewport = { x: 0, y: 0, zoom: 0.6 };
 export const BotScreen = () => {
   const { id } = useParams<{
     id: string;
@@ -86,24 +76,30 @@ export const BotScreen = () => {
   return (
     <div>
       <div className='flex relative'>
-        <BotSidebar />
+        
         <div className='flex flex-col w-full'>
           <BotHeader botflow={botflow as IBotflow} onSave={onSaveWorkflow} />
-          <div className=' h-[calc(100vh-78px)] ' ref={reactWorkflowWrapper}>
+             <div className='flex '>
+
+              <div className='mt-10'>
+              <BotSidebar />
+              </div>
+            
+             
+          <div className=' h-[calc(100vh-78px)] flex-1' ref={reactWorkflowWrapper}>
+          
             <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              fitView
-              onConnect={onConnect}
-              onDrag={onDrop}
-              onDragOver={onDragOver}
-              onInit={onInit}
-              nodeTypes={nodeTypes as any}
-              edgeTypes={edgeTypes}
-              maxZoom={10}
-              minZoom={0.1}
+             nodes={nodes}
+             nodeTypes={nodeTypes as any}
+             onNodesChange={onNodesChange}
+             edges={edges}
+             onEdgesChange={onEdgesChange}
+             onConnect={onConnect}
+             onDrop={onDrop}
+             onDragOver={onDragOver}
+             onInit={onInit}
+             defaultViewport={defaultViewport}
+             edgeTypes={edgeTypes}
             >
             
              
@@ -113,6 +109,7 @@ export const BotScreen = () => {
              
             </ReactFlow>
           
+          </div>
           </div>
         </div>
       </div>

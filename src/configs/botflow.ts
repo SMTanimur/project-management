@@ -13,13 +13,6 @@ export const sidebarNavigation:ISidebarNavigation[] = [
      children:[
       
      {
-        type:"ExtractData",
-        label:"Extract Data",
-        id:NodeType.EXTRACTDATA,
-        icon: "extractData",
-
-     },
-     {
         type:"FileGenerate",
         label:"Generate File",
         id:NodeType.FILEGENARATOR,

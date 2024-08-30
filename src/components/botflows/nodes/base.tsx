@@ -80,26 +80,11 @@ export const BaseLayout = ({ children, node, className}: BaseLayoutProps) => {
         {/* Icons for Configure, Duplicate, and Delete */}
         <div className="flex items-center gap-3">
           {node?.data && (
-            <Dialog onOpenChange={setShowBotProperty} open={showBotProperty}>
-              <DialogTrigger onClick={handleToggleDrawer} className="hover:text-gray-700 transition-all duration-200">
-                <Pencil className="size-5 text-gray-500" />
-              </DialogTrigger>
-              <DialogContent
-                className={cn(
-                  ' z-50',
-                  node.type !== 'trigger' ? 'sm:max-w-[525px] w-full' : 'sm:max-w-[1025px] w-full',
-                )}
-              >
-                <DialogHeader >
-                  <DialogTitle className="flex items-center gap-2">
-                    {botNodeData?.data?.icon && <Icon className="size-5" />}
-                    {botNodeData?.data?.label}
-                  </DialogTitle>
-                  
-                </DialogHeader>
-                {botNodeData && <RenderSwitchForm  />}
-              </DialogContent>
-            </Dialog>
+            <button onClick={handleToggleDrawer} className="hover:text-gray-700 transition-all duration-200">
+              <Pencil className="size-5 text-gray-500" />
+            
+            </button>
+           
           )}
 
           {/* Ellipsis with Copy and Delete Buttons */}

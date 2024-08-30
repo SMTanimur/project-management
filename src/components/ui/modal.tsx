@@ -56,7 +56,7 @@ export const Modal: FC<ModalProps> = ({
       if (onClose) {
         onClose();
       }
-    }, 300);
+    }, 50);
   }, [onClose]);
   return (
     <Transition show={show}>
@@ -65,7 +65,7 @@ export const Modal: FC<ModalProps> = ({
           enter='ease-out duration-300'
           enterFrom='opacity-0'
           enterTo='opacity-100'
-          leave='ease-in duration-200'
+          leave='ease-in duration-100'
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
@@ -75,7 +75,7 @@ export const Modal: FC<ModalProps> = ({
           enter='ease-out duration-300'
           enterFrom='opacity-0 scale-95'
           enterTo='opacity-100 scale-100'
-          leave='ease-in duration-200'
+          leave='ease-in duration-100'
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
@@ -94,7 +94,7 @@ export const Modal: FC<ModalProps> = ({
               )}
             >
               {title && (
-                <div className='divider flex items-center justify-between px-5 py-3.5'>
+                <div className='divider flex items-center justify-between px-8 py-3.5 '>
                   <div className='flex items-center space-x-2 font-bold'>
                     {icon}
                     <DialogTitle className='text-lg font-bold'>
