@@ -7,15 +7,17 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { IBotFlows } from '@/store/botfllow';
-import { IBotNode } from '@/types';
+import { IBotflow } from '@/types/workflow';
+
 import { ChevronRight, HomeIcon, Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
 type BotProps = {
-  botflow: IBotFlows;
+  botflow: IBotflow
+  onSave: () => void;
 };
-const BotHeader = ({ botflow }: BotProps) => {
+const BotHeader = ({ botflow,onSave }: BotProps) => {
   return (
     <div className='flex py-3 px-6 bg-white sticky top-0 w-full items-center justify-between border-b h-[calc(53px+1.30rem)] z-50'>
       <Breadcrumb className='ml-3'>
@@ -40,7 +42,7 @@ const BotHeader = ({ botflow }: BotProps) => {
           <Plus size={16} />
           <span>New Bot</span>
         </Button>
-        <Button size={'lg'} className='rounded-xl'>
+        <Button size={'lg'} className='rounded-xl' onClick={onSave}>
           Save
         </Button>
       </div>

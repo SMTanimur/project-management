@@ -3,29 +3,31 @@
 import { Card } from '@/components/ui/card';
 import { Icons } from '@/components/ui/icons';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { IBotFlows, useBotFlowsStore } from '@/store/botfllow/botflows';
+import { useBotFlow } from '@/hooks/botflow/useBotflow';
+import { GetBotflows } from '@/hooks/botflow/useGetBotflow';
+
+import { IBotFlows} from '@/store/botfllow/botflows';
 import { useGlobalModalStateStore } from '@/store/modal';
 import { Ellipsis } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-
 
 import React  from 'react';
 
 const BotflowsScreen = () => {
 
 const navigate = useRouter()
-
+const botflows = GetBotflows();
   const {setBotflowModal}=useGlobalModalStateStore()
-  const {botflows,removeflow}=useBotFlowsStore()
+  
   const handleOnClick = (id:string) =>{
     
     if(id){
       navigate.push(`/botflow/${id}`)
     }
   }
-
-  const handleRemoveFlow = (botFlow:IBotFlows) =>{
-    removeflow(botFlow)
+ const {deleteBotflow}= useBotFlow()
+  const handleRemoveFlow = async(id:string) =>{
+   await deleteBotflow(id)
 
   }
   return (
@@ -42,11 +44,11 @@ const navigate = useRouter()
           <h2 className='px-6 pt-2'> Create a blank Botflow</h2>
         </div>
       </Card>
-      {botflows?.map(botflow => (
-        <React.Fragment key={botflow.id}>
+      {botflows?.data?.map(botflow => (
+        <React.Fragment key={botflow._id}>
           <Card className='relative col-span-1 cursor-pointer flex flex-col justify-between min-h-[160px] bg-white rounded-xl border-[0.5px] border-black/5'
           
-          onClick={()=>handleOnClick(botflow.id)}
+          onClick={()=>handleOnClick(botflow._id)}
           >
             <div className='flex justify-between pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
               <div className='relative shrink-0'>
@@ -99,7 +101,7 @@ const navigate = useRouter()
      <button className='flex gap-1 items-center text-red-500'
      onClick={(e)=>{
        e.stopPropagation()
-       handleRemoveFlow(botflow)
+       handleRemoveFlow(botflow._id)
      }}
      >
       <Icons.trash className='size-4'/>
