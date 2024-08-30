@@ -1,5 +1,4 @@
 
-export * from './file-reader';
 export * from './base';
 export * from './TriggerNode';
 export * from './text-to-json';
