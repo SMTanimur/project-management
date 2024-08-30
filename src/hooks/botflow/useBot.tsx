@@ -1,43 +1,52 @@
 import { nanoid } from 'nanoid';
-import { DragEvent, useCallback,  useMemo, useRef, useState } from 'react';
-
-
-import { EdgeType, NodeType } from '@/types';
+import { DragEvent, useCallback, useMemo, useRef, useState } from 'react';
 
 import { lowerCase } from 'lodash';
-import { FollowUpNode, MessageNode, StartNode, TextNode } from '@/components/botflows/nodes';
-import { addEdge, Edge, Node, ReactFlowInstance, useReactFlow } from '@xyflow/react';
+import {
+  addEdge,
+  Edge,
+  Node,
+  ReactFlowInstance,
+  useReactFlow,
+} from '@xyflow/react';
+import { EdgeType, NodeType } from '@/types';
+import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components/botflows/Nodes';
 
 
-const initialNodes: Node[] = [
-  {
-    id: 'start_1',
-    type: NodeType.START,
-    data: {
-      icon: 'dress',
-      label: 'Starting Point',
-      description: 'where you bot begins',
+
+
+export const useFlow = () => {
+  const { getNodes, setEdges, setNodes } = useReactFlow();
+
+  const initialNodes: Node[] = [
+    {
+      id: 'Trigger_1',
+      type: NodeType.TRIGGER,
+      data: {
+        icon: 'trigger',
+        label: 'Trigger',
+      },
+      position: { x: 350, y: 200 },
     },
-    position: { x: 350, y: 200 },
-  },
-];
-const initialEdges: Edge[] = [];
-
-export const useBot = () => {
-  const {  getNodes, setEdges, setNodes } = useReactFlow();
-
-  const reactBotWrapper = useRef<HTMLDivElement | null>(null);
-  const [reactBotInstance, setReactBotInstance] =
-  useState<ReactFlowInstance | null>(null);
+  ];
+  const initialEdges: Edge[] = [];
+  const reactWorkflowWrapper = useRef<HTMLDivElement | null>(null);
+  const [reactWorkflowInstance, setReactWorkflowInstance] =
+    useState<ReactFlowInstance | null>(null);
 
   const [edgeStyleType, setEdgeStyleType] = useState<string>(EdgeType.DEFAULT);
 
   const nodeTypes = useMemo(() => {
     return {
-      start: StartNode,
-      text: TextNode,
-      message: MessageNode,
-      follow: FollowUpNode,
+      trigger: TriggerNode,
+      textToJson: TextToJsonNode,
+      generativeAi: GenerativeAI,
+      fileGenerate: FileGenarator,
+      timer: TimerNode,
+      condition: ConditionNode,
+      sendEmail: SendEmailNode,
+
+
     };
   }, []);
 
@@ -47,25 +56,22 @@ export const useBot = () => {
       // if (params.source === params.target) return;
       // const prevNode: any = getNode(params.source);
       // const getConnectedEdge = getConnectedEdges([prevNode], getEdges());
-      let newColor = '#7A28FF';
-      const type = 'smoothstep';
+      //gray color
+
+      let newColor = '#dedede'
+      const type = 'bezier';
       const addNewEdge: Edge = {
         id: nanoid(),
         source: params.source,
         target: params.target,
-        style: { stroke: newColor, strokeWidth: '4px' },
-        type
-       
+        animated:true,
+        style: { stroke: newColor, strokeWidth: '3px' },
+        type,
       };
-
-    
-
       setEdges((eds: Edge[]) => addEdge({ ...addNewEdge }, eds));
     },
     [setEdges, edgeStyleType]
   );
-
- 
 
   function constructEdge(
     id: any,
@@ -89,10 +95,11 @@ export const useBot = () => {
   const addNodeClick = (item: any, currentId: string) => {
     const filteredNode: any = nodes.find(node => node.id === currentId);
     const newNodeId = nanoid();
-    let newColor = '#7A28FF';
-    const newNode: any = {
+    
+    let newColor = '#dedede';
+    const newNode: Node = {
       id: newNodeId,
-      data: { label: item.label, icon: item.icon },
+      data: { label: item.label, icon: item.icon},
       position: {
         x: filteredNode?.position?.x + 400,
         y: filteredNode?.position?.y,
@@ -111,36 +118,41 @@ export const useBot = () => {
     setNodes(prev => prev.concat(newNode));
     setEdges(prev => prev.concat(newEdge as Edge));
   };
- 
+
   const onDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
-      const reactBotBounds = reactBotWrapper?.current?.getBoundingClientRect();
+      const reactWorkflowBounds =
+        reactWorkflowWrapper?.current?.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow/type');
       const label = event.dataTransfer.getData('application/reactflow/label');
       const icon = event.dataTransfer.getData('application/reactflow/icon');
-      const description = event.dataTransfer.getData('application/reactflow/description');
-      if (typeof type === 'undefined' || !type || !reactBotBounds) return;
+      const description = event.dataTransfer.getData(
+        'application/reactflow/description'
+      );
 
-      const position = reactBotInstance?.screenToFlowPosition({
-        x: event.clientX - reactBotBounds.left,
-        y: event.clientY - reactBotBounds.top,
+    
+
+    
+      if (typeof type === 'undefined' || !type || !reactWorkflowBounds) return;
+
+      const position = reactWorkflowInstance?.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
       });
 
       if (!position) return;
 
-     
       const newNode = {
         id: nanoid(),
         type,
         position,
-        data: { label, icon, description },
+        data: { label, icon, description},
       };
-
 
       setNodes((nds: Node[]) => nds.concat(newNode));
     },
-    [reactBotInstance, setEdges, setNodes]
+    [reactWorkflowInstance, setEdges, setNodes]
   );
 
   const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
@@ -148,10 +160,37 @@ export const useBot = () => {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  const onNodeDeleteClick = (nodeId: string) => {
+    setNodes(nds => nds.filter(node => node.id !== nodeId));
+    setEdges(eds =>
+      eds.filter(edge => edge.source !== nodeId && edge.target !== nodeId)
+    );
+  };
+
+  const onNodeDuplicate = (nodeId: string) => {
+    const nodeToDuplicate = nodes.find(node => node.id === nodeId);
+    if (!nodeToDuplicate) return;
+
+    const newNodeId = nanoid();
+    const newNode: Node = {
+      ...nodeToDuplicate,
+      id: newNodeId,
+      data: { ...nodeToDuplicate.data }, // Deep copy of data to ensure independence
+      position: {
+        x: nodeToDuplicate.position.x + 50,
+        y: nodeToDuplicate.position.y + 50,
+      },
+      selected: false,
+    };
+
+    setNodes(nds => nds.concat(newNode));
+
+
+  };
 
   return {
     nodeTypes,
-    reactBotWrapper,
+    reactWorkflowWrapper,
     edgeStyleType,
     setNodes,
     setEdges,
@@ -159,9 +198,12 @@ export const useBot = () => {
     initialEdges,
     initialNodes,
     setEdgeStyleType,
+  
     addNodeClick,
     onDrop,
     onDragOver,
-    setReactBotInstance
+    setReactWorkflowInstance,
+    onNodeDeleteClick,
+    onNodeDuplicate,
   };
 };

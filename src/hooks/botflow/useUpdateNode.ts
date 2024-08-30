@@ -1,13 +1,13 @@
 
-import { Node, useReactFlow } from "@xyflow/react";
-import { cloneDeep, Omit } from "lodash";
+import { useReactFlow } from "@xyflow/react";
+import { cloneDeep } from "lodash";
 
 
 interface UpdateProps {
   id: string;
   index?: number;
   type?: string;
-  data: Node<Omit<any, "data">>;
+  data: Record<string, any>;
 }
 
 export const useNodeDataChange = () => {
@@ -22,7 +22,7 @@ export const useNodeDataChange = () => {
         if (node.id === id) {
           if (type) {
            
-          Object.assign((node.data as any)[type][index!], data);
+          Object.assign((node.data as Record<string, any>)[type][index!], data);
           
 
           } else {
