@@ -9,7 +9,6 @@ export function middleware(req: NextRequest) {
   // console.log("USER TOKEN", userToken)
 
   const host = req.nextUrl.protocol + req.headers.get('host');
-  // console.log("host", host);
 
   // user login control
   if (sessionToken && req.nextUrl.pathname === '/login') {
