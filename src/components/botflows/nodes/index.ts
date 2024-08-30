@@ -1,5 +1,4 @@
-
-export * from './base';
+export * from './base'
 export * from './TriggerNode';
 export * from './text-to-json';
 export * from './generative-ai';
