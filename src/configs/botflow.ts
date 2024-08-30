@@ -1,48 +1,61 @@
+
+import { NodeType } from "@/types";
 import { ISidebarNavigation } from "@/types/config";
-
-
-
-
-export enum INodeType {
-  
-   TEXT = "text",
-   // PUSH = "push",
-   FOLLOW_UP = "followUp",
-   MESSAGE = "message",
-
-
-
-  
- }
 
 
 export const sidebarNavigation:ISidebarNavigation[] = [
    
 
     {
-     label:"Actions",
+   
      type:"action",
+     label:"Action",
      children:[
       
      {
-        label:"Text",
-        id:INodeType.TEXT,
-        icon: "message",
+        type:"ExtractData",
+        label:"Extract Data",
+        id:NodeType.EXTRACTDATA,
+        icon: "extractData",
 
      },
      {
-        label:"Message",
-        id:INodeType.MESSAGE,
-        icon: "message",
+        type:"FileGenerate",
+        label:"Generate File",
+        id:NodeType.FILEGENARATOR,
+        icon: "fileGenerator",
 
      },
+     {
+        type:"TextToJson",
+        label:"Text To JSON",
+        id:NodeType.TEXTTOJSON,
+        icon: "textToJson",
+
+     },
+     {
+      type:"Timer",
+      label:"Timer",
+      icon:"timer",
+      id:NodeType.TIMER
+
+   },
+   {
+      type:"SendEmail",
+      label:"Send Email",
+      icon:"email",
+      id:NodeType.SENDEMAIL
+
+   },
     
      {
-        label:"Follow",
-        icon:"bell",
-        id:INodeType.FOLLOW_UP
+        type:"generativeAi",
+        label:"Generative AI LLM",
+        icon:"ai",
+        id:NodeType.GENERATIVEAI
 
-     }
+     },
+   
     
     ]
    

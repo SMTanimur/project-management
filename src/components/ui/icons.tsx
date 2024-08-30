@@ -1,4 +1,4 @@
-import { IconProps } from "@radix-ui/react-icons/dist/types";
+
 import {
   AlarmClock,
   AlertTriangle,
@@ -84,6 +84,15 @@ import {
   Bolt,
   Mail,
   Bell,
+  Building2,
+  Usb,
+  Timer,
+  FileUpIcon,
+  Bot,
+  ExternalLink,
+  Zap,
+  FileJson,
+  File,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -184,17 +193,146 @@ export const Icons = {
       />
     </svg>
   ),
-  CheckMarkCircle: (props: LucideProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 330 330"
-      fill="currentColor"
+  imageGenarator: (props: LucideProps) => (
+    <Image
       {...props}
+      className='text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out'
+    />
+  ),
+ 
+ 
+  PDFGenerator: (props: LucideProps) => (
+    <File
+      {...props}
+      className='text-purple-500 hover:text-purple-700 transition duration-200 ease-in-out'
+    />
+  ),
+  fileGenerator: (props: LucideProps) => (
+    <File
+      {...props}
+      className='text-indigo-500 hover:text-indigo-700 transition duration-200 ease-in-out'
+    />
+  ),
+  textToJson: (props: LucideProps) => (
+    <FileJson
+      {...props}
+      className='text-amber-500 hover:text-amber-700 transition duration-200 ease-in-out'
+    />
+  ),
+  trigger: (props: LucideProps) => (
+    <Zap
+      {...props}
+      className='text-pink-500 hover:text-pink-700 transition duration-200 ease-in-out'
+    />
+  ),
+  extractData: (props: LucideProps) => (
+    <ExternalLink
+      {...props}
+      className='text-teal-500 hover:text-teal-700 transition duration-200 ease-in-out'
+    />
+  ),
+  ai: (props: LucideProps) => (
+    <Bot
+      {...props}
+      className='text-gray-500 hover:text-gray-700 transition duration-200 ease-in-out'
+    />
+  ),
+  fileUploader: (props: LucideProps) => (
+    <FileUpIcon
+      {...props}
+      className='text-red-500 hover:text-red-700 transition duration-200 ease-in-out'
+    />
+  ),
+  timer: (props: LucideProps) => (
+    <Timer
+      {...props}
+      className='text-green-500 hover:text-green-700 transition duration-200 ease-in-out'
+    />
+  ),
+  apiConnector: (props: LucideProps) => (
+    <Usb
+      {...props}
+      className='text-cyan-500 hover:text-cyan-700 transition duration-200 ease-in-out'
+    />
+  ),
+  scraper: (props: LucideProps) => (
+    <Building2
+      {...props}
+      className='text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out'
+    />
+  ),
+  condition: (props: LucideProps) => (
+    <svg
+     
+      viewBox='0 0 0.6 0.6'
+      xmlns='http://www.w3.org/2000/svg'
+
+      {...props}
+      
     >
-      <path d="M165 0C74.019 0 0 74.019 0 165s74.019 165 165 165 165-74.019 165-165S255.981 0 165 0zm0 300c-74.44 0-135-60.561-135-135S90.56 30 165 30s135 60.561 135 135-60.561 135-135 135z" />
-      <path d="M226.872 106.664l-84.854 84.853-38.89-38.891c-5.857-5.857-15.355-5.858-21.213-.001-5.858 5.858-5.858 15.355 0 21.213l49.496 49.498a15 15 0 0010.606 4.394h.001c3.978 0 7.793-1.581 10.606-4.393l95.461-95.459c5.858-5.858 5.858-15.355 0-21.213-5.858-5.858-15.355-5.859-21.213-.001z" />
+      <path d='m0.484 0.209 0.097 -0.097L0.486 0.016l-0.018 0.018L0.534 0.1H0.35v0.2H0.199a0.088 0.088 0 1 0 0 0.025H0.275v0.175h0.258l-0.066 0.066 0.018 0.018 0.097 -0.097 -0.096 -0.096 -0.018 0.018L0.534 0.475H0.3v-0.15h0.075V0.125h0.158L0.467 0.191zM0.113 0.375A0.063 0.063 0 1 1 0.175 0.313 0.063 0.063 0 0 1 0.113 0.375' />
+      <path fill='none' d='M0 0h0.6v0.6H0z' />
     </svg>
   ),
+  slack: (props: LucideProps) => (
+    <svg
+      viewBox='0 0 16 16'
+      xmlns='http://www.w3.org/2000/svg'
+      fill='none'
+      {...props}
+    >
+      <g fill-rule='evenodd' clip-rule='evenodd'>
+        <path
+          fill='#E01E5A'
+          d='M2.471 11.318a1.474 1.474 0 001.47-1.471v-1.47h-1.47A1.474 1.474 0 001 9.846c.001.811.659 1.469 1.47 1.47zm3.682-2.942a1.474 1.474 0 00-1.47 1.471v3.683c.002.811.66 1.468 1.47 1.47a1.474 1.474 0 001.47-1.47V9.846a1.474 1.474 0 00-1.47-1.47z'
+        />
+
+        <path
+          fill='#36C5F0'
+          d='M4.683 2.471c.001.811.659 1.469 1.47 1.47h1.47v-1.47A1.474 1.474 0 006.154 1a1.474 1.474 0 00-1.47 1.47zm2.94 3.682a1.474 1.474 0 00-1.47-1.47H2.47A1.474 1.474 0 001 6.153c.002.812.66 1.469 1.47 1.47h3.684a1.474 1.474 0 001.47-1.47z'
+        />
+
+        <path
+          fill='#2EB67D'
+          d='M9.847 7.624a1.474 1.474 0 001.47-1.47V2.47A1.474 1.474 0 009.848 1a1.474 1.474 0 00-1.47 1.47v3.684c.002.81.659 1.468 1.47 1.47zm3.682-2.941a1.474 1.474 0 00-1.47 1.47v1.47h1.47A1.474 1.474 0 0015 6.154a1.474 1.474 0 00-1.47-1.47z'
+        />
+
+        <path
+          fill='#ECB22E'
+          d='M8.377 9.847c.002.811.659 1.469 1.47 1.47h3.683A1.474 1.474 0 0015 9.848a1.474 1.474 0 00-1.47-1.47H9.847a1.474 1.474 0 00-1.47 1.47zm2.94 3.682a1.474 1.474 0 00-1.47-1.47h-1.47v1.47c.002.812.659 1.469 1.47 1.47a1.474 1.474 0 001.47-1.47z'
+        />
+      </g>
+    </svg>
+  ),
+  CheckMarkCircle: (props: LucideProps) => (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 330 330'
+      fill='currentColor'
+      {...props}
+      className='text-green-500 hover:text-green-700 transition duration-200 ease-in-out'
+    >
+      <path d='M165 0C74.019 0 0 74.019 0 165s74.019 165 165 165 165-74.019 165-165S255.981 0 165 0zm0 300c-74.44 0-135-60.561-135-135S90.56 30 165 30s135 60.561 135 135-60.561 135-135 135z' />
+      <path d='M226.872 106.664l-84.854 84.853-38.89-38.891c-5.857-5.857-15.355-5.858-21.213-.001-5.858 5.858-5.858 15.355 0 21.213l49.496 49.498a15 15 0 0010.606 4.394h.001c3.978 0 7.793-1.581 10.606-4.393l95.461-95.459c5.858-5.858 5.858-15.355 0-21.213-5.858-5.858-15.355-5.859-21.213-.001z' />
+    </svg>
+  ),
+  input: ({ ...props }: LucideProps) => (
+    <svg
+      viewBox='0 0 76 76'
+      xmlns='http://www.w3.org/2000/svg'
+      fill='currentColor'
+      className='text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out rounded'
+      {...props}
+    >
+      <path
+        fillOpacity='1'
+        strokeWidth='0.2'
+        strokeLinejoin='round'
+        d='M 15.8333,23.75L 60.1667,23.75C 61.9156,23.75 63.3333,25.1678 63.3333,26.9167L 63.3333,49.0833C 63.3333,50.8322 61.9156,52.25 60.1667,52.25L 15.8333,52.25C 14.0844,52.25 12.6667,50.8322 12.6667,49.0833L 12.6667,26.9167C 12.6667,25.1678 14.0844,23.75 15.8333,23.75 Z M 17.4166,28.5L 17.4166,47.5L 58.5833,47.5L 58.5833,28.5L 17.4166,28.5 Z '
+      />
+    </svg>
+  ),
+
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
