@@ -1,7 +1,8 @@
 import { z } from "zod"
 const workflowStatusSchema = z.enum(["online", "offline"])
 export type WorkflowStatus = z.infer<typeof workflowStatusSchema>
-
+import { Edge } from "@xyflow/react"
+import { IBotNodeData } from "../botflow";
 
 
 export const workflowSchema = z.object({
@@ -18,7 +19,7 @@ export interface CreateWorkflowDto {
  
 }
 
-export type IWorkflow = z.infer<typeof workflowSchema>
+
 
 
 export const actionSchema = z.object({
@@ -30,3 +31,21 @@ export const actionSchema = z.object({
 })
 
 export type Action = z.infer<typeof actionSchema>
+
+
+
+
+
+
+export interface IBotflow {
+  _id: string,
+  name: string,
+  type: string,
+  visibility: string,
+  status: string,
+  flow:{
+    nodes:IBotNodeData[]| []
+    edges:Edge[]| []  
+  }
+
+}

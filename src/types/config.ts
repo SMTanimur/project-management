@@ -4,12 +4,14 @@ export interface NavItem {
   title?: string;
   href?: string;
   id?: string;
+  type:string
+  component?: any;
   targetId?: string;
   description?: string;
   disabled?: boolean;
   external?: boolean;
   icon?: keyof typeof Icons;
-  label: string;
+  label?: string;
 }
 
 export interface TypesIcon {

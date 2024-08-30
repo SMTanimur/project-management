@@ -1,14 +1,12 @@
 import { Icons } from "@/components/ui/icons";
-import { Node, NodeProps, Position } from "@xyflow/react";
-
-
+import { Node, NodeProps } from "@xyflow/react";
 
 
 export interface BaseNode {
-  botflowId: string
   parentId?: string
   isParent?: boolean
   color?: string
+  appId: string
   icon: keyof typeof Icons
   label: string
   description?: string
@@ -23,24 +21,79 @@ export interface BaseNode {
   
 }
 
- interface FollowUpNode  {
-  output: string;
+
+ export interface IFileGenerateNode  {
+   file_name:string;
+   file_type:string;
+   content?:string;
+ }
+ export interface IGenerativeAINode {
+  content:string;
+ 
  }
 
-export interface IBotNode extends BaseNode   {
+ export interface ISendEmailNode{
+  recipient_email:string[]
+  subject:string;
+  body:string;
+  isDelaySend:boolean
+  sendTime?:string
+ }
 
-  text_data?:TextNode,
-  follow_up_data?:FollowUpNode
-  message_data?:MessageNode
-} 
+
+
+ export interface ITimerNode{
+  delay:string;
+ }
+
+
+
+ export interface IConditionNode{
+  if_condition?:{
+    condition:string;
+    value:string;
+  },
+  else_condition?:{
+    condition:string;
+    value:string;
+  },
+  name:string;
+ }
+
+
+
+
+export interface IBotFlowNode extends BaseNode   {
+
+  fileGenerate_data?:IFileGenerateNode,
+  textToJson_data?:{
+    content:string
+  }
+  trigger_data?:{
+    action:string
+  }
+  pdfGenerate_data?:{
+    file_name:string
+  },
+  fileReader_data?:{
+    file_name:any[]
+    collection_file:string[]
+  },
+  generativeAI_data?:IGenerativeAINode,
+  sendEmail_data?:ISendEmailNode,
+
+  timer_data?:ITimerNode,
+  condition_data?:IConditionNode,
+}
 
 export interface IBotNodeData extends Omit<NodeProps<Node>, 'data'> {
    description:string
+   status?:string
    position:{
     x:number
      y:number
    }
-   data: IBotNode
+   data: IBotFlowNode
 }
 export enum EdgeType {
   DEFAULT = "default",
@@ -49,10 +102,16 @@ export enum EdgeType {
 }
 
 export enum NodeType {
-  START="start",
-  TEXT="text",
-  MESSAGE="message",
-  FOLLOW_UP="followUp",
+  TRIGGER="trigger",
+  FILEREADER="fileReader",
+  FILEGENARATOR="fileGenerate",
+  TEXTTOJSON="textToJson",
+  EXTRACTDATA="extractData",
+  GENERATIVEAI="generativeAi",
+  SENDEMAIL="sendEmail",
+  CONDITION="condition",
+
+  TIMER="timer",
 }
 
 
