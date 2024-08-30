@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
   if (sessionToken && req.nextUrl.pathname === '/login') {
     return NextResponse.redirect(new URL(`${host}/`));
   }
-  // Add a closing bracket here
+
   if (!sessionToken && req.nextUrl.pathname.includes('/user')) {
     return NextResponse.redirect(new URL(`${host}/login`));
   }
