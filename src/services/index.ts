@@ -1,9 +1,10 @@
 import { auth } from "./auth";
+import { botflow } from "./botflow";
 import { user } from "./user";
-import { workflow } from "./workflow";
+
 
 export const API_SERVICE = {
   AUTH:auth,
   USER:user,
-  WORKFLOW:workflow
+  BOTFLOW:botflow
 }

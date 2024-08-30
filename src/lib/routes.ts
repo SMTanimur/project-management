@@ -6,11 +6,11 @@ export const API_PATHS ={
     USER: 'v1/users/:id',
     ME:'v1/users/me',
    //TODO: Workflows
-   CreateWorkflow: 'v1/workflows/create',
-   GetWorkflows: 'v1/workflows',
-   GetWorkflow: 'v1/workflows',
-   UpdateWorkflow: 'v1/workflows',
-   DeleteWorkflow: 'v1/workflows',
+   CreateBotflow: 'v1/workflows/create',
+   GetBotflows: 'v1/workflows',
+   GetBotflow: 'v1/workflows',
+   UpdateBotflow: 'v1/workflows',
+   DeleteBotflow: 'v1/workflows',
    //TODO: Tasks
   
 }
