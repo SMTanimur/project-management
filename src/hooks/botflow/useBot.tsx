@@ -10,7 +10,7 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 import { EdgeType, NodeType } from '@/types';
-import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components/botflows/Nodes';
+import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components/botflows/nodes';
 
 
 
