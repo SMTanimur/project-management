@@ -1,7 +1,8 @@
 import { Handle, Position } from '@xyflow/react';
 
-import { BaseLayout } from './base';
+
 import { IBotNodeData } from '@/types';
+import { BaseLayout } from './base';
 
 
 export const TriggerNode = (node: IBotNodeData) => {
