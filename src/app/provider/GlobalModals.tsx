@@ -24,7 +24,7 @@ const GlobalModals = () => {
      
       <Modal
         size="md"
-        title="Write a review"
+        title="Create a new bot"
         isAnimated={true}
         animationType="animate__fadeIn"
         show={globalModal.botflowModalIsOpen}
