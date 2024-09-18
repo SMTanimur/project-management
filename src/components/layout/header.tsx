@@ -5,6 +5,7 @@ import { getTranslation } from '@/i18n/i18n';
 import { useGlobalStateStore } from '@/store/global-store';
 
 import {
+  AlignJustify,
   Bell,
   BellIcon,
   Edit2Icon,
@@ -34,7 +35,14 @@ import { Icons } from '../ui/icons';
 import Sidebar from './sidebar';
 import { useUser } from '@/hooks/useUser';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
@@ -44,8 +52,8 @@ const Header = () => {
   const router = useRouter();
   const { t, i18n } = getTranslation();
   const { profile } = useUser();
-  const {logout}=useAuth()
-  const { data, isPending } = profile
+  const { logout } = useAuth();
+  const { data, isPending } = profile;
   useEffect(() => {
     const selector = document.querySelector(
       'ul.horizontal-menu a[href="' + window.location.pathname + '"]'
@@ -155,6 +163,16 @@ const Header = () => {
                   SMTR
                 </span>
               </Link>
+
+              <Button
+                type='button'
+                className='collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden '
+                onClick={() => toggleSidebar()}
+              >
+
+                <AlignJustify className='size-5'/>
+               
+              </Button>
 
               <Drawer direction='left'>
                 <DrawerTrigger className='md:hidden'>
@@ -384,31 +402,26 @@ const Header = () => {
               {data ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger className='focus:outline-none'>
-                  <Avatar>
-            <AvatarImage src={data.avatar} />
-      <AvatarFallback>{data.firstName}</AvatarFallback>
-      </Avatar>
+                    <Avatar>
+                      <AvatarImage src={data.avatar} />
+                      <AvatarFallback>{data.firstName}</AvatarFallback>
+                    </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className='w-[150px] '>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                       <Link href='/profile'>{t('profile')}</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href='/botflows'>botflows</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href='/settings'>{t('settings')}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <button onClick={()=>logout()}>
-                        {t('logout')}
-                      </button>
+                      <button onClick={() => logout()}>{t('logout')}</button>
                     </DropdownMenuItem>
-                 
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (

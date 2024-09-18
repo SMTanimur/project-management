@@ -32,3 +32,5 @@ export interface ISidebarNavigation {
   type: string;
   children: NavItem[];
 }
+
+export type MainMenuItem = NavItemWithOptionalChildren
