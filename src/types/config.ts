@@ -4,8 +4,9 @@ export interface NavItem {
   title?: string;
   href?: string;
   id?: string;
-  type:string
+  type?:string
   component?: any;
+  active?: boolean;
   targetId?: string;
   description?: string;
   disabled?: boolean;
@@ -20,12 +21,14 @@ export interface TypesIcon {
 }
 
 export interface NavItemWithChildren extends NavItem {
-  items: NavItemWithChildren[];
+  items?: NavItemWithChildren[];
 }
 
 export interface NavItemWithOptionalChildren extends NavItem {
   items?: NavItemWithChildren[];
 }
+
+
 
 export interface ISidebarNavigation {
   label: string;
@@ -33,4 +36,4 @@ export interface ISidebarNavigation {
   children: NavItem[];
 }
 
-export type MainMenuItem = NavItemWithOptionalChildren
+export type IMainMenuItem = NavItemWithOptionalChildren

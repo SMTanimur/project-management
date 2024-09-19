@@ -64,7 +64,7 @@ export const BotSidebar = () => {
                           event,
                           {
                             label: item.label as string,
-                            type: item.type,
+                            type: item.type as string,
                             icon: item.icon as string,
                             description: item.description,
                           },
