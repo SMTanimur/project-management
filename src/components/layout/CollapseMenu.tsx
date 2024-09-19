@@ -30,6 +30,8 @@ import {
   ISidebarNavigation,
   NavItemWithOptionalChildren,
 } from '@/types/config';
+import { isArray } from 'lodash';
+import AnimateHeight from 'react-animate-height';
 
 type Submenu = {
   href: string;
@@ -42,7 +44,6 @@ interface CollapseMenuProps {
   label: string;
   active: boolean;
   submenus: NavItemWithOptionalChildren[];
-  isOpen: boolean | undefined;
 }
 
 export const CollapseMenu = ({
@@ -50,12 +51,11 @@ export const CollapseMenu = ({
   label,
   active,
   submenus,
-  isOpen,
 }: CollapseMenuProps) => {
-  const isSubmenuActive = submenus.some(submenu => submenu.active);
+  const isSubmenuActive = submenus?.some(submenu => submenu?.active);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isSubmenuActive);
 
-  return isOpen ? (
+  return (
     <Collapsible
       open={isCollapsed}
       onOpenChange={setIsCollapsed}
@@ -75,21 +75,15 @@ export const CollapseMenu = ({
               <p
                 className={cn(
                   'max-w-[150px] truncate',
-                  isOpen
-                    ? 'translate-x-0 opacity-100'
-                    : '-translate-x-96 opacity-0'
+
+                  'translate-x-0 opacity-100'
                 )}
               >
                 {label}
               </p>
             </div>
             <div
-              className={cn(
-                'whitespace-nowrap',
-                isOpen
-                  ? 'translate-x-0 opacity-100'
-                  : '-translate-x-96 opacity-0'
-              )}
+              className={cn('whitespace-nowrap', 'translate-x-0 opacity-100')}
             >
               <ChevronDown
                 size={18}
@@ -99,80 +93,33 @@ export const CollapseMenu = ({
           </div>
         </Button>
       </CollapsibleTrigger>
-      <CollapsibleContent className='overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
-        {submenus.map(({ href, title, active }, index) => (
-          <Button
-            key={index}
-            variant={active ? 'secondary' : 'ghost'}
-            className='w-full justify-start h-10 mb-1'
-            asChild
-          >
-            <Link href={href as string}>
-              <span className='mr-4 ml-2'>
-                <Dot size={18} />
-              </span>
-              <p
-                className={cn(
-                  'max-w-[170px] truncate',
-                  isOpen
-                    ? 'translate-x-0 opacity-100'
-                    : '-translate-x-96 opacity-0'
-                )}
-              >
-                {title}
-              </p>
-            </Link>
-          </Button>
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
-  ) : (
-    <DropdownMenu>
-      <TooltipProvider disableHoverableContent>
-        <Tooltip delayDuration={100}>
-          <TooltipTrigger asChild>
-            <DropdownMenuTrigger asChild>
+      <AnimateHeight duration={300} height={label ? 'auto' : 0}>
+        <CollapsibleContent className='overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'>
+          {isArray(submenus) &&
+            submenus.map(({ href, title, active }, index) => (
               <Button
+                key={index}
                 variant={active ? 'secondary' : 'ghost'}
                 className='w-full justify-start h-10 mb-1'
+                asChild
               >
-                <div className='w-full items-center flex justify-between'>
-                  <div className='flex items-center'>
-                    <span className={cn(isOpen === false ? '' : 'mr-4')}>
-                      {Icon && <Icon size={18} />}
-                    </span>
-                    <p
-                      className={cn(
-                        'max-w-[200px] truncate',
-                        isOpen === false ? 'opacity-0' : 'opacity-100'
-                      )}
-                    >
-                      {label}
-                    </p>
-                  </div>
-                </div>
+                <Link href={href as string}>
+                  <span className='mr-4 ml-2'>
+                    <Dot size={18} />
+                  </span>
+                  <p
+                    className={cn(
+                      'max-w-[170px] truncate',
+                      'translate-x-0 opacity-100'
+                    )}
+                  >
+                    {title}
+                  </p>
+                </Link>
               </Button>
-            </DropdownMenuTrigger>
-          </TooltipTrigger>
-          <TooltipContent side='right' align='start' alignOffset={2}>
-            {label}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-      <DropdownMenuContent side='right' sideOffset={25} align='start'>
-        <DropdownMenuLabel className='max-w-[190px] truncate'>
-          {label}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {submenus.map(({ href, title }, index) => (
-          <DropdownMenuItem key={index} asChild>
-            <Link className='cursor-pointer' href={href as string}>
-              <p className='max-w-[180px] truncate'>{title}</p>
-            </Link>
-          </DropdownMenuItem>
-        ))}
-        <DropdownMenuArrow className='fill-border' />
-      </DropdownMenuContent>
-    </DropdownMenu>
+            ))}
+        </CollapsibleContent>
+      </AnimateHeight>
+    </Collapsible>
   );
 };

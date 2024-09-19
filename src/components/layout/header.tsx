@@ -44,10 +44,11 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { useAuth } from '@/hooks/useAuth';
+import { NavigationMenu } from './navigation-menu';
 
 const Header = () => {
   const pathname = usePathname();
-  const { toggleSidebar, languageList } = useGlobalStateStore();
+  const { toggleSidebar,openSidebar, languageList } = useGlobalStateStore();
 
   const router = useRouter();
   const { t, i18n } = getTranslation();
@@ -155,7 +156,7 @@ const Header = () => {
   return (
     <header className={`z-10 horizontal `}>
       <div className='shadow-sm w-full bg-white'>
-        <div className='relative w-full     py-2.5 dark:bg-black container flex  !justify-between '>
+        <div className='relative w-full     py-2.5 dark:bg-black px-40 flex  !justify-between '>
           <div className='flex items-center'>
             <div className=' flex items-center justify-between  mr-2 '>
               <Link href='/' className='main-logo flex shrink-0 items-center'>
@@ -164,15 +165,7 @@ const Header = () => {
                 </span>
               </Link>
 
-              <Button
-                type='button'
-                className='collapse-icon flex flex-none rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:text-[#d0d2d6] dark:hover:bg-dark/60 dark:hover:text-primary lg:hidden '
-                onClick={() => toggleSidebar()}
-              >
-
-                <AlignJustify className='size-5'/>
-               
-              </Button>
+              <NavigationMenu/>
 
               <Drawer direction='left'>
                 <DrawerTrigger className='md:hidden'>
@@ -184,26 +177,11 @@ const Header = () => {
               </Drawer>
             </div>
 
-            <div className='hidden sm:block mr-2 '>
-              <ul className='flex items-center space-x-2 dark:text-[#d0d2d6] '>
-                <li>
-                  <Link
-                    href='/apps/todolist'
-                    className='block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
-                  >
-                    <Edit2Icon className='w-5 h-5' />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href='/apps/chat'
-                    className='block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60'
-                  >
-                    <Bell className='w-5 h-5' />
-                  </Link>
-                </li>
-              </ul>
-            </div>
+           {!openSidebar && (
+             <button onClick={()=>toggleSidebar()}>
+               <MenuIcon className='h-5 w-5' />
+             </button>
+           )}
           </div>
           <div className='flex items-center space-x-1.5 dark:text-[#d0d2d6]  lg:space-x-5  sm:ml-0   '>
             {/* them setup */}
@@ -433,155 +411,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* horizontal menu */}
-        <div className=' border-t z-10 border-[#ebedf2] bg-white py-1.5 font-semibold text-black dark:border-[#191e3a] dark:bg-black dark:text-white-dark shadow-md'>
-          <ul className='horizontal-menu hidden  lg:space-x-1.5 xl:space-x-8 container'>
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <Icons.home className='shrink-0' />
-                  <span className='px-1'>{t('dashboard')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu'>
-                <li>
-                  <Link href='/'>{t('sales')}</Link>
-                </li>
-                <li>
-                  <Link href='/workflows'>{t('workflows')}</Link>
-                </li>
-                <li>
-                  <Link href='/editor'>{t('editor')}</Link>
-                </li>
-              </ul>
-            </li>
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <LayoutDashboardIcon className='shrink-0' />
-                  <span className='px-1'>{t('apps')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu'>
-                <li>
-                  <Link href='/apps/chat'>{t('chat')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/mailbox'>{t('mailbox')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/todolist'>{t('todo_list')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/notes'>{t('notes')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/scrumboard'>{t('scrumboard')}</Link>
-                </li>
-
-                <li className='relative'>
-                  <button type='button'>
-                    {t('invoice')}
-                    <div className='mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-              </ul>
-            </li>
-            {/* components nav */}
-
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <NotebookIcon className='shrink-0' />
-                  <span className='px-1'>{t('pages')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu w-[200px]'>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('users')}
-                    <div className=' mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/users/profile'>{t('profile')}</Link>
-                    </li>
-                    <li>
-                      <Link href='/users/user-account-settings'>
-                        {t('account_settings')}
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li>
-                  <Link href='/pages/faq'>{t('faq')}</Link>
-                </li>
-
-                <li className='relative'>
-                  <button type='button'>
-                    {t('error')}
-                    <div className='- ml-auto  '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('login')}
-                    <div className=' ml-auto'>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('register')}
-                    <div className=' ml-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/auth/boxed-signup' target='_blank'>
-                        {t('register_boxed')}
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('password_recovery')}
-                    <div className=' ml-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('lockscreen')}
-                    <div className='  mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+  
       </div>
     </header>
   );

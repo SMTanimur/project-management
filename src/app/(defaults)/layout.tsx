@@ -3,6 +3,7 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import ScrollToTop from '@/components/layout/scroll-to-top';
 import Setting from '@/components/layout/setting';
+import Sidebar from '@/components/layout/sidebar';
 
 export default function DefaultLayout({
   children,
@@ -19,9 +20,10 @@ export default function DefaultLayout({
         <Setting />
         {/* END APP SETTING LAUNCHER */}
 
-        <div>
+          <div className=' flex '>
           {/* END SIDEBAR */}
-          <div className='main-content flex min-h-screen flex-col'>
+          <Sidebar/>
+          <div className=' flex-1 flex min-h-screen flex-col'>
             {/* BEGIN TOP NAVBAR */}
             <Header />
             {/* END TOP NAVBAR */}

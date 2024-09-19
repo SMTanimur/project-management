@@ -115,7 +115,7 @@ hover:text-primary hover:before:!bg-primary before:mr-2  dark:before:bg-gray-500
 }
 
 .main-container .main-content {
-    @apply transition-all duration-300 lg:ml-[260px] ;
+    @apply transition-all duration-300 lg:mr-[260px] ;
 }
 
 
