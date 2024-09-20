@@ -13,6 +13,7 @@ interface ILanguage {
 interface GlobalModalState {
   openSidebar: boolean;
   toggleSidebar: () => void;
+  
   languageList:ILanguage[]
   animation:string
   setAnimation:(value:string)=>void

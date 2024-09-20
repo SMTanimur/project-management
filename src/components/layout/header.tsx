@@ -44,7 +44,6 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { useAuth } from '@/hooks/useAuth';
-import { NavigationMenu } from './navigation-menu';
 
 const Header = () => {
   const pathname = usePathname();
@@ -164,8 +163,6 @@ const Header = () => {
                   SMTR
                 </span>
               </Link>
-
-              <NavigationMenu />
               {!openSidebar && (
                 <button
                   onClick={() => toggleSidebar()}

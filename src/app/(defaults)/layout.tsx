@@ -23,14 +23,15 @@ export default function DefaultLayout({
 
         <MainContainer>
           {/* END SIDEBAR */}
-          <Sidebar />
-          <div className=' main-content flex min-h-screen flex-col'>
+          <div className='  flex min-h-screen px-10 flex-col'>
            
             <Header />
             {/* END TOP NAVBAR */}
 
             {/* BEGIN CONTENT AREA */}
-            <ContentAnimation>{children}</ContentAnimation>
+            <ContentAnimation>
+              
+              {children}</ContentAnimation>
             {/* END CONTENT AREA */}
 
             {/* BEGIN FOOTER */}
