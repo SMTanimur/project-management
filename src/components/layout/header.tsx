@@ -48,7 +48,7 @@ import { NavigationMenu } from './navigation-menu';
 
 const Header = () => {
   const pathname = usePathname();
-  const { toggleSidebar,openSidebar, languageList } = useGlobalStateStore();
+  const { toggleSidebar, openSidebar, languageList } = useGlobalStateStore();
 
   const router = useRouter();
   const { t, i18n } = getTranslation();
@@ -156,7 +156,7 @@ const Header = () => {
   return (
     <header className={`z-10 horizontal `}>
       <div className='shadow-sm w-full bg-white'>
-        <div className='relative w-full     py-2.5 dark:bg-black px-40 flex  !justify-between '>
+        <div className='relative w-full py-2.5 dark:bg-black flex  justify-between '>
           <div className='flex items-center'>
             <div className=' flex items-center justify-between  mr-2 '>
               <Link href='/' className='main-logo flex shrink-0 items-center'>
@@ -165,23 +165,16 @@ const Header = () => {
                 </span>
               </Link>
 
-              <NavigationMenu/>
-
-              <Drawer direction='left'>
-                <DrawerTrigger className='md:hidden'>
+              <NavigationMenu />
+              {!openSidebar && (
+                <button
+                  onClick={() => toggleSidebar()}
+                  className='hidden lg:block'
+                >
                   <MenuIcon className='h-5 w-5' />
-                </DrawerTrigger>
-                <DrawerContent className='w-[300px] h-full py-0'>
-                  <Sidebar />
-                </DrawerContent>
-              </Drawer>
+                </button>
+              )}
             </div>
-
-           {!openSidebar && (
-             <button onClick={()=>toggleSidebar()}>
-               <MenuIcon className='h-5 w-5' />
-             </button>
-           )}
           </div>
           <div className='flex items-center space-x-1.5 dark:text-[#d0d2d6]  lg:space-x-5  sm:ml-0   '>
             {/* them setup */}
@@ -410,8 +403,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-
-  
       </div>
     </header>
   );

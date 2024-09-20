@@ -1,6 +1,7 @@
 import ContentAnimation from '@/components/layout/content-animation';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { MainContainer } from '@/components/layout/main-container';
 import ScrollToTop from '@/components/layout/scroll-to-top';
 import Setting from '@/components/layout/setting';
 import Sidebar from '@/components/layout/sidebar';
@@ -20,11 +21,11 @@ export default function DefaultLayout({
         <Setting />
         {/* END APP SETTING LAUNCHER */}
 
-          <div className=' flex '>
+        <MainContainer>
           {/* END SIDEBAR */}
-          <Sidebar/>
-          <div className=' flex-1 flex min-h-screen flex-col'>
-            {/* BEGIN TOP NAVBAR */}
+          <Sidebar />
+          <div className=' main-content flex min-h-screen flex-col'>
+           
             <Header />
             {/* END TOP NAVBAR */}
 
@@ -35,7 +36,7 @@ export default function DefaultLayout({
             {/* BEGIN FOOTER */}
             <Footer />
           </div>
-        </div>
+        </MainContainer>
       </div>
     </>
   );
