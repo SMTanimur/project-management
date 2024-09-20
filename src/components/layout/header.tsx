@@ -9,10 +9,8 @@ import {
   BellIcon,
   Edit2Icon,
   Info,
-  LayoutDashboardIcon,
   MailIcon,
   MenuIcon,
-  NotebookIcon,
   PencilIcon,
   XIcon,
 } from 'lucide-react';
@@ -34,8 +32,16 @@ import { Icons } from '../ui/icons';
 import Sidebar from './sidebar';
 import { useUser } from '@/hooks/useUser';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 import { useAuth } from '@/hooks/useAuth';
+import { HeaderBottom } from './header-bottom';
 
 const Header = () => {
   const pathname = usePathname();
@@ -44,8 +50,8 @@ const Header = () => {
   const router = useRouter();
   const { t, i18n } = getTranslation();
   const { profile } = useUser();
-  const {logout}=useAuth()
-  const { data, isPending } = profile
+  const { logout } = useAuth();
+  const { data, isPending } = profile;
   useEffect(() => {
     const selector = document.querySelector(
       'ul.horizontal-menu a[href="' + window.location.pathname + '"]'
@@ -384,31 +390,26 @@ const Header = () => {
               {data ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger className='focus:outline-none'>
-                  <Avatar>
-            <AvatarImage src={data.avatar} />
-      <AvatarFallback>{data.firstName}</AvatarFallback>
-      </Avatar>
+                    <Avatar>
+                      <AvatarImage src={data.avatar} />
+                      <AvatarFallback>{data.firstName}</AvatarFallback>
+                    </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className='w-[150px] '>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                       <Link href='/profile'>{t('profile')}</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href='/botflows'>botflows</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href='/settings'>{t('settings')}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <button onClick={()=>logout()}>
-                        {t('logout')}
-                      </button>
+                      <button onClick={() => logout()}>{t('logout')}</button>
                     </DropdownMenuItem>
-                 
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
@@ -419,156 +420,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-
-        {/* horizontal menu */}
-        <div className=' border-t z-10 border-[#ebedf2] bg-white py-1.5 font-semibold text-black dark:border-[#191e3a] dark:bg-black dark:text-white-dark shadow-md'>
-          <ul className='horizontal-menu hidden  lg:space-x-1.5 xl:space-x-8 container'>
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <Icons.home className='shrink-0' />
-                  <span className='px-1'>{t('dashboard')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu'>
-                <li>
-                  <Link href='/'>{t('sales')}</Link>
-                </li>
-                <li>
-                  <Link href='/workflows'>{t('workflows')}</Link>
-                </li>
-                <li>
-                  <Link href='/editor'>{t('editor')}</Link>
-                </li>
-              </ul>
-            </li>
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <LayoutDashboardIcon className='shrink-0' />
-                  <span className='px-1'>{t('apps')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu'>
-                <li>
-                  <Link href='/apps/chat'>{t('chat')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/mailbox'>{t('mailbox')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/todolist'>{t('todo_list')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/notes'>{t('notes')}</Link>
-                </li>
-                <li>
-                  <Link href='/apps/scrumboard'>{t('scrumboard')}</Link>
-                </li>
-
-                <li className='relative'>
-                  <button type='button'>
-                    {t('invoice')}
-                    <div className='mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-              </ul>
-            </li>
-            {/* components nav */}
-
-            <li className='menu nav-item relative text-sm'>
-              <button type='button' className='nav-link'>
-                <div className='flex items-center'>
-                  <NotebookIcon className='shrink-0' />
-                  <span className='px-1'>{t('pages')}</span>
-                </div>
-                <div className='right_arrow'>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-              <ul className='sub-menu w-[200px]'>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('users')}
-                    <div className=' mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/users/profile'>{t('profile')}</Link>
-                    </li>
-                    <li>
-                      <Link href='/users/user-account-settings'>
-                        {t('account_settings')}
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li>
-                  <Link href='/pages/faq'>{t('faq')}</Link>
-                </li>
-
-                <li className='relative'>
-                  <button type='button'>
-                    {t('error')}
-                    <div className='- ml-auto  '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('login')}
-                    <div className=' ml-auto'>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('register')}
-                    <div className=' ml-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                  <ul className='absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow dark:bg-[#1b2e4b] dark:text-white-dark left-[95%] '>
-                    <li>
-                      <Link href='/auth/boxed-signup' target='_blank'>
-                        {t('register_boxed')}
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('password_recovery')}
-                    <div className=' ml-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-                <li className='relative'>
-                  <button type='button'>
-                    {t('lockscreen')}
-                    <div className='  mr-auto '>
-                      <Icons.chevronRight className='w-5 h-5' />
-                    </div>
-                  </button>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        <HeaderBottom />
       </div>
     </header>
   );

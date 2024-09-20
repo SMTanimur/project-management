@@ -185,7 +185,7 @@ const Sidebar = () => {
                   </li>
                   <li className="nav-item">
                     <Link href="/apps/scrumboard" className="group">
-                      <div className="flex items-center">
+                      <div className="flex items-center gap-2">
                         <LayoutDashboard className="shrink-0 group-hover:!text-primary" />
                         <span className="text-black dark:text-[#506690] dark:group-hover:text-white-dark ltr:pl-3 ">
                           {t("scrumboard")}
@@ -195,7 +195,7 @@ const Sidebar = () => {
                   </li>
                   <li className="nav-item">
                     <Link href="/apps/contacts" className="group">
-                      <div className="flex items-center">
+                      <div className="flex items-center gap-2">
                         <Contact className="shrink-0 group-hover:!text-primary" />
                         <span className="text-black dark:text-[#506690] dark:group-hover:text-white-dark ltr:pl-3 ">
                           {t("contacts")}
@@ -206,47 +206,8 @@ const Sidebar = () => {
                 </ul>
               </li>
 
-              <h2 className="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
-                <Minus className="hidden h-5 w-4 flex-none" />
-                <span>{t("user_and_pages")}</span>
-              </h2>
 
-              <li className="menu nav-item">
-                <button
-                  type="button"
-                  className={`${
-                    currentMenu === "users" ? "active" : ""
-                  } nav-link group w-full`}
-                  onClick={() => toggleMenu("users")}
-                >
-                  <div className="flex items-center">
-                    <Icons.user className="shrink-0 group-hover:!text-primary" />
-                    <span className="text-black dark:text-[#506690] dark:group-hover:text-white-dark pl-3 ">
-                      {t("users")}
-                    </span>
-                  </div>
-
-                  <div className={currentMenu !== "users" ? "-rotate-90 " : ""}>
-                    <Icons.chevronDown />
-                  </div>
-                </button>
-
-                <AnimateHeight
-                  duration={300}
-                  height={currentMenu === "users" ? "auto" : 0}
-                >
-                  <ul className="sub-menu text-gray-500">
-                    <li>
-                      <Link href="/users/profile">{t("profile")}</Link>
-                    </li>
-                    <li>
-                      <Link href="/users/user-account-settings">
-                        {t("account_settings")}
-                      </Link>
-                    </li>
-                  </ul>
-                </AnimateHeight>
-              </li>
+             
             </ul>
           </PerfectScrollbar>
         </div>
