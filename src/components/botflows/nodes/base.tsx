@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { Icons } from '@/components/ui/icons';
 import { Card, CardContent } from '@/components';
 
@@ -49,17 +49,19 @@ export const BaseLayout = ({ children, node, className }: BaseLayoutProps) => {
 
   const { botNodeData, setBotNodeData, setShowBotProperty, showBotProperty } =
     useBotPropertyStore();
-
+  const [showNodeForm, setShowNodeForm] = useState(false);
   const handleToggleDrawer = () => {
     if (node.data) {
       setBotNodeData(null);
     }
 
     setShowBotProperty(true);
+    setShowNodeForm(true)
     setBotNodeData(node);
   };
   const handleCloseModal = () => {
-    setShowBotProperty(false);
+    setShowNodeForm(false);
+    setBotNodeData(null);
   };
 
   const { onNodeDeleteClick, onNodeDuplicate } = useFlow();
@@ -96,7 +98,7 @@ export const BaseLayout = ({ children, node, className }: BaseLayoutProps) => {
           {/* Icons for Configure, Duplicate, and Delete */}
           <div className='flex items-center gap-3'>
             {node?.data && (
-              <Dialog onOpenChange={setShowBotProperty} open={showBotProperty}>
+              <Dialog onOpenChange={setShowNodeForm} open={showNodeForm}>
                 <DialogTrigger
                   onClick={handleToggleDrawer}
                   className='hover:text-gray-700 transition-all duration-200'
@@ -117,7 +119,7 @@ export const BaseLayout = ({ children, node, className }: BaseLayoutProps) => {
                       {botNodeData?.data?.label}
                     </DialogTitle>
                   </DialogHeader>
-                  {botNodeData && <RenderSwitchForm />}
+                  {botNodeData && <RenderSwitchForm onCloseModal={handleCloseModal} />}
                 </DialogContent>
               </Dialog>
             )}

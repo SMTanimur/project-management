@@ -24,10 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-const FileGenerateForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const FileGenerateForm = ({onCloseModal}:IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData } =
     useBotPropertyStore();
   const defaultValues = {
     fileGenerate_data: {
@@ -75,8 +77,7 @@ const FileGenerateForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+  onCloseModal()
   };
 
   return (

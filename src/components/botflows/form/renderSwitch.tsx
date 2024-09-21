@@ -7,27 +7,29 @@ import GenerativeAIForm from './generative-ai-form';
 import SendEmailForm from './send-email-form';
 import ConditionNodeForm from './condition-form';
 import TimerNodeForm from './timer-form';
-
-export const RenderSwitchForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+export const RenderSwitchForm = ({ onCloseModal }: IProps) => {
   const { botNodeData } = useBotPropertyStore();
   switch (botNodeData?.type) {
     case NodeType.TRIGGER:
-      return <TriggerForm />;
+      return <TriggerForm onCloseModal={onCloseModal} />;
     case NodeType.FILEGENARATOR:
-      return <FileGenerateForm />;
+      return <FileGenerateForm onCloseModal={onCloseModal}/>;
     case NodeType.TEXTTOJSON:
-      return <TextToJsonForm />;
+      return <TextToJsonForm onCloseModal={onCloseModal}/>;
     case NodeType.GENERATIVEAI:
-      return <GenerativeAIForm />;
+      return <GenerativeAIForm onCloseModal={onCloseModal}/>;
     case NodeType.SENDEMAIL:
-      return <SendEmailForm />;
+      return <SendEmailForm onCloseModal={onCloseModal}/>;
     case NodeType.TIMER:
-      return <TimerNodeForm />;
+      return <TimerNodeForm onCloseModal={onCloseModal}/>;
 
     case NodeType.CONDITION:
-      return <ConditionNodeForm />;
+      return <ConditionNodeForm onCloseModal={onCloseModal}/>;
 
     default:
-      return <TriggerForm />;
+      return <TriggerForm onCloseModal={onCloseModal}/>;
   }
 };

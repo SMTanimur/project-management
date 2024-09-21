@@ -18,10 +18,12 @@ import { Textarea } from '@/components';
 import { TextToJsonSchema } from './form.type';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
-
-const TextToJsonForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const TextToJsonForm = ({onCloseModal}:IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData } =
     useBotPropertyStore();
 
   const defaultValues = {
@@ -59,8 +61,7 @@ const TextToJsonForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+    onCloseModal()
   };
 
   return (

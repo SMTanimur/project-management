@@ -17,11 +17,12 @@ import { Input } from '@/components';
 import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store';
-
-const ConditionNodeForm = () => {
+interface IProps {
+  onCloseModal: () => void;
+}
+const ConditionNodeForm = ({ onCloseModal }: IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
-    useBotPropertyStore();
+  const { botNodeData } = useBotPropertyStore();
 
   const defaultValues = {
     condition_data: {
@@ -81,8 +82,7 @@ const ConditionNodeForm = () => {
         condition_data: data.condition_data,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+    onCloseModal()
   };
 
   return (

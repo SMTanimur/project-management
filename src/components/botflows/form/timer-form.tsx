@@ -17,10 +17,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
-
-const TimerNodeForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const TimerNodeForm = ({onCloseModal}: IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData } =
     useBotPropertyStore();
 
   const defaultValues = {
@@ -58,8 +60,7 @@ const TimerNodeForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+   onCloseModal()
   };
 
   return (

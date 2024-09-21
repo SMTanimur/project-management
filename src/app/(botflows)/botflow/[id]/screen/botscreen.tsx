@@ -20,7 +20,7 @@ import { useFlow } from '@/hooks';
 import { IBotflow } from '@/types';
 import { GetWorkflowById } from '@/hooks';
 import { useBotFlow } from '@/hooks';
-import { CustomEdge } from '@/components';
+import { ConnectionLine, CustomEdge } from '@/components';
 const defaultViewport = { x: 0, y: 0, zoom: 0.6 };
 
 export const BotScreen = () => {
@@ -70,6 +70,7 @@ export const BotScreen = () => {
       flow: { nodes, edges },
     });
   };
+  console.log({nodes,edges})
   return (
     <div>
       <div className='flex relative'>
@@ -84,6 +85,7 @@ export const BotScreen = () => {
               edges={edges}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
+              connectionLineComponent={ConnectionLine}
               onDrop={onDrop}
               onDragOver={onDragOver}
               onInit={onInit}

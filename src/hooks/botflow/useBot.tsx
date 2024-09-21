@@ -12,12 +12,13 @@ import {
 } from '@xyflow/react';
 import { EdgeType, NodeType } from '@/types';
 import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components';
+import { COLORS, getRandomColor } from '@/constants';
 
 
 
 
 export const useFlow = () => {
-  const { getNodes, setEdges, setNodes } = useReactFlow();
+  const { getNodes, setEdges, setNodes,getNode } = useReactFlow();
 
   const initialNodes: Node[] = [
     {
@@ -26,6 +27,7 @@ export const useFlow = () => {
       data: {
         icon: 'trigger',
         label: 'Trigger',
+        color:COLORS.ROSE
       },
       position: { x: 350, y: 200 },
     },
@@ -58,15 +60,18 @@ export const useFlow = () => {
       // const prevNode: any = getNode(params.source);
       // const getConnectedEdge = getConnectedEdges([prevNode], getEdges());
       //gray color
-
+      const  targetNode = getNode(params.target);
       let newColor = '#dedede'
-      const type = 'bezier';
+      const type = 'custom';
       const addNewEdge: Edge = {
         id: nanoid(),
         source: params.source,
         target: params.target,
+        data:{
+          color:targetNode?.data?.color || newColor,
+        },
         animated:true,
-        style: { stroke: newColor, strokeWidth: '3px' },
+        style: { stroke: targetNode?.data?.color  as string ?? newColor, strokeWidth: 3 },
         type,
       };
       setEdges((eds: Edge[]) => addEdge({ ...addNewEdge }, eds));
@@ -148,7 +153,7 @@ export const useFlow = () => {
         id: nanoid(),
         type,
         position,
-        data: { label, icon, description},
+        data: { label, icon, description,color:getRandomColor()},
       };
 
       setNodes((nds: Node[]) => nds.concat(newNode));

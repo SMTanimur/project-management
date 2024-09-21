@@ -18,10 +18,12 @@ import { Textarea } from '@/components';
 import { GenerativeAISchema } from './form.type';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
-
-const GenerativeAIForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const GenerativeAIForm = ({onCloseModal}:IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData } =
     useBotPropertyStore();
 
   const defaultValues = {
@@ -60,8 +62,7 @@ const GenerativeAIForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+   onCloseModal()
   };
 
   return (

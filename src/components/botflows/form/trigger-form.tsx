@@ -17,10 +17,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store';
-
-const TriggerForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const TriggerForm = ({onCloseModal}: IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData } =
     useBotPropertyStore();
 
   const defaultValues = {
@@ -60,8 +62,8 @@ const TriggerForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+    onCloseModal()
+    
   };
 
   return (

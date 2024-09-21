@@ -20,10 +20,12 @@ import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store';
 import { SelectComponent } from '@/components';
 
-
-const SendEmailForm = () => {
+interface IProps{
+  onCloseModal:()=>void;
+}
+const SendEmailForm = ({onCloseModal}:IProps) => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } =
+  const { botNodeData} =
     useBotPropertyStore();
 
   const defaultValues = {
@@ -93,8 +95,7 @@ const SendEmailForm = () => {
         description: data.description,
       },
     });
-    setBotNodeData(null);
-    setShowBotProperty(false);
+   onCloseModal()
   };
 
   const getEmailOptions = (emails:any)=>{
