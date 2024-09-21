@@ -57,15 +57,6 @@ export const HeaderBottom = () => {
             <li>
               <Link href='/apps/scrumboard'>{t('scrumboard')}</Link>
             </li>
-
-            <li className='relative'>
-              <button type='button'>
-                {t('invoice')}
-                <div className='mr-auto '>
-                  <Icons.chevronRight className='w-5 h-5' />
-                </div>
-              </button>
-            </li>
           </ul>
         </li>
       </ul>
