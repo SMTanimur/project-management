@@ -1,3 +1,4 @@
+"use client"
 import { PropsWithChildren, useState } from 'react';
 import { Icons } from '@/components/ui/icons';
 import { Card, CardContent } from '@/components';

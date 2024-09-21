@@ -23,12 +23,14 @@ export function CustomEdge({
 
   return (
     <>
+      {/* Base edge with customized stroke */}
       <BaseEdge
         path={edgePath}
         markerEnd={markerEnd}
-        style={{ stroke: `${data?.color}`, strokeWidth: 4 }}
+        style={{ stroke: `${data?.color}`, strokeWidth: 6, strokeOpacity: 0.5 }}
       />
 
+      {/* Label renderer */}
       <EdgeLabelRenderer>
         {label && (
           <div
@@ -48,14 +50,23 @@ export function CustomEdge({
         )}
       </EdgeLabelRenderer>
 
-      <circle
-        style={{ filter: `drop-shadow(3px 3px 5px ${data?.color}` }}
-        r="10"
-        fill={`${data?.color}`}
-        className='size-5 rounded-full'
-      >
-        <animateMotion dur='6s' repeatCount='indefinite' path={edgePath} />
-      </circle>
+      {/* SVG container for animation */}
+      <svg>
+        {/* Animated circle (bubble) */}
+        <circle
+          r="10"
+          fill={`${data?.color}`}
+          style={{ filter: `drop-shadow(3px 3px 5px ${data?.color})` }}
+        >
+          {/* Animation along the path */}
+          <animateMotion dur='4s' repeatCount='indefinite'>
+            <mpath href={`#${id}-path`} />
+          </animateMotion>
+        </circle>
+
+        {/* Path definition for animation reference */}
+        <path id={`${id}-path`} d={edgePath} fill="transparent" stroke="transparent"/>
+      </svg>
     </>
   );
 }
