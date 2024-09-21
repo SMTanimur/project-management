@@ -1,10 +1,10 @@
 "use client"
 import React from 'react'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { Input } from '../ui/input'
-import { Textarea } from '../ui/textarea'
-import { Button } from '../ui/button'
-import { Icons } from '../ui/icons'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components'
+import { Input } from '@/components'
+import { Textarea } from '@/components'
+import { Button } from '@/components'
+import { Icons } from '@/components'
 
 
 import { useBotFlow } from '@/hooks/botflow/useBotflow'

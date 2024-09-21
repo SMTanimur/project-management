@@ -1,4 +1,4 @@
-
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -9,19 +9,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+  FormMessage,
+} from '@/components';
+import { Button } from '@/components';
+import { Card } from '@/components';
+import { Input } from '@/components';
+import { Textarea } from '@/components';
 import { TextToJsonSchema } from './form.type';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
@@ -32,9 +25,8 @@ const TextToJsonForm = () => {
     useBotPropertyStore();
 
   const defaultValues = {
-   
     content: botNodeData?.data?.textToJson_data?.content || '',
-    
+
     label: botNodeData?.data?.label || '',
     description: botNodeData?.data?.description || '',
   };
@@ -82,25 +74,21 @@ const TextToJsonForm = () => {
             <div className='py-2 pr-2'>
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-3'>
-                  
                   <div className='grid grid-cols-1 gap-5'>
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              placeholder='Enter name'
-                            />
+                            <Input {...field} placeholder='Enter name' />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='description'
                       render={({ field }) => (
@@ -123,11 +111,8 @@ const TextToJsonForm = () => {
                         <FormItem>
                           <FormLabel>Content</FormLabel>
                           <FormControl>
-                            <Textarea
-                              {...field}
-                              placeholder='Enter Content'
-                            />
-                            </FormControl>
+                            <Textarea {...field} placeholder='Enter Content' />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}

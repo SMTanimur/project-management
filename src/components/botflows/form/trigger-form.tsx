@@ -1,4 +1,4 @@
-
+"use client"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,14 +10,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+} from '@/components';
+import { Button } from '@/components';
+import { Card } from '@/components';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
-import { useBotPropertyStore } from '@/store/botfllow';
-
+import { useBotPropertyStore } from '@/store';
 
 const TriggerForm = () => {
   const { updateNodeData } = useNodeDataChange();
@@ -26,7 +25,7 @@ const TriggerForm = () => {
 
   const defaultValues = {
     trigger_data: {
-      action: botNodeData?.data?.trigger_data?.action|| '',
+      action: botNodeData?.data?.trigger_data?.action || '',
     },
     label: botNodeData?.data?.label || '',
     description: botNodeData?.data?.description || '',
@@ -42,7 +41,10 @@ const TriggerForm = () => {
 
   useEffect(() => {
     if (botNodeData?.data) {
-      setValue('trigger_data.action', botNodeData?.data?.trigger_data?.action|| '');
+      setValue(
+        'trigger_data.action',
+        botNodeData?.data?.trigger_data?.action || ''
+      );
       setValue('label', botNodeData?.data?.label || '');
       setValue('description', botNodeData?.data?.description || '');
     }
@@ -74,23 +76,20 @@ const TriggerForm = () => {
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-5'>
                   <div className='grid grid-cols-1 gap-5'>
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              placeholder='Enter name'
-                            />
+                            <Input {...field} placeholder='Enter name' />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='description'
                       render={({ field }) => (

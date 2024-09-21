@@ -1,4 +1,4 @@
-
+"use client"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,15 +10,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components';
+import { Button } from '@/components';
+import { Card } from '@/components';
+import { Input } from '@/components';
+
+import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
-import { useBotPropertyStore } from '@/store/botfllow';
-import { SelectComponent } from '@/components/ui/select-component';
+import { useBotPropertyStore } from '@/store';
+import { SelectComponent } from '@/components';
 
 
 const SendEmailForm = () => {

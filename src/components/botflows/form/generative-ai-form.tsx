@@ -1,4 +1,4 @@
-
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,16 +9,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
+} from '@/components';
+import { Button } from '@/components';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components';
 
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@/components';
 import { GenerativeAISchema } from './form.type';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
-
 
 const GenerativeAIForm = () => {
   const { updateNodeData } = useNodeDataChange();
@@ -26,10 +25,9 @@ const GenerativeAIForm = () => {
     useBotPropertyStore();
 
   const defaultValues = {
-    generativeAI_data:botNodeData?.data?.generativeAI_data,
-    label:botNodeData?.data?.label,
-    description:botNodeData?.data?.description || ''
-    
+    generativeAI_data: botNodeData?.data?.generativeAI_data,
+    label: botNodeData?.data?.label,
+    description: botNodeData?.data?.description || '',
   };
 
   const methods = useForm({
@@ -42,8 +40,11 @@ const GenerativeAIForm = () => {
 
   useEffect(() => {
     if (botNodeData?.data) {
-      setValue('generativeAI_data.content', botNodeData?.data?.generativeAI_data?.content|| '');
-      
+      setValue(
+        'generativeAI_data.content',
+        botNodeData?.data?.generativeAI_data?.content || ''
+      );
+
       setValue('label', botNodeData?.data?.label);
       setValue('description', botNodeData?.data?.description || '');
     }
@@ -63,7 +64,6 @@ const GenerativeAIForm = () => {
     setShowBotProperty(false);
   };
 
-
   return (
     <div className='px-6 py-4 max-h-[600px] overflow-y-auto'>
       <Card className='py-4'>
@@ -76,23 +76,20 @@ const GenerativeAIForm = () => {
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-5 '>
                   <div className='grid grid-cols-1 gap-5'>
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              placeholder='Enter name'
-                            />
+                            <Input {...field} placeholder='Enter name' />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='description'
                       render={({ field }) => (
@@ -108,20 +105,22 @@ const GenerativeAIForm = () => {
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='generativeAI_data.content'
                       render={({ field }) => (
                         <FormItem className='flex flex-col'>
                           <FormLabel>Content</FormLabel>
                           <FormControl>
-                            <Textarea {...field} placeholder='Ex. A beautiful painting of a girl with a halo' />
+                            <Textarea
+                              {...field}
+                              placeholder='Ex. A beautiful painting of a girl with a halo'
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                   
                   </div>
                 </div>
               </div>
@@ -135,4 +134,4 @@ const GenerativeAIForm = () => {
   );
 };
 
-export default GenerativeAIForm
+export default GenerativeAIForm;

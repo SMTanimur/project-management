@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components';
 import { Icons } from '@/components/ui/icons';
 import { Diamond, ListChecks, NotebookText, ThumbsUp } from 'lucide-react';
 import { FC } from 'react';

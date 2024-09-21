@@ -1,4 +1,4 @@
-
+"use client"
 import { API_SERVICE } from '@/services';
 
 

@@ -1,3 +1,4 @@
+"use client"
 import { nanoid } from 'nanoid';
 import { DragEvent, useCallback, useMemo, useRef, useState } from 'react';
 
@@ -10,7 +11,7 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 import { EdgeType, NodeType } from '@/types';
-import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components/botflows/nodes';
+import { ConditionNode, FileGenarator, GenerativeAI, SendEmailNode, TextToJsonNode, TimerNode, TriggerNode } from '@/components';
 
 
 

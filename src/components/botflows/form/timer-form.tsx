@@ -1,4 +1,4 @@
-
+"use client";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,27 +9,25 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+  FormMessage,
+} from '@/components';
+import { Button } from '@/components';
+import { Card } from '@/components';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
 
-
 const TimerNodeForm = () => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData } = useBotPropertyStore();
+  const { botNodeData, setShowBotProperty, setBotNodeData } =
+    useBotPropertyStore();
 
   const defaultValues = {
- 
     delay: botNodeData?.data?.timer_data?.delay || '',
-    
+
     label: botNodeData?.data?.label || '',
     description: botNodeData?.data?.description || '',
-    
   };
 
   const methods = useForm({
@@ -45,7 +43,6 @@ const TimerNodeForm = () => {
       setValue('delay', botNodeData?.data?.timer_data?.delay || '');
       setValue('label', botNodeData?.data?.label || '');
       setValue('description', botNodeData?.data?.description || '');
-
     }
   }, [setValue, botNodeData?.data]);
 
@@ -77,23 +74,20 @@ const TimerNodeForm = () => {
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-5'>
                   <div className='grid grid-cols-1 gap-5'>
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              placeholder='Enter name'
-                            />
+                            <Input {...field} placeholder='Enter name' />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='description'
                       render={({ field }) => (
@@ -116,7 +110,10 @@ const TimerNodeForm = () => {
                         <FormItem>
                           <FormLabel>Delay</FormLabel>
                           <FormControl>
-                            <Input {...field} placeholder='Enter delay (e.g., 5s, 2m, 1h)' />
+                            <Input
+                              {...field}
+                              placeholder='Enter delay (e.g., 5s, 2m, 1h)'
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

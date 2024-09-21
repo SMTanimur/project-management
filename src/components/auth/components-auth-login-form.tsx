@@ -2,24 +2,28 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Input } from '../ui/input';
-import { PasswordInput } from '../ui/password-input';
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { useAuth } from '@/hooks/useAuth';
-import { Icons } from '../ui/icons';
+import { Input } from '@/components';
+import { PasswordInput } from '@/components';
+import { Button } from '@/components';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components';
+import { useAuth } from '@/hooks';
+import { Icons } from '@/components';
 
 export const ComponentsAuthLoginForm = () => {
   const router = useRouter();
 
-  const { login, loginForm,isLoginPending } = useAuth();
+  const { login, loginForm, isLoginPending } = useAuth();
 
   return (
     <Form {...loginForm}>
-      <form
-        className='space-y-5 dark:text-white'
-        onSubmit={login}
-      >
+      <form className='space-y-5 dark:text-white' onSubmit={login}>
         <FormField
           control={loginForm.control}
           name='email'
@@ -33,7 +37,7 @@ export const ComponentsAuthLoginForm = () => {
             </FormItem>
           )}
         />
-     <FormField
+        <FormField
           control={loginForm.control}
           name='password'
           render={({ field }) => (
@@ -47,7 +51,7 @@ export const ComponentsAuthLoginForm = () => {
           )}
         />
 
- <Button disabled={isLoginPending}>
+        <Button disabled={isLoginPending}>
           {isLoginPending && (
             <Icons.spinner
               className='mr-2 h-4 w-4 animate-spin'
@@ -61,4 +65,3 @@ export const ComponentsAuthLoginForm = () => {
     </Form>
   );
 };
-

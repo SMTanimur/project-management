@@ -1,4 +1,4 @@
-
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,14 +10,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components';
+import { Button } from '@/components';
+import { Card } from '@/components';
+import { Input } from '@/components';
+import { Textarea } from '@/components';
 import { useNodeDataChange } from '@/hooks';
-import { useBotPropertyStore } from '@/store/botfllow';
-
+import { useBotPropertyStore } from '@/store';
 
 const ConditionNodeForm = () => {
   const { updateNodeData } = useNodeDataChange();
@@ -29,17 +28,13 @@ const ConditionNodeForm = () => {
       if_condition: {
         condition:
           botNodeData?.data?.condition_data?.if_condition?.condition || '',
-        value:
-          botNodeData?.data?.condition_data?.if_condition?.value || '',
+        value: botNodeData?.data?.condition_data?.if_condition?.value || '',
       },
       else_condition: {
         condition:
-          botNodeData?.data?.condition_data?.else_condition?.condition ||
-          '',
-        value:
-          botNodeData?.data?.condition_data?.else_condition?.value || '',
+          botNodeData?.data?.condition_data?.else_condition?.condition || '',
+        value: botNodeData?.data?.condition_data?.else_condition?.value || '',
       },
- 
     },
     label: botNodeData?.data.label || '',
     description: botNodeData?.data?.description || '',
@@ -71,14 +66,13 @@ const ConditionNodeForm = () => {
         'condition_data.else_condition.value',
         botNodeData?.data?.condition_data?.else_condition?.value || ''
       );
-    
+
       setValue('label', botNodeData?.data.label || '');
       setValue('description', botNodeData?.data?.description || '');
     }
   }, [setValue, botNodeData?.data]);
 
   const onSubmit = async (data: any) => {
-
     updateNodeData({
       id: botNodeData?.id as string,
       data: {
@@ -103,24 +97,20 @@ const ConditionNodeForm = () => {
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-5'>
                   <div className='grid grid-cols-1 gap-5'>
-
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              placeholder='Enter name'
-                            />
+                            <Input {...field} placeholder='Enter name' />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  <FormField
+                    <FormField
                       control={control}
                       name='description'
                       render={({ field }) => (
@@ -200,7 +190,6 @@ const ConditionNodeForm = () => {
                         </FormItem>
                       )}
                     />
-                  
                   </div>
                 </div>
               </div>

@@ -3,9 +3,9 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Input } from '../ui/input';
-import { PasswordInput } from '../ui/password-input';
-import { Button } from '../ui/button';
+import { Input } from '@/components';
+import { PasswordInput } from '@/components';
+import { Button } from '@/components';
 export const ComponentsAuthRegisterForm = () => {
     const router = useRouter();
 

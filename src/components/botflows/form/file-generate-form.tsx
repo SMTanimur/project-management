@@ -1,4 +1,4 @@
-
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,30 +10,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
+} from '@/components';
+import { Button } from '@/components';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components';
 import { useNodeDataChange } from '@/hooks';
 import { useBotPropertyStore } from '@/store/botfllow';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
+import { Textarea } from '@/components';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const FileGenerateForm = () => {
   const { updateNodeData } = useNodeDataChange();
-  const { botNodeData, setShowBotProperty, setBotNodeData} =
-  useBotPropertyStore();
+  const { botNodeData, setShowBotProperty, setBotNodeData } =
+    useBotPropertyStore();
   const defaultValues = {
-    fileGenerate_data:{
+    fileGenerate_data: {
       file_name: botNodeData?.data?.fileGenerate_data?.file_name,
       file_type: botNodeData?.data?.fileGenerate_data?.file_type,
       content: botNodeData?.data?.fileGenerate_data?.content,
     },
     label: botNodeData?.data?.label || '',
     description: botNodeData?.data?.description || '',
-    
   };
 
   const methods = useForm({
@@ -71,7 +74,6 @@ const FileGenerateForm = () => {
         label: data.label,
         description: data.description,
       },
-
     });
     setBotNodeData(null);
     setShowBotProperty(false);
@@ -89,7 +91,7 @@ const FileGenerateForm = () => {
               <div className='flex flex-col justify-between h-full'>
                 <div className='flex flex-col gap-5 '>
                   <div className='grid grid-cols-1 gap-5'>
-                  <FormField
+                    <FormField
                       control={control}
                       name='label'
                       render={({ field }) => (
@@ -119,14 +121,17 @@ const FileGenerateForm = () => {
                       )}
                     />
 
-                  <FormField
+                    <FormField
                       control={control}
                       name='fileGenerate_data.content'
                       render={({ field }) => (
                         <FormItem className='flex flex-col'>
                           <FormLabel>Content</FormLabel>
                           <FormControl>
-                            <Textarea {...field} placeholder='Example: letter' />
+                            <Textarea
+                              {...field}
+                              placeholder='Example: letter'
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

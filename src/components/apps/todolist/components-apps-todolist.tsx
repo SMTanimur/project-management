@@ -11,9 +11,8 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Icons } from '@/components/ui/icons';
+
+import { Icons } from '@/components';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -21,7 +20,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components';
 import { todos } from '@/data/todo';
 import { ITodo } from '@/types';
 import 'react-quill/dist/quill.snow.css';

@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components';
 import { Icons } from '@/components/ui/icons';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { sidebarNavigation } from '@/configs';
@@ -23,7 +23,11 @@ const BotSidebar = () => {
     e.dataTransfer.setData(`application/reactflow/label`, data.label);
     e.dataTransfer.setData(`application/reactflow/type`, camelCase(data.type));
     e.dataTransfer.setData(`application/reactflow/icon`, data.icon);
-    if (data.description) e.dataTransfer.setData(`application/reactflow/description`, data.description);
+    if (data.description)
+      e.dataTransfer.setData(
+        `application/reactflow/description`,
+        data.description
+      );
     if (targetId) e.dataTransfer.setData('targetId', targetId);
   };
 
@@ -31,7 +35,9 @@ const BotSidebar = () => {
     <div
       className={cn(
         'bg-gray-50  h-screen sticky top-0 transition-all duration-500',
-        collapsed ? 'max-w-[90px] w-[90px] px-2' : 'max-w-[350px] w-[350px] px-5'
+        collapsed
+          ? 'max-w-[90px] w-[90px] px-2'
+          : 'max-w-[350px] w-[350px] px-5'
       )}
     >
       <div className='flex items-center py-6 border-b px-3 justify-between'>
@@ -51,9 +57,13 @@ const BotSidebar = () => {
         </Button>
       </div>
 
-    
-      <ScrollArea className="h-[calc(100vh-290px)]  py-3 w-full ">
-        <div className={cn('flex flex-col overflow-y-auto', collapsed ? "px-0 mt-6 justify-center items-center" : "px-6")}>
+      <ScrollArea className='h-[calc(100vh-290px)]  py-3 w-full '>
+        <div
+          className={cn(
+            'flex flex-col overflow-y-auto',
+            collapsed ? 'px-0 mt-6 justify-center items-center' : 'px-6'
+          )}
+        >
           {sidebarNavigation.map((item, index) => (
             <div key={index} className='w-full'>
               <div className='flex flex-col gap-2 w-full'>
@@ -77,26 +87,29 @@ const BotSidebar = () => {
                         )
                       }
                     >
-                      <div className={cn('flex items-center gap-2 w-full', collapsed ? "justify-center" : "justify-between")}>
+                      <div
+                        className={cn(
+                          'flex items-center gap-2 w-full',
+                          collapsed ? 'justify-center' : 'justify-between'
+                        )}
+                      >
                         <div
                           className={cn(
-                            'px-2 py-1 rounded-md bg-white flex items-center justify-center',
+                            'px-2 py-1 rounded-md bg-white flex items-center justify-center'
                           )}
                         >
                           <Icon className='text-gray-500 size-5' />
                         </div>
-                        {
-                          !collapsed && (
-                            <h6
-                              className={cn(
-                                'text-gray-800 text-xs font-medium flex-1',
-                                collapsed ? 'hidden' : 'block'
-                              )}
-                            >
-                              {item.label}
-                            </h6>
-                          )
-                        }
+                        {!collapsed && (
+                          <h6
+                            className={cn(
+                              'text-gray-800 text-xs font-medium flex-1',
+                              collapsed ? 'hidden' : 'block'
+                            )}
+                          >
+                            {item.label}
+                          </h6>
+                        )}
                       </div>
                       <div className={cn(collapsed ? 'hidden' : 'block')}>
                         <Grip size={20} className='text-gray-400' />
@@ -109,7 +122,6 @@ const BotSidebar = () => {
           ))}
         </div>
       </ScrollArea>
-     
     </div>
   );
 };
