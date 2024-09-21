@@ -11,8 +11,8 @@ export const TimerNode = (node: any) => {
        
      
      
-      <Handle type="target" position={Position.Left} style={{ background: '#555' }} />
-      <Handle type="source" position={Position.Right} style={{ background: '#555' }} />
+      <Handle type="target" position={Position.Left} style={{ background: '#555' ,padding: '4px'}} />
+      <Handle type="source" position={Position.Right} style={{ background: '#555' ,padding: '4px'}} />
     </div>
   );
 };
