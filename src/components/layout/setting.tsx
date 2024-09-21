@@ -6,7 +6,7 @@ import { useGlobalStateStore } from '@/store/global-store';
 
 
 
-const Setting = () => {
+export const Setting = () => {
   
 
     const [showCustomizer, setShowCustomizer] = useState(false);
@@ -85,5 +85,3 @@ const Setting = () => {
         </div>
     );
 };
-
-export default Setting;

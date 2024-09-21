@@ -3,7 +3,7 @@
 import { useGlobalStateStore } from "@/store/global-store";
 
 
-const Overlay = () => {
+export const Overlay = () => {
   
     const {openSidebar,toggleSidebar}=useGlobalStateStore()
     return (
@@ -14,4 +14,3 @@ const Overlay = () => {
     );
 };
 
-export default Overlay;

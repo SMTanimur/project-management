@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useAuth } from '@/hooks/useAuth';
 import { Icons } from '../ui/icons';
 
-const ComponentsAuthLoginForm = () => {
+export const ComponentsAuthLoginForm = () => {
   const router = useRouter();
 
   const { login, loginForm,isLoginPending } = useAuth();
@@ -62,4 +62,3 @@ const ComponentsAuthLoginForm = () => {
   );
 };
 
-export default ComponentsAuthLoginForm;

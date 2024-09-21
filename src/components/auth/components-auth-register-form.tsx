@@ -6,7 +6,7 @@ import React from 'react';
 import { Input } from '../ui/input';
 import { PasswordInput } from '../ui/password-input';
 import { Button } from '../ui/button';
-const ComponentsAuthRegisterForm = () => {
+export const ComponentsAuthRegisterForm = () => {
     const router = useRouter();
 
     const submitForm = (e: any) => {
@@ -44,4 +44,3 @@ const ComponentsAuthRegisterForm = () => {
     );
 };
 
-export default ComponentsAuthRegisterForm;

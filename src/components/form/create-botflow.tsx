@@ -9,7 +9,7 @@ import { Icons } from '../ui/icons'
 
 import { useBotFlow } from '@/hooks/botflow/useBotflow'
 
-const CreateBotflowForm = () => {
+export const CreateBotflowForm = () => {
 
 
 
@@ -72,5 +72,3 @@ const CreateBotflowForm = () => {
     </div>
   )
 }
-
-export default CreateBotflowForm

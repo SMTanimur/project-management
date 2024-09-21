@@ -1,9 +1,9 @@
 "use client";
 
-import CreateBotflowForm from "@/components/form/create-botflow";
 
-import { Modal } from "@/components/ui/modal";
-import { useGlobalModalStateStore } from "@/store/modal";
+
+import { CreateBotflowForm, Modal } from "@/components";
+import { useGlobalModalStateStore } from "@/store";
 
 
 const GlobalModals = () => {

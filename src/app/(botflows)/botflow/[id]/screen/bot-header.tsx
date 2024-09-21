@@ -4,10 +4,9 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-} from '@/components/ui/breadcrumb';
-import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/ui/icons';
-import { IBotFlows } from '@/store/botfllow';
+} from '@/components';
+import { Button } from '@/components';
+import { Icons } from '@/components';
 import { IBotflow } from '@/types/workflow';
 
 import { ChevronRight, HomeIcon, Plus } from 'lucide-react';

@@ -5,7 +5,7 @@ import { useGlobalStateStore } from '@/store/global-store';
 import React from 'react';
 
 
-const ContentAnimation = ({ children }: { children: React.ReactNode }) => {
+export const ContentAnimation = ({ children }: { children: React.ReactNode }) => {
    const {animation}=useGlobalStateStore()
     return (
         <>
@@ -16,4 +16,3 @@ const ContentAnimation = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default ContentAnimation;

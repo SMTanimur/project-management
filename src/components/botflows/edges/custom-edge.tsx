@@ -2,7 +2,7 @@ import { BaseEdge, EdgeLabelRenderer, getBezierPath } from "@xyflow/react";
 
 
 
-export default function CustomEdge({
+export function CustomEdge({
     id,
     sourceX,
     sourceY,

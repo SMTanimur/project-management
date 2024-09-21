@@ -15,12 +15,12 @@ import {
   ReactFlowInstance,
 } from '@xyflow/react';
 
-import CustomEdge from '@/components/botflows/edges/custom-edge';
 import dynamic from 'next/dynamic';
 import { useFlow } from '@/hooks';
-import { IBotflow } from '@/types/workflow';
-import { GetWorkflowById } from '@/hooks/botflow/useGetBotflow';
-import { useBotFlow } from '@/hooks/botflow/useBotflow';
+import { IBotflow } from '@/types';
+import { GetWorkflowById } from '@/hooks';
+import { useBotFlow } from '@/hooks';
+import { CustomEdge } from '@/components';
 const defaultViewport = { x: 0, y: 0, zoom: 0.6 };
 
 export const BotScreen = () => {

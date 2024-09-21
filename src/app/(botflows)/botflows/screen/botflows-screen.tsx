@@ -1,12 +1,10 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { Icons } from '@/components/ui/icons';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useBotFlow } from '@/hooks/botflow/useBotflow';
-import { GetBotflows } from '@/hooks/botflow/useGetBotflow';
-
-import { IBotFlows} from '@/store/botfllow/botflows';
+import { Card } from '@/components';
+import { Icons } from '@/components';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components';
+import { useBotFlow } from '@/hooks';
+import { GetBotflows } from '@/hooks';
 import { useGlobalModalStateStore } from '@/store/modal';
 import { Ellipsis } from 'lucide-react';
 import { useRouter } from 'next/navigation';

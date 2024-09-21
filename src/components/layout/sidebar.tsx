@@ -20,7 +20,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { DrawerClose } from "../ui/drawer";
 import { Icons } from "../ui/icons";
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const { t } = getTranslation();
   const pathname = usePathname();
   const [currentMenu, setCurrentMenu] = useState<string>("");
@@ -216,4 +216,3 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;

@@ -29,7 +29,6 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '../ui/drawer';
 import { Icons } from '../ui/icons';
-import Sidebar from './sidebar';
 import { useUser } from '@/hooks/useUser';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
@@ -42,8 +41,9 @@ import {
 } from '../ui/dropdown-menu';
 import { useAuth } from '@/hooks/useAuth';
 import { HeaderBottom } from './header-bottom';
+import { Sidebar } from './sidebar';
 
-const Header = () => {
+export const Header = () => {
   const pathname = usePathname();
   const { toggleSidebar, languageList } = useGlobalStateStore();
 
@@ -426,4 +426,3 @@ const Header = () => {
   );
 };
 
-export default Header;

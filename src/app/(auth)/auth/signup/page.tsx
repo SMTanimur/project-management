@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import ComponentsAuthRegisterForm from '@/components/auth/components-auth-register-form';
 
+
+import { ComponentsAuthRegisterForm } from '@/components';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';

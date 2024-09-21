@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-const ScrollToTop = () => {
+export const ScrollToTop = () => {
     const [showTopButton, setShowTopButton] = useState(false);
 
     const goToTop = () => {
@@ -47,4 +47,3 @@ const ScrollToTop = () => {
     );
 };
 
-export default ScrollToTop;

@@ -1,7 +1,5 @@
-import ContentAnimation from "@/components/layout/content-animation";
+import { ContentAnimation, Header, ScrollToTop } from "@/components";
 
-import Header from "@/components/layout/header";
-import ScrollToTop from "@/components/layout/scroll-to-top";
 
 
 export default function DefaultLayout({
