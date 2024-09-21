@@ -18,7 +18,7 @@ export const botflow ={
     return await api.get(`${API_PATHS.GetBotflow}/${id}`)
   },
   UPDATE:async (id:string,input:TBotflow):Promise<IBotflow> => {
-    return await api.put(`${API_PATHS.UpdateBotflow}/${id}`, input)
+    return await api.patch(`${API_PATHS.UpdateBotflow}/${id}`, input)
   },
 
   DELETE:async (id:string):Promise<void> => {

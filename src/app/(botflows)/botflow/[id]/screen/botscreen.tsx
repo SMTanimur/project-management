@@ -1,5 +1,4 @@
 'use client';
-import { IBotFlows, useBotFlowsStore } from '@/store/botfllow/botflows';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import BotSidebar from './sidebar';
@@ -8,18 +7,6 @@ import BotSidebar from './sidebar';
 const BotHeader = dynamic(() => import('./bot-header'), { ssr: false })
 import {
   ReactFlow,
-  addEdge,
-  applyNodeChanges,
-  applyEdgeChanges,
-  type Node,
-  type Edge,
-  type FitViewOptions,
-  type OnConnect,
-  type OnNodesChange,
-  type OnEdgesChange,
-  type OnNodeDrag,
-  type NodeTypes,
-  type DefaultEdgeOptions,
   Background,
   Controls,
   MiniMap,
@@ -34,7 +21,7 @@ import { useFlow } from '@/hooks';
 import { IBotflow } from '@/types/workflow';
 import { GetWorkflowById } from '@/hooks/botflow/useGetBotflow';
 import { useBotFlow } from '@/hooks/botflow/useBotflow';
-
+const defaultViewport = { x: 0, y: 0, zoom: 0.6 };
 
 export const BotScreen = () => {
   const { id } = useParams<{
@@ -88,22 +75,20 @@ export const BotScreen = () => {
       <div className='flex relative'>
         <BotSidebar />
         <div className='flex flex-col w-full'>
-          <BotHeader botflow={botflow as IBotflow} onSave={onSaveWorkflow} />
+          <BotHeader botflow={botflow as IBotflow} onSave={onSaveWorkflow} isUpdating={isUpdating} />
           <div className=' h-[calc(100vh-78px)] ' ref={reactWorkflowWrapper}>
             <ReactFlow
               nodes={nodes}
-              edges={edges}
+              nodeTypes={nodeTypes as any}
               onNodesChange={onNodesChange}
+              edges={edges}
               onEdgesChange={onEdgesChange}
-              fitView
               onConnect={onConnect}
-              onDrag={onDrop}
+              onDrop={onDrop}
               onDragOver={onDragOver}
               onInit={onInit}
-              nodeTypes={nodeTypes as any}
+              defaultViewport={defaultViewport}
               edgeTypes={edgeTypes}
-              maxZoom={10}
-              minZoom={0.1}
             >
             
              

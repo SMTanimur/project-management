@@ -6,6 +6,7 @@ import {
   BreadcrumbList,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
+import { Icons } from '@/components/ui/icons';
 import { IBotFlows } from '@/store/botfllow';
 import { IBotflow } from '@/types/workflow';
 
@@ -15,9 +16,10 @@ import React from 'react';
 
 type BotProps = {
   botflow: IBotflow
+  isUpdating?: boolean;
   onSave: () => void;
 };
-const BotHeader = ({ botflow,onSave }: BotProps) => {
+const BotHeader = ({ botflow,onSave,isUpdating }: BotProps) => {
   return (
     <div className='flex py-3 px-6 bg-white sticky top-0 w-full items-center justify-between border-b h-[calc(53px+1.30rem)] z-50'>
       <Breadcrumb className='ml-3'>
@@ -42,7 +44,15 @@ const BotHeader = ({ botflow,onSave }: BotProps) => {
           <Plus size={16} />
           <span>New Bot</span>
         </Button>
-        <Button size={'lg'} className='rounded-xl' onClick={onSave}>
+        <Button size={'lg'} disabled={isUpdating} className='rounded-xl' onClick={onSave}>
+
+        {isUpdating && (
+            <Icons.spinner
+              className='mr-2 h-4 w-4 animate-spin'
+              aria-hidden='true'
+            />
+          )}
+
           Save
         </Button>
       </div>
