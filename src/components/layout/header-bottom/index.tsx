@@ -21,10 +21,7 @@ export const HeaderBottom = () => {
           </button>
           <ul className='sub-menu'>
             <li>
-              <Link href='/'>{t('sales')}</Link>
-            </li>
-            <li>
-              <Link href='/workflows'>{t('workflows')}</Link>
+              <Link href='/botflows'>{t('botflows')}</Link>
             </li>
             <li>
               <Link href='/editor'>{t('editor')}</Link>

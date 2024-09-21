@@ -1,8 +1,6 @@
 "use client";
-
 import { getTranslation } from "@/i18n/i18n";
 import { cn } from "@/lib/utils";
-import { useGlobalStateStore } from "@/store/global-store";
 import {
   Contact,
   LayoutDashboard,
