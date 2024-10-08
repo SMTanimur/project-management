@@ -1,4 +1,4 @@
-import { ContentAnimation, Header, ScrollToTop } from "@/components";
+import { ContentAnimation, ScrollToTop } from "@/components";
 
 
 
@@ -17,8 +17,7 @@ export default function DefaultLayout({
           {/* END SIDEBAR */}
           <div className="main-content flex min-h-screen flex-col">
         
-            {/* BEGIN TOP NAVBAR */}
-            <Header />
+           
             {/* END TOP NAVBAR */}
 
             {/* BEGIN CONTENT AREA */}

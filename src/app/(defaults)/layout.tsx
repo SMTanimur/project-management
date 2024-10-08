@@ -1,10 +1,5 @@
-import {
-  ContentAnimation,
-  Footer,
-  Header,
-  ScrollToTop,
-  Setting,
-} from '@/components';
+import { ContentAnimation, Footer, ScrollToTop, Setting } from '@/components';
+import DashBoardLayoutProvider from '../provider/dashboard.layout.provider';
 
 export default function DefaultLayout({
   children,
@@ -21,21 +16,11 @@ export default function DefaultLayout({
         <Setting />
         {/* END APP SETTING LAUNCHER */}
 
-        <div>
-          {/* END SIDEBAR */}
-          <div className='main-content flex min-h-screen flex-col'>
-            {/* BEGIN TOP NAVBAR */}
-            <Header />
-            {/* END TOP NAVBAR */}
-
-            {/* BEGIN CONTENT AREA */}
-            <ContentAnimation>{children}</ContentAnimation>
-            {/* END CONTENT AREA */}
-
-            {/* BEGIN FOOTER */}
-            <Footer />
-          </div>
-        </div>
+        <DashBoardLayoutProvider>
+          {/* BEGIN CONTENT AREA */}
+          <ContentAnimation>{children}</ContentAnimation>
+          {/* END CONTENT AREA */}
+        </DashBoardLayoutProvider>
       </div>
     </>
   );
