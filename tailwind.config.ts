@@ -1,117 +1,157 @@
-import type { Config } from "tailwindcss"
+import type { Config } from 'tailwindcss';
 
 const config = {
-  darkMode: ["class"],
+  darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
-  prefix: "",
+  ],
+  prefix: '',
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: '15px',
+        sm: '15px',
+        lg: '15px',
+        xl: '0',
+        '2xl': '0',
+      },
       screens: {
-        "2xl": "1400px",
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1392px',
       },
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        border: 'hsl(var(--border) / <alpha-value>)',
+        default: {
+          50: 'hsl(var(--default-50) / <alpha-value>)',
+          100: 'hsl(var(--default-100) / <alpha-value>)',
+          200: 'hsl(var(--default-200) / <alpha-value>)',
+          300: 'hsl(var(--default-300) / <alpha-value>)',
+          400: 'hsl(var(--default-400) / <alpha-value>)',
+          500: 'hsl(var(--default-500) / <alpha-value>)',
+          600: 'hsl(var(--default-600) / <alpha-value>)',
+          700: 'hsl(var(--default-700) / <alpha-value>)',
+          800: 'hsl(var(--default-800) / <alpha-value>)',
+          900: 'hsl(var(--default-900) / <alpha-value>)',
+          950: 'hsl(var(--default-950) / <alpha-value>)',
         },
 
-    
-      success: {
-          DEFAULT: '#00ab55',
-          light: '#ddf5f0',
-          'dark-light': 'rgba(0,171,85,.15)',
+        input: 'hsl(var(--input) / <alpha-value>)',
+        ring: 'hsl(var(--ring) / <alpha-value>)',
+        background: 'hsl(var(--background) / <alpha-value>)',
+        foreground: 'hsl(var(--foreground) / <alpha-value>)',
+        primary: {
+          50: 'hsl(var(--primary-50) / <alpha-value>)',
+          100: 'hsl(var(--primary-100) / <alpha-value>)',
+          200: 'hsl(var(--primary-200) / <alpha-value>)',
+          300: 'hsl(var(--primary-300) / <alpha-value>)',
+          400: 'hsl(var(--primary-400) / <alpha-value>)',
+          500: 'hsl(var(--primary-500) / <alpha-value>)',
+          600: 'hsl(var(--primary-600) / <alpha-value>)',
+          700: 'hsl(var(--primary-700) / <alpha-value>)',
+          800: 'hsl(var(--primary-800) / <alpha-value>)',
+          900: 'hsl(var(--primary-900) / <alpha-value>)',
+          950: 'hsl(var(--primary-950) / <alpha-value>)',
+          DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
+          foreground: 'hsl(var(--primary-foreground) / <alpha-value>)',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
+          foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive) / <alpha-value>)',
+          700: '#be185d',
+          foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success) / <alpha-value>)',
+          700: '#15803d',
+          foreground: 'hsl(var(--success-foreground) / <alpha-value>)',
+        },
+        info: {
+          DEFAULT: 'hsl(var(--info) / <alpha-value>)',
+          700: '#0f766e',
+          foreground: 'hsl(var(--info-foreground) / <alpha-value>)',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning) / <alpha-value>)',
+          700: '#a16207',
+          foreground: 'hsl(var(--warning-foreground) / <alpha-value>)',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
+          foreground: 'hsl(var(--muted-foreground) / <alpha-value>)',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
+          foreground: 'hsl(var(--accent-foreground) / <alpha-value>)',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover) / <alpha-value>)',
+          foreground: 'hsl(var(--popover-foreground) / <alpha-value>)',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card) / <alpha-value>)',
+          foreground: 'hsl(var(--card-foreground) / <alpha-value>)',
+        },
       },
-      danger: {
-          DEFAULT: '#e7515a',
-          light: '#fff5f5',
-          'dark-light': 'rgba(231,81,90,.15)',
-      },
-      warning: {
-          DEFAULT: '#e2a03f',
-          light: '#fff9ed',
-          'dark-light': 'rgba(226,160,63,.15)',
-      },
-      info: {
-          DEFAULT: '#2196f3',
-          light: '#e7f7ff',
-          'dark-light': 'rgba(33,150,243,.15)',
-      },
-      dark: {
-          DEFAULT: '#3b3f5c',
-          light: '#eaeaec',
-          'dark-light': 'rgba(59,63,92,.15)',
-      },
-      black: {
-          DEFAULT: '#0e1726',
-          light: '#e3e4eb',
-          'dark-light': 'rgba(14,23,38,.15)',
-      },
-      white: {
-          DEFAULT: '#ffffff',
-          light: '#e0e6ed',
-          dark: '#888ea8',
-      },
+      boxShadow: {
+        sm: '0px 1px 2px 0px rgba(15, 22, 36, 0.06), 0px 1px 3px 0px rgba(15, 22, 36, 0.10)',
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        slideDownAndFade: {
+          from: { opacity: '0', transform: 'translateY(-2px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideLeftAndFade: {
+          from: { opacity: '0', transform: 'translateX(2px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideUpAndFade: {
+          from: { opacity: '0', transform: 'translateY(2px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideRightAndFade: {
+          from: { opacity: '0', transform: 'translateX(-2px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        slideDownAndFade:
+          'slideDownAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+        slideLeftAndFade:
+          'slideLeftAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+        slideUpAndFade: 'slideUpAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+        slideRightAndFade:
+          'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [require('tailwindcss-animate')],
+} satisfies Config;
 
-export default config
+export default config;

@@ -1,17 +1,24 @@
+'use client';
 
-"use client"
-
-import { useGlobalStateStore } from "@/store/global-store";
-
-
-
+import { cn } from '@/lib';
+import { useThemeStore } from '@/store';
+import { useGlobalStateStore } from '@/store/global-store';
+import { Inter } from 'next/font/google';
+const inter = Inter({ subsets: ["latin"] });
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
-    const {openSidebar}=useGlobalStateStore()
- 
+  const { openSidebar } = useGlobalStateStore();
+  const { theme, radius } = useThemeStore();
+
   return (
-    <div className={`${openSidebar ? "toggle-sidebar" :""}`}>
+    <body
+      className={cn(inter.className, 'theme-' + theme)}
+      style={
+        {
+          '--radius': `${radius}rem`,
+        } as React.CSSProperties
+      }
+    >
       {children}
-     
-    </div>
+    </body>
   );
 };
