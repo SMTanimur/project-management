@@ -1,4 +1,4 @@
-import { ContentAnimation, Footer, ScrollToTop, Setting } from '@/components';
+import { ContentAnimation, ScrollToTop, Setting } from '@/components';
 import DashBoardLayoutProvider from '../provider/dashboard.layout.provider';
 
 export default function DefaultLayout({
