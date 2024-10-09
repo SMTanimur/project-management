@@ -42,8 +42,8 @@ export const Footer = ({ handleOpenSearch }: { handleOpenSearch: () => void }) =
     return (
       <FooterLayout
         className={cn("", {
-          "ltr:xl:ml-[248px] rtl:xl:mr-[248px]": !collapsed,
-          "ltr:xl:ml-[72px] rtl:xl:mr-[72px]": collapsed,
+          "xl:ml-[248px] ": !collapsed,
+          "xl:ml-[72px] ": collapsed,
           "sticky bottom-0": footerType === "sticky",
         })}
       >
@@ -67,8 +67,8 @@ export const Footer = ({ handleOpenSearch }: { handleOpenSearch: () => void }) =
   return (
     <FooterLayout
       className={cn("", {
-        "ltr:xl:ml-[300px] rtl:xl:mr-[300px]": !collapsed,
-        "ltr:xl:ml-[72px] rtl:xl:mr-[72px]": collapsed,
+        "xl:ml-[300px] ": !collapsed,
+        "xl:ml-[72px]": collapsed,
         "sticky bottom-0": footerType === "sticky",
       })}
     >
