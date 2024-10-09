@@ -1,4 +1,4 @@
-import { ContentAnimation, Footer, ScrollToTop, Setting } from '@/components';
+import { ContentAnimation, ScrollToTop, Setting } from '@/components';
 import DashBoardLayoutProvider from '../provider/dashboard.layout.provider';
 
 export default function DefaultLayout({
@@ -9,7 +9,7 @@ export default function DefaultLayout({
   return (
     <>
       {/* BEGIN MAIN CONTAINER */}
-      <div className='relative'>
+      <div className='relative bg-[--]'>
         <ScrollToTop />
 
         {/* BEGIN APP SETTING LAUNCHER */}

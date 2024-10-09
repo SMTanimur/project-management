@@ -1,9 +1,9 @@
-/* Animate css */
-@import './animate.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* Animate css */
+@import './animate.css';
 
 @layer base {
   :root {
