@@ -41,8 +41,6 @@ const BotSidebar = () => {
       )}
     >
       <div className='flex items-center py-6 border-b px-3 justify-between'>
-        <h3 className={cn(collapsed ? 'hidden' : 'block')}>SMTR</h3>
-
         <Button
           onClick={() => setCollapsed(prev => !prev)}
           size='icon'

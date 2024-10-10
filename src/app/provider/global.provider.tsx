@@ -3,6 +3,7 @@
 import { cn } from '@/lib';
 import { useThemeStore } from '@/store';
 import { useGlobalStateStore } from '@/store/global-store';
+import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ["latin"] });
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -18,7 +19,13 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         } as React.CSSProperties
       }
     >
+      <ThemeProvider
+          attribute="class"
+          enableSystem={false}
+          defaultTheme="light"
+        >
       {children}
+      </ThemeProvider>
     </body>
   );
 };

@@ -61,11 +61,7 @@ export const VerticalHeader: React.FC<VerticalHeaderProps> = ({ handleOpenSearch
 
   let searchButtonContent = null;
 
-  const MainLogo = (
-    <Link href="/dashboard" className=" text-primary ">
-      SMTR
-    </Link>
-  );
+ 
   const SearchButton = (
     <div>
       <button
@@ -90,7 +86,7 @@ export const VerticalHeader: React.FC<VerticalHeaderProps> = ({ handleOpenSearch
   return (
     <>
       <div className="flex items-center md:gap-6 gap-3">
-        {MainLogo}
+  
         <MenuBar collapsed={collapsed} setCollapsed={setCollapsed} />
         {searchButtonContent}
       </div>
