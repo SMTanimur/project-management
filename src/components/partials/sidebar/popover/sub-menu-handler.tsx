@@ -28,14 +28,14 @@ export const SubMenuHandler = ({
   trans: any
 }) => {
   const { title ,icon} = item;
- const Icon = icon ? Icons[item.icon] : null;
+ const Icon = icon ? Icons[item.icon as keyof typeof Icons] : null;
   return (
     <>
       {collapsed ? (
         <HoverCard.Root>
           <HoverCard.Trigger asChild>
             <div className="inline-flex cursor-pointer items-center justify-center data-[state=open]:bg-primary-100 data-[state=open]:text-primary  w-12 h-12  rounded-md">
-              {Icon && <Icon className="w-5 h-5" />}
+              {Icon && <Icon className="w-5 h-5 " />}
             </div>
           </HoverCard.Trigger>
           <HoverCard.Portal>
@@ -72,7 +72,7 @@ export const SubMenuHandler = ({
         >
           <div className="flex-1  gap-3 flex items-start">
             <span className="inline-flex items-center  text-lg ">
-              {Icon && <Icon className="w-5 h-5" />}
+              {Icon && <Icon className="w-5 h-5 " />}
             </span>
             <div className=" ">{translate(title, trans)}</div>
           </div>

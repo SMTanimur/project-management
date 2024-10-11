@@ -97,6 +97,7 @@ import {
   AppWindowIcon,
   Monitor,
   ListTodo,
+  ChartPie,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -122,6 +123,7 @@ export const Icons = {
   arrowDown: ArrowDown,
   home:HomeIcon,
   graph:AreaChart,
+  diagram:ChartPie,
   application:AppWindowIcon,
   monitor:Monitor,
   task:ListTodo,

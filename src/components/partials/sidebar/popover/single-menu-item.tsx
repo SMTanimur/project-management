@@ -36,12 +36,12 @@ export const SingleMenuItem = ({
                       {
                         'bg-primary text-primary-foreground data-[state=delayed-open]:bg-primary':
                           isLocationMatch(href, locationName),
-                        ' text-default-600 data-[state=delayed-open]:bg-primary-100 data-[state=delayed-open]:text-primary ':
+                        ' text-default-600 data-[state=delayed-open]:bg-primary/10 data-[state=delayed-open]:text-primary ':
                           !isLocationMatch(href, locationName),
                       }
                     )}
                   >
-                  {Icon && <Icon className='w-5 h-5' />}
+                  {Icon && <Icon className='w-5 h-5 text-primary' />}
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Portal>
@@ -70,7 +70,7 @@ export const SingleMenuItem = ({
             )}
           >
             <span className='flex-grow-0'>
-              {Icon && <Icon className='w-5 h-5' />}
+              {Icon && <Icon className='w-5 h-5 text-primary' />}
             </span>
             <div className='text-box flex-grow '>{translate(title, trans)}</div>
             {badge && <Badge className=' rounded'>{item.badge}</Badge>}

@@ -13,7 +13,6 @@ export const MultiNestedMenu = ({ subItem, subIndex, activeMultiMenu, trans }: {
 }) => {
   const pathname = usePathname();
   const locationName = getDynamicPath(pathname);
- const Icon = subItem.icon ? Icons[subItem.icon] : null;
   return (
     <Collapsible open={activeMultiMenu === subIndex}>
       <CollapsibleContent className="CollapsibleContent">

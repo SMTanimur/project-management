@@ -2,11 +2,11 @@ import { Icons } from '@/components';
 
 export interface MenuItemProps {
   title: string;
-  icon: keyof typeof Icons;
+  icon?: keyof typeof Icons;
   href?: string;
   child?: MenuItemProps[];
   megaMenu?: MenuItemProps[];
-  badge?:string
+  badge?: string;
   multi_menu?: MenuItemProps[];
   nested?: MenuItemProps[];
   onClick?: () => void;
@@ -56,6 +56,16 @@ export const menusConfig: MenuConfig = {
           title: 'task',
           icon: 'task',
           href: '/task',
+        },
+      ],
+    },
+    {
+      title: 'Diagram',
+      icon: 'diagram',
+      child: [
+        {
+          title: 'Botflows',
+          href: '/botflows',
         },
       ],
     },
@@ -112,8 +122,16 @@ export const menusConfig: MenuConfig = {
           },
         ],
       },
+      {
+        title: 'Diagram',
+        icon: 'diagram',
+        child: [
+          {
+            title: 'Botflows',
+            href: '/botflows',
+          },
+        ],
+      },
     ],
   },
 };
-
-
