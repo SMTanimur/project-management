@@ -6,9 +6,10 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { isLocationMatch, cn, getDynamicPath } from "@/lib/utils";
 import { SubMenuItem } from "./sub-menu-item";
-import { Collapsible, CollapsibleContent } from "@/components/ui";
+import { Collapsible, CollapsibleContent, Icons } from "@/components/ui";
 import { MultiNestedMenu } from "./multi-nested-menu";
 import { MultiMenuHandler } from "./multi-menu-handler";
+import { MenuItemProps } from "@/configs";
 
 export const NestedSubMenu = ({
   activeSubmenu,
@@ -20,7 +21,7 @@ export const NestedSubMenu = ({
   trans,
 }: {
   activeSubmenu: number | null;
-  item: any;
+  item: MenuItemProps
   index: number;
   activeMultiMenu: number | null;
   toggleMultiMenu: (index: number) => void;

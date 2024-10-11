@@ -3,16 +3,17 @@ import React from "react";
 import { cn, isLocationMatch, translate, getDynamicPath } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Collapsible, CollapsibleContent } from "@/components/ui";
+import { Collapsible, CollapsibleContent, Icons } from "@/components/ui";
+import { MenuItemProps } from "@/configs";
 export const MultiNestedMenu = ({ subItem, subIndex, activeMultiMenu, trans }: {
-  subItem: any;
+  subItem: MenuItemProps
   subIndex: number;
   activeMultiMenu: number | null;
   trans: any
 }) => {
   const pathname = usePathname();
   const locationName = getDynamicPath(pathname);
-
+ const Icon = subItem.icon ? Icons[subItem.icon] : null;
   return (
     <Collapsible open={activeMultiMenu === subIndex}>
       <CollapsibleContent className="CollapsibleContent">

@@ -4,14 +4,17 @@ import { Badge } from "@/components/ui/badge";
 import { cn, isLocationMatch } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { Icons } from "@/components/ui";
+import { MenuItemProps } from "@/configs";
 export const SingleMenuItem = ({ item, collapsed }: {
-  item: any;
+  item: MenuItemProps
   collapsed: boolean
 }) => {
-  const { badge, href, title } = item;
+  const {  href, title,badge } = item;
   const locationName = usePathname();
+  const Icon = item.icon ? Icons[item.icon] : null;
   return (
-    <Link href={href}>
+    <Link href={href as string}>
       <>
         {collapsed ? (
           <div>
@@ -27,7 +30,7 @@ export const SingleMenuItem = ({ item, collapsed }: {
                 }
               )}
             >
-              <item.icon className="w-6 h-6" />
+             {Icon && <Icon className="w-5 h-5" />}
             </span>
           </div>
         ) : (
@@ -43,7 +46,7 @@ export const SingleMenuItem = ({ item, collapsed }: {
             )}
           >
             <span className="flex-grow-0">
-              <item.icon className="w-5 h-5" />
+             {Icon && <Icon className="w-5 h-5" />}
             </span>
             <div className="text-box flex-grow">{title}</div>
             {badge && <Badge className=" rounded">{item.badge}</Badge>}

@@ -9,7 +9,7 @@ import { useSidebar, useThemeStore } from "@/store";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePathname } from "next/navigation";
 import { menusConfig } from "@/configs/menus";
-import { AddBlock, NestedSubMenu, SidebarLogo } from "../common";
+import {  NestedSubMenu, SidebarLogo } from "../common";
 import { SingleMenuItem } from "./single-menu-item";
 import { SubMenuHandler } from "./sub-menu-handler";
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { Icons } from "@/components/ui";
+import { MenuItemProps } from "@/configs";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 
@@ -10,19 +12,19 @@ export const SubMenuHandler = ({
   activeSubmenu,
   collapsed,
 }: {
-  item: any;
+  item: MenuItemProps
   toggleSubmenu: any;
   index: number;
   activeSubmenu: number | null;
   collapsed: boolean;
 }) => {
-  const { title } = item;
-
+  const { title,icon } = item;
+const Icon = item.icon ? Icons[item.icon] : null;
   return (
     <>
       {collapsed ? (
         <div className="inline-flex cursor-pointer items-center justify-center data-[state=open]:bg-primary-100 data-[state=open]:text-primary  w-12 h-12  rounded-md">
-          <item.icon className="w-6 h-6" />
+          {Icon && <Icon className="w-5 h-5" />}
         </div>
       ) : (
         <div
@@ -36,7 +38,7 @@ export const SubMenuHandler = ({
         >
           <div className="flex-1  gap-3 flex items-start">
             <span className="inline-flex items-center  text-lg ">
-              <item.icon className="w-5 h-5" />
+             {Icon && <Icon className="w-5 h-5" />}
             </span>
             <div className=" ">{title}</div>
           </div>

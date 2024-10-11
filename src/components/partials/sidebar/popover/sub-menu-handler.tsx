@@ -5,6 +5,8 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CollapsedHoverMenu } from "./collapsed-hover-menu";
 import { ChevronRight } from "lucide-react";
+import { MenuItemProps } from "@/configs";
+import { Icons } from "@/components/ui";
 
 
 
@@ -17,7 +19,7 @@ export const SubMenuHandler = ({
   menuTitle,
   trans,
 }: {
-  item: any;
+  item: MenuItemProps
   toggleSubmenu: any;
   index: number;
   activeSubmenu: number | null;
@@ -25,15 +27,15 @@ export const SubMenuHandler = ({
   menuTitle?: string;
   trans: any
 }) => {
-  const { title } = item;
-
+  const { title ,icon} = item;
+ const Icon = icon ? Icons[item.icon] : null;
   return (
     <>
       {collapsed ? (
         <HoverCard.Root>
           <HoverCard.Trigger asChild>
             <div className="inline-flex cursor-pointer items-center justify-center data-[state=open]:bg-primary-100 data-[state=open]:text-primary  w-12 h-12  rounded-md">
-              <item.icon className="w-6 h-6" />
+              {Icon && <Icon className="w-5 h-5" />}
             </div>
           </HoverCard.Trigger>
           <HoverCard.Portal>
@@ -46,8 +48,8 @@ export const SubMenuHandler = ({
               <ScrollArea
                 className={cn("p-5", {
                   "h-[250px]":
-                    item.child.length > 5 ||
-                    item.child.some(
+                    item?.child && item.child.length > 5 ||
+                    item?.child?.some(
                       (childItem: any) =>
                         childItem.multi_menu && childItem.multi_menu.length > 5
                     ),
@@ -70,7 +72,7 @@ export const SubMenuHandler = ({
         >
           <div className="flex-1  gap-3 flex items-start">
             <span className="inline-flex items-center  text-lg ">
-              <item.icon className="w-5 h-5" />
+              {Icon && <Icon className="w-5 h-5" />}
             </span>
             <div className=" ">{translate(title, trans)}</div>
           </div>

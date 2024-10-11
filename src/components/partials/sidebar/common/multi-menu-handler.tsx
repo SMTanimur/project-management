@@ -1,5 +1,6 @@
 "use client";
 
+import { MenuItemProps } from "@/configs";
 import { cn, translate } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import React from "react";
@@ -12,7 +13,7 @@ export const MultiMenuHandler = ({
   className,
   trans,
 }: {
-  subItem: any,
+  subItem: MenuItemProps
   subIndex: number,
   activeMultiMenu: number | null,
   toggleMultiMenu: (subIndex: number) => void,

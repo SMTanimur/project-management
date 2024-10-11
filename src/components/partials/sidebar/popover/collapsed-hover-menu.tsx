@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { cn, isLocationMatch, getDynamicPath } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { MultiMenuHandler, MultiNestedMenu, SubMenuItem } from "../common";
+import { MenuItemProps } from "@/configs";
+import { Icons } from "@/components/ui";
 
 export const CollapsedHoverMenu = ({ item, menuTitle, trans }: {
-  item: any;
+  item: MenuItemProps
 
   menuTitle?: string
   trans: any
@@ -23,12 +25,14 @@ export const CollapsedHoverMenu = ({ item, menuTitle, trans }: {
 
   const pathname = usePathname();
   const locationName = getDynamicPath(pathname);
+
+  const Icon = item.icon ? Icons[item.icon] : null;
   return (
     <>
       {item?.child ? (
         <ul className="space-y-2 relative before:absolute before:left-4 before:top-0  before:h-[calc(100%-5px)]  before:w-[2px] before:bg-primary/20 before:rounded">
           <li className=" text-primary-foreground bg-primary font-medium px-3 py-3 rounded  relative flex items-center gap-3 ">
-            <item.icon className="h-5 w-5 " />
+            {Icon && <Icon className="w-5 h-5" />}
             {menuTitle}
           </li>
           {item.child?.map((subItem: any, j: number) => (

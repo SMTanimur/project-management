@@ -93,6 +93,10 @@ import {
   Zap,
   FileJson,
   File,
+  AreaChart,
+  AppWindowIcon,
+  Monitor,
+  ListTodo,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -117,6 +121,11 @@ export const Icons = {
   success: BadgeCheck,
   arrowDown: ArrowDown,
   home:HomeIcon,
+  graph:AreaChart,
+  application:AppWindowIcon,
+  monitor:Monitor,
+  task:ListTodo,
+
   menu: Menu,
   attribute: Cog,
   tag: Tag,

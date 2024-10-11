@@ -6,12 +6,21 @@ export interface MenuItemProps {
   href?: string;
   child?: MenuItemProps[];
   megaMenu?: MenuItemProps[];
+  badge?:string
   multi_menu?: MenuItemProps[];
   nested?: MenuItemProps[];
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-export const menusConfig = {
+interface MenuConfig {
+  mainNav: MenuItemProps[];
+  sidebarNav: {
+    modern: MenuItemProps[];
+    classic: MenuItemProps[];
+  };
+}
+
+export const menusConfig: MenuConfig = {
   mainNav: [
     {
       title: 'Dashboard',
@@ -107,5 +116,4 @@ export const menusConfig = {
   },
 };
 
-export type ModernNavType = (typeof menusConfig.sidebarNav.modern)[number];
-export type MainNavType = (typeof menusConfig.mainNav)[number];
+

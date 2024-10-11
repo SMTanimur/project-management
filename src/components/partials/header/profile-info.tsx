@@ -51,7 +51,7 @@ export const ProfileInfo = () => {
               href='/dashboard'
               className='text-xs text-default-600 hover:text-primary'
             >
-              @uxuidesigner
+             {data?.email}
             </Link>
           </div>
         </DropdownMenuLabel>
