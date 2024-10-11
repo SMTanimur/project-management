@@ -11,7 +11,6 @@ import { Inbox } from '../inbox';
 import { NotificationMessage } from '../notification-message';
 import { VerticalHeader } from '../vertical-header';
 import { Language } from '../language';
-import { MobileMenuHandler } from '../mobile-menu-handler';
 import { ClassicHeader } from '../classic-header';
 
 export const NavTools = ({
@@ -34,7 +33,7 @@ export const NavTools = ({
       <div className='ltr:pl-2 rtl:pr-2'>
         <ProfileInfo />
       </div>
-      {!isDesktop && <MobileMenuHandler />}
+    
     </div>
   );
 };
@@ -45,9 +44,9 @@ export const DashboardHeader = ({
   handleOpenSearch: () => void;
   trans?: string;
 }) => {
-  const { collapsed, sidebarType, setCollapsed, subMenu, setSidebarType } =
+  const { collapsed, sidebarType,  setSidebarType } =
     useSidebar();
-  const { layout, navbarType, setLayout } = useThemeStore();
+  const { layout, navbarType } = useThemeStore();
 
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
