@@ -27,7 +27,7 @@ export const config = {
     "/:path*",
     "/:path*",
     "/auth/login*",
-    "/auth/signup*",
+    "/auth/signup*"
   
   ],
 };
