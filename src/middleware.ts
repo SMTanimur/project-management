@@ -1,29 +1,31 @@
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
 
-export function middleware(req: NextRequest) {
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 
-  const sessionToken = req.cookies.has('orga_sid');
+export function middleware(request: NextRequest) {
+  const { cookies } = request;
+  const url = request.nextUrl.clone();
 
-  // console.log("USER TOKEN", userToken)
+  const publicRoutes = ["/auth/login","/auth/signup"];
+  const sessionToken = cookies.has('orga_sid');
+  console.log("cookies", sessionToken);
 
-  const host = req.nextUrl.protocol + req.headers.get('host');
-
-  // user login control
-  if (sessionToken && req.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL(`${host}/`));
+  if (!sessionToken && !publicRoutes.includes(url.pathname)) {
+    // If there's no auth cookie and the user is not on the login page, redirect to login
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  } else if (sessionToken && url.pathname === "/auth/login") {
+    // If there is an auth cookie and the user is on the login page, redirect to home
+    url.pathname = "/";
+    return NextResponse.redirect(url);
   }
-
-  if (!sessionToken && req.nextUrl.pathname.includes('/user')) {
-    return NextResponse.redirect(new URL(`${host}/login`));
-  }
-  // Add a closing bracket here
-  if (!sessionToken && req.nextUrl.pathname.includes('/notifications')) {
-    return NextResponse.redirect(new URL(`${host}/login`));
-  }
+  // Otherwise, allow the request to continue
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/user/:path*', '/login/:path*', '/notifications/:path*'], // Add "/profile" path here
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|logo-dark.svg|logo-light.svg|seo_image.png|images|assets|icons).*)",
+  ],
 };
