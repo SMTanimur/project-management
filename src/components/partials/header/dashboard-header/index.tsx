@@ -34,7 +34,7 @@ export const NavTools = ({
       <div className='ltr:pl-2 rtl:pr-2'>
         <ProfileInfo />
       </div>
-      {!isDesktop && sidebarType !== 'module' && <MobileMenuHandler />}
+      {!isDesktop && <MobileMenuHandler />}
     </div>
   );
 };
@@ -62,7 +62,6 @@ export const DashboardHeader = ({
 
   if (
 
-    navbarType !== 'floating' &&
     navbarType !== 'hidden'
   ) {
     return (
@@ -89,30 +88,7 @@ export const DashboardHeader = ({
   if (navbarType === 'hidden') {
     return null;
   }
-  if (navbarType === 'floating') {
-    return (
-      <ClassicHeader
-        className={cn('  has-sticky-header rounded-md sticky top-6  px-6  ', {
-          'ml-[72px] ': collapsed,
-          'xl:ml-[300px] ':
-            !collapsed && sidebarType === 'module',
-          'xl:ml-[248px]  ':
-            !collapsed && sidebarType !== 'module',
-        })}
-      >
-        <div className='w-full bg-card/90 backdrop-blur-lg md:px-6 px-[15px] py-3 rounded-md my-6 shadow-md border-b'>
-          <div className='flex justify-between items-center h-full'>
-            <VerticalHeader handleOpenSearch={handleOpenSearch} />
-            <NavTools
-              isDesktop={isDesktop}
-              isMobile={isMobile}
-              sidebarType={sidebarType}
-            />
-          </div>
-        </div>
-      </ClassicHeader>
-    );
-  }
+
 
   return (
     <ClassicHeader
