@@ -5,8 +5,8 @@ export function middleware(request: NextRequest) {
   const { cookies } = request;
   const url = request.nextUrl.clone();
 
-  // const publicRoutes = ["/auth/login", "/auth/signup"];
-  // const sessionToken = cookies.has('orga_sid');
+  const publicRoutes = ["/auth/login", "/auth/signup"];
+  const sessionToken = cookies.has('orga_sid');
   
   // if (!sessionToken && !publicRoutes.includes(url.pathname)) {
   //   // If there's no auth cookie and the user is not on a public route, redirect to login
@@ -18,14 +18,14 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(url);
   // }
   
-  // Otherwise, allow the request to continue
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // "/:path*",
-    // "/auth/:path*",
+    "/:path*",
+    "/auth/:path*",
   
   ],
 };

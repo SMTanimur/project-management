@@ -9,30 +9,27 @@ import { useGlobalModalStateStore } from '@/store/modal';
 import { Ellipsis } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import React  from 'react';
+import React from 'react';
 
 const BotflowsScreen = () => {
+  const navigate = useRouter();
+  const botflows = GetBotflows();
+  const { setBotflowModal } = useGlobalModalStateStore();
 
-const navigate = useRouter()
-const botflows = GetBotflows();
-  const {setBotflowModal}=useGlobalModalStateStore()
-  
-  const handleOnClick = (id:string) =>{
-    
-    if(id){
-      navigate.push(`/botflow/${id}`)
+  const handleOnClick = (id: string) => {
+    if (id) {
+      navigate.push(`/botflow/${id}`);
     }
-  }
- const {deleteBotflow}= useBotFlow()
-  const handleRemoveFlow = async(id:string) =>{
-   await deleteBotflow(id)
-
-  }
+  };
+  const { deleteBotflow } = useBotFlow();
+  const handleRemoveFlow = async (id: string) => {
+    await deleteBotflow(id);
+  };
   return (
     <div className='grid content-start grid-cols-1 gap-4 px-8 md:px-14 pt-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grow shrink-0'>
-      <Card className=' relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5'
-      onClick={()=>setBotflowModal(true)}
-      
+      <Card
+        className=' relative col-span-1 flex flex-col justify-between min-h-[160px] bg-gray-200 rounded-xl border-[0.5px] border-black/5'
+        onClick={() => setBotflowModal(true)}
       >
         <div className='grow p-2 rounded-t-xl w-full'>
           <div className='px-6 pt-2 pb-1 text-xs font-medium leading-[18px] text-gray-500'>
@@ -44,9 +41,9 @@ const botflows = GetBotflows();
       </Card>
       {botflows?.data?.map(botflow => (
         <React.Fragment key={botflow._id}>
-          <Card className='relative col-span-1 cursor-pointer flex flex-col justify-between min-h-[160px] bg-white rounded-xl border-[0.5px] border-black/5'
-          
-          onClick={()=>handleOnClick(botflow._id)}
+          <Card
+            className='relative col-span-1 cursor-pointer flex flex-col justify-between min-h-[160px] bg-white rounded-xl border-[0.5px] border-black/5'
+            onClick={() => handleOnClick(botflow._id)}
           >
             <div className='flex justify-between pt-[14px] px-[14px] pb-3 h-[66px] items-center gap-3 grow-0 shrink-0'>
               <div className='relative shrink-0'>
@@ -92,27 +89,26 @@ const botflows = GetBotflows();
               </div>
 
               <Popover>
-  <PopoverTrigger onClick={(e)=>e.stopPropagation()}>
-    <Ellipsis className='size-6'/>
-  </PopoverTrigger>
-  <PopoverContent align='start' className='w-52 flex flex-col'>
-     <button className='flex gap-1 items-center text-red-500'
-     onClick={(e)=>{
-       e.stopPropagation()
-       handleRemoveFlow(botflow._id)
-     }}
-     >
-      <Icons.trash className='size-4'/>
-       <span>Delete</span>
-     </button>
-
-  </PopoverContent>
-</Popover>
+                <PopoverTrigger onClick={e => e.stopPropagation()}>
+                  <Ellipsis className='size-6' />
+                </PopoverTrigger>
+                <PopoverContent align='start' className='w-52 flex flex-col'>
+                  <button
+                    className='flex gap-1 items-center text-red-500'
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleRemoveFlow(botflow._id);
+                    }}
+                  >
+                    <Icons.trash className='size-4' />
+                    <span>Delete</span>
+                  </button>
+                </PopoverContent>
+              </Popover>
             </div>
           </Card>
         </React.Fragment>
       ))}
-      
     </div>
   );
 };
