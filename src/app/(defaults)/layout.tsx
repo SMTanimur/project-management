@@ -9,7 +9,7 @@ export default function DefaultLayout({
   return (
     <>
       {/* BEGIN MAIN CONTAINER */}
-      <div className='relative bg-[--]'>
+      <div className='relative '>
         <ScrollToTop />
 
         {/* BEGIN APP SETTING LAUNCHER */}

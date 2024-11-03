@@ -7,6 +7,7 @@ import themeConfig from '../../theme.config';
 import { QueryProvider } from './provider/query.provider';
 import { GlobalProvider } from './provider/global.provider';
 import GlobalModals from './provider/GlobalModals';
+import { SocketProvider } from './provider/socketContext';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,8 +23,10 @@ export default function RootLayout({
     <html lang='en'>
       <GlobalProvider>
         <QueryProvider>
+        <SocketProvider>
           <GlobalModals />
-          <div className={`${themeConfig.navbar} `}>{children}</div>
+            <div className={`${themeConfig.navbar} `}>{children}</div>
+          </SocketProvider>
         </QueryProvider>
       </GlobalProvider>
     </html>
