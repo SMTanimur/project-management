@@ -14,9 +14,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const ProfileInfo = () => {
-  const { profile } = useUser();
+  const { data } = useUser();
   const { logout } = useAuth();
-  const { data, isPending } = profile;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className=' cursor-pointer'>

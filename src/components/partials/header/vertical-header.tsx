@@ -60,9 +60,13 @@ const MenuBar = ({
 
 type VerticalHeaderProps = {
   handleOpenSearch: () => void;
+  isSearch?: boolean;
+  isVerticalHeader?: boolean;
 };
 export const VerticalHeader: React.FC<VerticalHeaderProps> = ({
   handleOpenSearch,
+  isSearch = true,
+  isVerticalHeader = true,
 }) => {
   const { collapsed, setCollapsed } = useSidebar();
   const isDesktop = useMediaQuery('(min-width: 1280px)');
@@ -88,6 +92,7 @@ export const VerticalHeader: React.FC<VerticalHeaderProps> = ({
   if (isMobile) {
     searchButtonContent = SearchButton;
   }
+  
 
   return (
     <>
@@ -96,7 +101,7 @@ export const VerticalHeader: React.FC<VerticalHeaderProps> = ({
           <MenuBar collapsed={collapsed} setCollapsed={setCollapsed} />
         )}
 
-        {searchButtonContent}
+        {!isSearch && searchButtonContent}
       </div>
     </>
   );
