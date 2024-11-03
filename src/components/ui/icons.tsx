@@ -124,6 +124,7 @@ export const Icons = {
   home:HomeIcon,
   graph:AreaChart,
   diagram:ChartPie,
+  organization:Boxes,
   application:AppWindowIcon,
   monitor:Monitor,
   task:ListTodo,
