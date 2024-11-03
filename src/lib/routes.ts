@@ -11,6 +11,7 @@ export const API_PATHS ={
    GetBotflow: 'v1/workflows',
    UpdateBotflow: 'v1/workflows',
    DeleteBotflow: 'v1/workflows',
+   ORGANIZATION: 'v1/organizations',
    //TODO: Tasks
   
 }

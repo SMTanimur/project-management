@@ -17,6 +17,12 @@ interface GlobalModalState {
   animation:string
   setAnimation:(value:string)=>void
 
+  setGlobalStore: (
+    updater:
+      | Partial<GlobalModalState>
+      | ((prevState: GlobalModalState) => Partial<GlobalModalState>)
+  ) => void;
+
 }
 export const useGlobalStateStore = create<GlobalModalState>((set) => ({
   languageList:[
@@ -32,6 +38,13 @@ export const useGlobalStateStore = create<GlobalModalState>((set) => ({
   },
   setAnimation(value) {
     set({ animation: value });
+  },
+
+  setGlobalStore: (updater) => {
+    set((state) => ({
+      ...state,
+      ...(typeof updater === "function" ? updater(state) : updater),
+    }));
   },
 
 }));
