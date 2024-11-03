@@ -37,26 +37,18 @@ export const menusConfig: MenuConfig = {
       title: 'Application',
       icon: 'application',
       child: [
+        
         {
-          title: 'chat',
-          icon: 'message',
-          href: '/chat',
+          title:"Organizations",
+          icon:"organization",
+          href:"/organizations"
         },
         {
-          title: 'email',
-          icon: 'email',
-          href: '/email',
-        },
-        {
-          title: 'kanban',
+          title: 'Projects',
           icon: 'monitor',
-          href: '/kanban',
+          href: '/projects',
         },
-        {
-          title: 'task',
-          icon: 'task',
-          href: '/task',
-        },
+        
       ],
     },
     {
@@ -101,24 +93,14 @@ export const menusConfig: MenuConfig = {
         icon: 'application',
         child: [
           {
-            title: 'chat',
-            icon: 'message',
-            href: '/chat',
+            title:"Organizations",
+            icon:"organization",
+            href:"/organizations"
           },
           {
-            title: 'email',
-            icon: 'email',
-            href: '/email',
-          },
-          {
-            title: 'kanban',
+            title: 'Projects',
             icon: 'monitor',
-            href: '/kanban',
-          },
-          {
-            title: 'task',
-            icon: 'task',
-            href: '/task',
+            href: '/projects',
           },
         ],
       },

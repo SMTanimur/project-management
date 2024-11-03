@@ -16,7 +16,8 @@ export const useUser=()=> {
   
 
   return {
-    profile
+    ...profile,
+
   }
   
 }
