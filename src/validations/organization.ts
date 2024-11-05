@@ -11,6 +11,11 @@ export const memberSchema = z.object({
   }),
 });
 
+export enum OrganizationType {
+  PERSONAL = 'personal',
+  BUSINESS = 'business',
+}
+
 export const invitationSchema = z.object({
   email: z
     .string({
@@ -18,9 +23,7 @@ export const invitationSchema = z.object({
       invalid_type_error: 'Email must be a string',
     })
     .email('Invalid email format'),
-  invitedBy: z.string().regex(/^[0-9a-fA-F]{24}$/, {
-    message: 'Inviter ID must be a valid MongoDB ObjectId',
-  }),
+  invitedBy: z.string(),
   status: z.string({
     required_error: 'Status is required',
     invalid_type_error: 'Status must be a string',
@@ -29,6 +32,7 @@ export const invitationSchema = z.object({
     required_error: 'Invitation date is required',
     invalid_type_error: 'Invalid date format',
   }),
+  organization: z.string(),
 });
 
 export const organizationSchema = z.object({
@@ -50,8 +54,14 @@ export const organizationSchema = z.object({
       invalid_type_error: 'Description must be a string',
     })
     .optional(),
-  brandColor: z.enum(COLORS_ARRAY as [string, ...string[]], {
-    required_error: 'Brand color is required',
+
+  type: z.nativeEnum(OrganizationType, {
+    required_error: 'Organization type is required',
+    invalid_type_error: 'Invalid organization type',
+  }),
+  brandColor: z
+    .enum(COLORS_ARRAY as [string, ...string[]], {
+      required_error: 'Brand color is required',
       invalid_type_error: 'Brand color must be a string',
     })
     .optional(),
@@ -69,11 +79,7 @@ export const organizationSchema = z.object({
     })
     .optional()
     .default(false),
-  invitations: z
-    .array(invitationSchema, {
-      invalid_type_error: 'Invitations must be an array',
-    })
-    .optional(),
+
   projects: z
     .array(
       z.string({
@@ -91,6 +97,7 @@ export const createOrganizationSchema = organizationSchema.pick({
   description: true,
   brandColor: true,
   logo: true,
+  type: true,
   logoText: true,
   isDefault: true,
 });
@@ -110,6 +117,7 @@ export type TUpdateOrganization = z.infer<typeof updateOrganizationSchema>;
 export const invitationDtoSchema = invitationSchema.pick({
   email: true,
   invitedBy: true,
+  organization: true,
 });
 
 export type TInvitationDto = z.infer<typeof invitationDtoSchema>;

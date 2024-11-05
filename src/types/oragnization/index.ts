@@ -13,17 +13,27 @@ export interface Member {
 }
 
 export interface Organization {
-  _id?: string 
+  _id: string 
   name: string
   owner?: IUser
   members?: Member[]
   brandColor?: string
+  isOwner: boolean
   logoText?: string
   logo?: string
+  type:string
   isDefault?: boolean
   description?: string
-  invitations?: Invitation[]
   projects?: (string )[]
+}
+
+export interface IInvitation {
+  email: string;
+  invitedBy: IUser;
+  status: string;
+  invitedAt: Date;
+  _id: string;
+  organization: Organization;
 }
 
 export interface CreateOrganizationInput {
