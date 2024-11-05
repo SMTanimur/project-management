@@ -10,6 +10,7 @@ import { LogingInput, RegisterInput } from "@/types";
 import { QUERY_KEY, toast } from "@/lib";
 import { API_SERVICE } from "@/services";
 import { TLogin, TSignup, loginSchema, signupSchema } from "@/validations/auth";
+import { createUserSchema, TCreateUser } from "@/validations";
 
 export const useAuth = () => {
   const { push } = useRouter();
@@ -25,14 +26,14 @@ export const useAuth = () => {
   });
 
 
-  const registerForm = useForm<TSignup>({
-    resolver: zodResolver(signupSchema),
+  const registerForm = useForm<TCreateUser>({
+    resolver: zodResolver(createUserSchema),
     defaultValues: {
       email: '',
       password: '',
       firstName: '',
       lastName: '',
-      passwordConfirm: '',
+      contact: '',
     },
   });
   const  { mutateAsync:loginMutateAsync,isPending:isLoginPending,isError:isLoginError}=useMutation({
@@ -65,12 +66,12 @@ export const useAuth = () => {
     }
   });
 
-  const signUp = registerForm.handleSubmit(async (data: RegisterInput) => {
+  const signUp = registerForm.handleSubmit(async (data: TCreateUser) => {
     try {
       registerMutateAsync(data,{
         onSuccess:(data)=>{
           toast({
-            title:data.data.message
+            title:data.message
           })
           push("/dashboard")
         },

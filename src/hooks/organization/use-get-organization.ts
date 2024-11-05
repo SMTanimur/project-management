@@ -25,7 +25,7 @@ export const useGetOrganizations = ({ type = 'own' }: { type?: string }) => {
   };
 };
 
-export const getGetOranization = (organizationId: string) => {
+export const useGetOranization = (organizationId: string) => {
   const response = useQuery({
     queryKey: [ORGANIZATION_API.GET_ORGANIZATION.name, organizationId],
     queryFn: () => ORGANIZATION_API.GET_ORGANIZATION(organizationId),
@@ -38,14 +38,14 @@ export const getGetOranization = (organizationId: string) => {
   };
 };
 
-export const useGetInvitationsOrganization = () => {
+export const useGetInvitations = () => {
   const response = useQuery({
-    queryKey: [ORGANIZATION_API.GET_INVITATIONS.name],
-    queryFn: () => ORGANIZATION_API.GET_INVITATIONS(),
+    queryKey: [ORGANIZATION_API.GET_PENDING_INVITATIONS.name],
+    queryFn: () => ORGANIZATION_API.GET_PENDING_INVITATIONS(),
   });
 
   return {
     ...response,
-    organizations: response.data,
+    invitations: response.data,
   };
 };

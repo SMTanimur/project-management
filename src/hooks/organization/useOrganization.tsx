@@ -99,18 +99,17 @@ export const useOrganization = () => {
     }
   };
 
+
+
+  
   const { mutateAsync: inviteUser, isPending: isInviting } = useMutation({
-    mutationFn: (params: { id: string; input: TInvitationDto }) =>
-      ORGANIZATION_API.INVITE_USER(params.id, params.input),
+    mutationFn: (input: TInvitationDto) => ORGANIZATION_API.INVITE_USER(input),
     mutationKey: [ORGANIZATION_API.INVITE_USER.name],
   });
 
-  const handleInviteUser = async (params: {
-    id: string;
-    input: TInvitationDto;
-  }) => {
+  const handleInviteUser = async (input: TInvitationDto) => {
     try {
-      await inviteUser(params, {
+      await inviteUser(input, {
         onSuccess: data => {
           toast.success(data.message);
         },
@@ -140,6 +139,10 @@ export const useOrganization = () => {
           queryClient.invalidateQueries({
             queryKey: [ORGANIZATION_API.GET_PENDING_INVITATIONS.name],
           });
+
+          queryClient.invalidateQueries({
+            queryKey: [ORGANIZATION_API.GET_ORGANIZATIONS.name],
+          }); 
         },
       });
     } catch (error) {

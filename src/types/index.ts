@@ -6,6 +6,7 @@ export * from './config'
 export * from './toast'
 export * from './workflow'
 export * from './oragnization'
+export * from './chat'
 export interface ITodo{
     id: number;
     title: string;
