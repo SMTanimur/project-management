@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: ReactNode }) {
     <Setting />
     <DashboardHeader isSearch={false} isVerticalHeader={false} />
     
-    <div className='flex'>
+    <div className=' px-10 md:px-28 xl:px-48'>
       
-      <LefSidebar />
+      {/* <LefSidebar /> */}
       <div className='flex-1'>{children}</div>
     </div>
     </div>

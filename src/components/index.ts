@@ -4,4 +4,5 @@ export * from './ui'
 export * from './layout'
 export * from './botflows'
 export * from './partials'
+export * from './organization'
 

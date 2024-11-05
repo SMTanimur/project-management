@@ -1,13 +1,12 @@
 'use client';
 
-import { OrganizationHeader } from '@/app/(organizations)/components'
+import { OrganizationHeader } from '@/components';
 import { useGetOranization } from '@/hooks';
 import { Organization } from '@/types';
 import { useParams } from 'next/navigation';
-import React from 'react'
+import React from 'react';
 
 export const OrganizationScreen = () => {
-
   const { id } = useParams();
 
   const { data, isLoading } = useGetOranization(id as string);
@@ -19,7 +18,5 @@ export const OrganizationScreen = () => {
 
       <OrganizationHeader {...{ organization: data as Organization }} />
     </div>
-  )
-}
-
-
+  );
+};
