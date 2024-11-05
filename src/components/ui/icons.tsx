@@ -98,6 +98,7 @@ import {
   Monitor,
   ListTodo,
   ChartPie,
+  MessageSquareText,
 } from "lucide-react";
 
 export type Icon = LucideIcon | any;
@@ -128,6 +129,9 @@ export const Icons = {
   application:AppWindowIcon,
   monitor:Monitor,
   task:ListTodo,
+  message:MessageSquareText,
+  group:Boxes,
+  email:Mail,
 
   menu: Menu,
   attribute: Cog,
@@ -160,10 +164,8 @@ export const Icons = {
   moreHorizontal: MoreHorizontal,
   crop: Crop,
   address: LocateIcon,
-  message: MessageSquare,
   reset: RefreshCw,
   send: Send,
-  email:Mail,
   bell:Bell,
   copy: Copy,
   downlaod: Download,
@@ -179,7 +181,6 @@ export const Icons = {
   terminal: FileTerminal,
   settings: Settings,
   logout: LogOut,
-  group: Boxes,
   volumne: Volume2,
   volumneMute: VolumeX,
   billing: CreditCard,

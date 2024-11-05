@@ -15,16 +15,10 @@ const GlobalModals = () => {
   const { push } = useRouter();
   const pathName = usePathname();
   const { data } = useUser();
-  useEffect(() => {
-    if (data && pathName === '/') {
-      push(`/workspace/${currentOrganizationId}`);
-    }
-  }, [data]);
+ 
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <div className="">
-      
-     
       <Modal
         size="md"
         title="Write a review"

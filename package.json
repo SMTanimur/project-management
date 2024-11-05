@@ -54,7 +54,7 @@
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.3.0",
     "react-quill": "^2.0.0",
-    "react-resizable-panels": "^2.0.19",
+   "react-resizable-panels": "^0.0.55",
     "react-select": "^5.8.0",
     "socket.io-client": "^4.8.1",
     "sonner": "^1.6.1",
