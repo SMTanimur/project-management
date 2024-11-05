@@ -10,13 +10,20 @@ import {
 } from '@/components/ui/tooltip';
 import { IOrganizationConfig } from '@/configs';
 import { Icons } from '@/components';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface NavProps {
   isCollapsed: boolean;
-  handleSidebar?: () => void;
   links: IOrganizationConfig[];
 }
-export function Nav({ links, isCollapsed, handleSidebar }: NavProps) {
+export function Nav({ links, isCollapsed }: NavProps) {
+  const pathname= usePathname()
+  const router = useRouter()
+  const handleRedirect = (href: string) => {
+     if (pathname !== href) {
+       router.push(href)
+     }
+  }
   return (
     <div
       data-collapsed={isCollapsed}
@@ -49,13 +56,15 @@ export function Nav({ links, isCollapsed, handleSidebar }: NavProps) {
             </Tooltip>
           ) : (
             <button
-              onClick={handleSidebar}
+              onClick={()=>handleRedirect(link.href)}
               key={`link-${index}`}
               className={cn(
                 'flex items-center gap-1.5 py-2.5 px-3 cursor-pointer group/item capitalize hover:bg-primary/10 rounded ease-in-out duration-200',
                 {
                   'bg-primary/10': false,
-                }
+                },
+                pathname === link.href ? 'bg-primary/10' : ''
+
               )}
             >
               <span className='flex gap-2 items-center '>
@@ -65,7 +74,8 @@ export function Nav({ links, isCollapsed, handleSidebar }: NavProps) {
                     'w-4 h-4 flex-none group-hover/item:text-primary-600 text-default-600 ease-in-out duration-150',
                     {
                       'text-primary': false,
-                    }
+                    },
+                     pathname === link.href ? 'text-primary' : ''
                   )}
                 />
                 <span
@@ -73,7 +83,8 @@ export function Nav({ links, isCollapsed, handleSidebar }: NavProps) {
                     'flex-1 capitalize text-sm font-medium group-hover/item:text-primary-600 text-default-600 ease-in-out duration-150',
                     {
                       'text-primary': false,
-                    }
+                    },
+                     pathname === link.href ? 'text-primary' : ''
                   )}
                 >
                   {link.title}

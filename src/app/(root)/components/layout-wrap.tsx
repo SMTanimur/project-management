@@ -94,7 +94,6 @@ export const LayoutWrap: React.FC<LayoutWrapProps> = ({
                   >
                     <Nav
                       isCollapsed={isCollapsed}
-                     
                       links={organizationSidebarConfig}
                     />
 
