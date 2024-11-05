@@ -15,14 +15,20 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
   Input,
   RadioGroup,
   RadioGroupItem,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Textarea,
 } from '../ui';
 import { Loader2 } from 'lucide-react';
 import { COLORS_ARRAY } from '@/constants';
-import { RadioItem } from '@radix-ui/react-dropdown-menu';
+import { OrganizationType } from '@/validations';
 
 export const CreateOrganizationForm = () => {
   const { organizationForm, handleCreateOrganization, isCreating } =
@@ -56,6 +62,7 @@ export const CreateOrganizationForm = () => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -68,13 +75,39 @@ export const CreateOrganizationForm = () => {
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={organizationForm.control}
+              name='type'
+              render={({ field }) => (
+                <FormItem className='flex gap-4 items-center'>
+                  <FormLabel className='w-28'> Type</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder='Select Type' />
+                      </SelectTrigger>
+                      <SelectContent className='z-[9999999]'>
+                        <SelectItem value={OrganizationType.PERSONAL}>
+                          Personal
+                        </SelectItem>
+                        <SelectItem value={OrganizationType.BUSINESS}>
+                          Business
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
 
             <div className='flex  items-center'>
               <FormLabel className='w-28'> Logo</FormLabel>
-              <Dialog >
+              <Dialog>
                 <DialogTrigger asChild className='p-0'>
                   <div className='flex gap-4 cursor-pointer'>
                     <Avatar
@@ -101,6 +134,7 @@ export const CreateOrganizationForm = () => {
                           <FormControl>
                             <Input type='text' {...field} />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -112,14 +146,14 @@ export const CreateOrganizationForm = () => {
                         <FormItem className='flex-1'>
                           <FormLabel>Select Color</FormLabel>
                           <FormControl>
-                          <RadioGroup
+                            <RadioGroup
                               value={field.value}
                               onValueChange={field.onChange}
                             >
                               {COLORS_ARRAY.map((color, index) => (
-                                <RadioGroupItem 
+                                <RadioGroupItem
                                   className='w-10 h-10'
-                                  key={index} 
+                                  key={index}
                                   value={color}
                                   style={{ backgroundColor: color }}
                                 />
@@ -136,10 +170,10 @@ export const CreateOrganizationForm = () => {
           </div>
 
           <div className='flex justify-end'>
-          <Button type='submit' disabled={isCreating}>
-            {isCreating && <Loader2 className='w-4 h-4 mr-2 animate-spin' />}
-            {isCreating ? 'Creating...' : 'Create'}
-          </Button>
+            <Button type='submit' disabled={isCreating}>
+              {isCreating && <Loader2 className='w-4 h-4 mr-2 animate-spin' />}
+              {isCreating ? 'Creating...' : 'Create'}
+            </Button>
           </div>
         </form>
       </Form>

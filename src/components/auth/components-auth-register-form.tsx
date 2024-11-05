@@ -1,46 +1,102 @@
 'use client';
 
-
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { Input } from '@/components';
-import { PasswordInput } from '@/components';
-import { Button } from '@/components';
+import { Input, PasswordInput, Button, Icons } from '@/components';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { useAuth } from '@/hooks';
+
 export const ComponentsAuthRegisterForm = () => {
     const router = useRouter();
+    const { signUp, isRegisterPending, registerForm } = useAuth();
 
-    const submitForm = (e: any) => {
-        e.preventDefault();
-        router.push('/');
-    };
     return (
-        <form className="space-y-5 dark:text-white" onSubmit={submitForm}>
-            <div>
-                <label htmlFor="Name">Name</label>
-                <div className="relative text-white-dark">
-                <Input  placeholder="large size"  />
-                </div>
-            </div>
-            <div>
-                <label htmlFor="Email">Email</label>
-                <div className="relative text-white-dark">
-                <Input  placeholder="large size"  />
-                </div>
-            </div>
-            <div>
-                <label htmlFor="Password">Password</label>
-                <div className="relative text-white-dark">
-                <PasswordInput
-          placeholder="input password"
-         
-      />
-                </div>
-            </div>
-           
-            <Button type="submit" className=" !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                Sign Up
-            </Button>
-        </form>
+        <Form {...registerForm}>
+            <form className="space-y-5 dark:text-white" onSubmit={signUp}>
+                <FormField
+                    control={registerForm.control}
+                    name="firstName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>First Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your first name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={registerForm.control}
+                    name="lastName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Last Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your last name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={registerForm.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                                <Input placeholder="example@gmail.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={registerForm.control}
+                    name="contact"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Contact</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your contact number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={registerForm.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <PasswordInput placeholder="**********" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <Button type="submit" disabled={isRegisterPending}>
+                    {isRegisterPending && (
+                        <Icons.spinner
+                            className="mr-2 h-4 w-4 animate-spin"
+                            aria-hidden="true"
+                        />
+                    )}
+                    Sign Up
+                    <span className="sr-only">Sign up</span>
+                </Button>
+            </form>
+        </Form>
     );
 };
-

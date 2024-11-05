@@ -3,12 +3,23 @@
 
 
 import { CreateBotflowForm, Modal } from "@/components";
-import { useGlobalModalStateStore } from "@/store";
+import { useUser } from "@/hooks";
+import { useGlobalLocalStateStore, useGlobalModalStateStore } from "@/store";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 const GlobalModals = () => {
   const globalModal = useGlobalModalStateStore((state) => state);
-
+  const { currentOrganizationId } = useGlobalLocalStateStore();
+  const { push } = useRouter();
+  const pathName = usePathname();
+  const { data } = useUser();
+  useEffect(() => {
+    if (data && pathName === '/') {
+      push(`/workspace/${currentOrganizationId}`);
+    }
+  }, [data]);
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <div className="">
