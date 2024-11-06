@@ -33,7 +33,7 @@ export const organizationSidebarConfig: IOrganizationConfig[] = [
   {
     title: 'Messages',
     Icon: 'message',
-    href: '/meesages',
+    href: '/messages',
   },
   {
     title: 'Tasks',
