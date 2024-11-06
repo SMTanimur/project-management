@@ -3,6 +3,7 @@ export const API_PATHS ={
     REGISTER: 'v1/auth/register',
     LOGOUT: 'v1/auth/logout',
     USERS: 'v1/users',
+    CHAT: 'v1/chats',
     USER: 'v1/users/:id',
     ME:'v1/users/me',
    //TODO: Workflows

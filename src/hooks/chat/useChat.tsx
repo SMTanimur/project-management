@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useSocket } from '@/app/provider/socketContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -17,7 +17,7 @@ interface ChatRoom {
   messages: Message[];
 }
 
-export function useChat(chatId: string) {
+export function useChat(chatId: string, organizationId: string) {
   const { socket, isConnected } = useSocket();
   const queryClient = useQueryClient();
   const [isTyping, setIsTyping] = useState(false);
@@ -55,18 +55,18 @@ export function useChat(chatId: string) {
   // Handle typing indicator
   const handleTyping = (isTyping: boolean) => {
     if (!socket || !isConnected) return;
-    socket.emit('typing', { chatId, isTyping });
+    socket.emit('typing', { chatId, organizationId, isTyping });
   };
 
   // Join chat room
   const joinChat = async () => {
     if (!socket || !isConnected) return;
-    socket.emit('joinChat', chatId);
+    socket.emit('joinChat', { chatId, organizationId });
   };
 
   // Set up socket listeners
   useEffect(() => {
-    if (!socket || !chatId) return;
+    if (!socket || !chatId || !organizationId) return;
 
     // Join the chat room
     joinChat();
@@ -88,7 +88,7 @@ export function useChat(chatId: string) {
       socket.off('newMessage');
       socket.off('userTyping');
     };
-  }, [socket, chatId]);
+  }, [socket, chatId, organizationId]);
 
   return {
     messages,

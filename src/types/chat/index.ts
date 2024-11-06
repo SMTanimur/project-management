@@ -81,6 +81,12 @@ export interface IChat {
   lastMessage?: IMessage;
 }
 
+export interface IUsersChat {
+  data: IChat[]
+  total: number
+  page: number
+  totalPages: number
+}
 // Interface for Attachment
 export interface IAttachment {
   url: string;

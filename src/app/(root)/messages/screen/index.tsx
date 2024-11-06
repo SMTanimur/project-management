@@ -1,6 +1,6 @@
 "use client"
 import { Card, CardContent, CardHeader, ScrollArea } from '@/components'
-import { useMediaQuery, useUser } from '@/hooks'
+import { useGetChats, useMediaQuery, useUser } from '@/hooks'
 import { cn } from '@/lib'
 import { IUser } from '@/types'
 import { Loader } from 'lucide-react'
@@ -34,7 +34,7 @@ export const MessagesScreen = () => {
    const [isForward, setIsForward] = useState<boolean>(false);
 
  
-
+  const {chats}=useGetChats()
 
   const isLg = useMediaQuery("(max-width: 1024px)");
   return (
