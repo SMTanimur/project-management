@@ -1,8 +1,8 @@
 "use client"
-import { Card, CardContent, CardHeader, ScrollArea } from '@/components'
+import { Card, CardContent, CardHeader, ContactList, ScrollArea } from '@/components'
 import { useGetChats, useMediaQuery, useUser } from '@/hooks'
 import { cn } from '@/lib'
-import { IUser } from '@/types'
+import { IChat, IUser } from '@/types'
 import { Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -32,9 +32,15 @@ export const MessagesScreen = () => {
    const [pinnedMessages, setPinnedMessages] = useState<any[]>([]);
    // Forward State
    const [isForward, setIsForward] = useState<boolean>(false);
-
+   const openChat = (chatId: any) => {
+    setSelectedChatId(chatId);
+    setReply(false);
+    if (showContactSidebar) {
+      setShowContactSidebar(false);
+    }
+  };
  
-  const {chats}=useGetChats()
+  const {chats,isLoading}=useGetChats()
 
   const isLg = useMediaQuery("(max-width: 1024px)");
   return (
@@ -67,18 +73,18 @@ export const MessagesScreen = () => {
           </CardHeader>
           <CardContent className="pt-0 px-0   lg:h-[calc(100%-100px)] h-[calc(100%-70px)]   ">
             <ScrollArea className="h-full">
-              {/* {isLoading ? (
+              {isLoading ? (
                 <Loader />
               ) : (
-                contacts?.contacts?.map((contact: ContactType) => (
+                chats?.data?.map((contact: IChat) => (
                   <ContactList
-                    key={contact.id}
+                    key={contact._id}
                     contact={contact}
                     selectedChatId={selectedChatId}
                     openChat={openChat}
                   />
                 ))
-              )} */}
+              )}
             </ScrollArea>
           </CardContent>
         </Card>

@@ -11,11 +11,7 @@ interface Message {
   createdAt: Date;
 }
 
-interface ChatRoom {
-  id: string;
-  name: string;
-  messages: Message[];
-}
+
 
 export function useChat(chatId: string, organizationId: string) {
   const { socket, isConnected } = useSocket();

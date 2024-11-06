@@ -67,6 +67,7 @@ export interface IChatMember {
 
 // Interface for Chat
 export interface IChat {
+  _id: string;
   name?: string;
   description?: string;
   type: ChatType;
@@ -115,4 +116,6 @@ export interface IMessage {
   readBy: Map<string, boolean>;
   isEdited: boolean;
   editedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
