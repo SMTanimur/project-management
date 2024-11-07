@@ -1,78 +1,82 @@
-"use client"
-import { Card, CardContent, CardHeader, ContactList, ScrollArea } from '@/components'
-import { useGetChats, useMediaQuery, useUser } from '@/hooks'
-import { cn } from '@/lib'
-import { IChat, IUser } from '@/types'
-import { Loader } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { MyProfileHeader } from '../components'
+'use client';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  ContactList,
+  ScrollArea,
+} from '@/components';
+import { useGetChats, useMediaQuery, useUser } from '@/hooks';
+import { cn } from '@/lib';
+import { IChat, IUser } from '@/types';
+import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { MyProfileHeader } from '../components';
 
 export const MessagesScreen = () => {
-
-  const {data}=useUser()
-  const router = useRouter()
+  const { data: user } = useUser();
+  const router = useRouter();
   const [selectedChatId, setSelectedChatId] = useState<any | null>(null);
   const [showContactSidebar, setShowContactSidebar] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
 
-
-  useEffect(()=>{
-    if(!data){
-      router.push('/')
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
     }
-  },[!data])
-   // reply state
-   const [replay, setReply] = useState<boolean>(false);
-   const [replayData, setReplyData] = useState<any>({});
- 
-   // search state
-   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
- 
-   const [pinnedMessages, setPinnedMessages] = useState<any[]>([]);
-   // Forward State
-   const [isForward, setIsForward] = useState<boolean>(false);
-   const openChat = (chatId: any) => {
+  }, [!user]);
+  // reply state
+  const [replay, setReply] = useState<boolean>(false);
+  const [replayData, setReplyData] = useState<any>({});
+
+  // search state
+  const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
+
+  const [pinnedMessages, setPinnedMessages] = useState<any[]>([]);
+  // Forward State
+  const [isForward, setIsForward] = useState<boolean>(false);
+  const openChat = (chatId: any) => {
     setSelectedChatId(chatId);
     setReply(false);
     if (showContactSidebar) {
       setShowContactSidebar(false);
     }
   };
- 
-  const {chats,isLoading}=useGetChats()
 
-  const isLg = useMediaQuery("(max-width: 1024px)");
+  const { chats, isLoading } = useGetChats();
+
+  const isLg = useMediaQuery('(max-width: 1024px)');
   return (
-    <div className="flex gap-5 pt-6 px-6 h-[calc(100vh-100px)]  relative space-x-reverse">
+    <div className='flex gap-5 pt-6 px-6 h-[calc(100vh-100px)]  relative space-x-reverse'>
       {isLg && showContactSidebar && (
         <div
-          className=" bg-background/60 backdrop-filter
-         backdrop-blur-sm absolute w-full flex-1 inset-0 z-[99] rounded-md"
+          className=' bg-background/60 backdrop-filter
+         backdrop-blur-sm absolute w-full flex-1 inset-0 z-[99] rounded-md'
           onClick={() => setShowContactSidebar(false)}
         ></div>
       )}
       {isLg && showInfo && (
         <div
-          className=" bg-background/60 backdrop-filter
-         backdrop-blur-sm absolute w-full flex-1 inset-0 z-40 rounded-md"
+          className=' bg-background/60 backdrop-filter
+         backdrop-blur-sm absolute w-full flex-1 inset-0 z-40 rounded-md'
           onClick={() => setShowInfo(false)}
         ></div>
       )}
       <div
-        className={cn("transition-all duration-150 flex-none  ", {
-          "absolute h-full top-0 md:w-[260px] w-[200px] z-[999]": isLg,
-          "flex-none min-w-[260px]": !isLg,
-          "left-0": isLg && showContactSidebar,
-          "-left-full": isLg && !showContactSidebar,
+        className={cn('transition-all duration-150 flex-none  ', {
+          'absolute h-full top-0 md:w-[260px] w-[200px] z-[999]': isLg,
+          'flex-none min-w-[260px]': !isLg,
+          'left-0': isLg && showContactSidebar,
+          '-left-full': isLg && !showContactSidebar,
         })}
       >
-        <Card className="h-full pb-0">
-          <CardHeader className="border-none pb-0 mb-0">
-            <MyProfileHeader profile={data as IUser} />
+        <Card className='h-full pb-0'>
+          <CardHeader className='border-none pb-0 mb-0'>
+            <MyProfileHeader profile={user as IUser} />
           </CardHeader>
-          <CardContent className="pt-0 px-0   lg:h-[calc(100%-100px)] h-[calc(100%-70px)]   ">
-            <ScrollArea className="h-full">
+          <CardContent className='pt-0 px-0   lg:h-[calc(100%-100px)] h-[calc(100%-70px)]   '>
+            <ScrollArea className='h-full'>
               {isLoading ? (
                 <Loader />
               ) : (
@@ -80,6 +84,7 @@ export const MessagesScreen = () => {
                   <ContactList
                     key={contact._id}
                     contact={contact}
+                    user={user as IUser}
                     selectedChatId={selectedChatId}
                     openChat={openChat}
                   />
@@ -181,7 +186,5 @@ export const MessagesScreen = () => {
         contacts={contacts}
       /> */}
     </div>
-  )
-}
-
-
+  );
+};

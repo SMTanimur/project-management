@@ -3,28 +3,29 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatTime } from "@/lib/utils";
-import { IChat } from "@/types";
+import { IChat, IUser } from "@/types";
 
 export const ContactList = ({
   contact,
   openChat,
+  user,
   selectedChatId,
 }: {
   contact: IChat;
+  user:IUser
   openChat: (id: any) => void;
   selectedChatId: string;
 }) => {
   const { avatar, _id, name, members,  description,  type, organization } = contact;
 
-  // Determine the member to show (for direct chat, find the other member, for group chat, use the group name and logo)
   const chatType = type === "group" ? "Group" : "Direct";
   
-  let displayName = name; // Default to group name if it's a group chat
-  let displayAvatar = avatar; // Default to group avatar if available
+  let displayName = name; 
+  let displayAvatar = avatar;
   let status = "offline"; 
   // For direct chat, show member's name and avatar
   if (type === "direct") {
-    const otherMember = members.find((member) => member.user._id !== contact.creator._id);
+    const otherMember = members.find((member) => member.user._id !== user?._id);
     if (otherMember) {
       status = otherMember.user.connection_status;
       

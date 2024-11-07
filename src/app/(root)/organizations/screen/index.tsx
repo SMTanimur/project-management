@@ -28,6 +28,8 @@ import {
 } from '@/components';
 import { Loader2, MoreHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useGlobalLocalStateStore } from '@/store';
+import { cn } from '@/lib';
 
 export const OrganizationsScreen = () => {
   const {
@@ -42,13 +44,14 @@ export const OrganizationsScreen = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
-
+  const { setGlobalStore,currentOrganizationId } = useGlobalLocalStateStore();
   const {
     isDeleting,
     handleDeleteOrganization,
     isRespondingToInvitation,
     handleRespondToInvitation,
   } = useOrganization();
+
   const { data: invitations, isPending } = useGetPendingInvitations();
   return (
     <section className='p-8'>
@@ -196,9 +199,111 @@ export const OrganizationsScreen = () => {
 
           <TabsContent value='Joined'>
             <div className='flex flex-col gap-4'>
-              <div className='flex items-center justify-between'>
+              <div className='flex  flex-col gap-4 '>
                 <h3 className='text-lg font-bold'>Organization Name</h3>
-                <Button>View</Button>
+                <div className='grid  grid-cols-[auto_auto] gap-2'>
+                  {joinedOrganizations?.map(organization => (
+                    <Card key={organization?._id} className='w-full'>
+                      <CardHeader className=' py-2 flex flex-row justify-between w-full  items-center gap-3 border-none mb-0'>
+                        <div className=''>
+                          <Badge
+                            color={
+                              organization?.type === 'personal'
+                                ? 'secondary'
+                                : organization?.type === 'business'
+                                ? 'default'
+                                : 'info'
+                            }
+                            variant='soft'
+                            className=' capitalize'
+                          >
+                            {organization?.type}
+                          </Badge>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              size='icon'
+                              className='flex-none h-6 w-6 bg-default-200 rounded-full hover:bg-default-300'
+                            >
+                              <MoreHorizontal className='h-4 w-4 text-default-700' />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            className='w-[196px]'
+                            align='end'
+                          >
+                            <DropdownMenuItem
+                              className='cursor-pointer'
+                              onClick={() =>
+                                router.push(
+                                  `/organizations/${organization?._id}`
+                                )
+                              }
+                            >
+                              View
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem
+                              className={cn('cursor-pointer',currentOrganizationId === organization._id && 'opacity-50')}
+                              disabled={currentOrganizationId === organization._id}
+                              onClick={() =>
+                                setGlobalStore({
+                                  currentOrganizationId: organization._id,
+                                })
+                              }
+                            >
+                              Activate layout
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='cursor-pointer'>
+                              Leave
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </CardHeader>
+                      <CardContent className='p-4 pt-0 pb-5'>
+                        {/* logo, title,desc */}
+
+                        <div className='flex gap-2'>
+                          <div>
+                            {organization?.logo ? (
+                              <Avatar className='rounded h-12 w-12'>
+                                <AvatarImage
+                                  src={organization.logo as string}
+                                  alt=''
+                                />
+                                <AvatarFallback className='rounded uppercase bg-success/30 text-success'>
+                                  {organization?.name}
+                                </AvatarFallback>
+                              </Avatar>
+                            ) : (
+                              <Avatar className='rounded h-12 w-12'>
+                                <AvatarFallback
+                                  className='rounded uppercase text-success'
+                                  style={{
+                                    backgroundColor: organization.brandColor,
+                                  }}
+                                >
+                                  {organization?.logoText}
+                                </AvatarFallback>
+                              </Avatar>
+                            )}
+                          </div>
+                          <div>
+                            <div className='text-base font-semibold text-default-900 capitalize mb-1'>
+                              {organization?.name}
+                            </div>
+                            {organization?.description && (
+                              <div className='text-xs font-medium text-default-600 max-h-[34px]  overflow-hidden'>
+                                {organization?.description}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
             </div>
           </TabsContent>
