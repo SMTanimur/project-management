@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@headlessui/react": "^2.0.3",
     "@hookform/resolvers": "^3.9.0",
     "@iconify/react": "^5.0.2",
