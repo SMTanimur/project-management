@@ -1,5 +1,6 @@
 import { Organization } from '../oragnization';
 import { IUser } from '../user';
+export * from './chat.enum'
 import {
   ChatMemberRole,
   ChatType,
