@@ -1,11 +1,8 @@
 import React from 'react'
+import { HomepageScreen } from './screen'
 
 const HoomePage = () => {
-  return (
-    <div>
-      Home Page
-    </div>
-  )
+  return <HomepageScreen/>
 }
 
 export default HoomePage

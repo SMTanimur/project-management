@@ -1,6 +1,10 @@
-'use client'
+'use client';
 
 import { useUser } from '@/hooks';
+import { CHAT_API } from '@/services';
+import { useGlobalLocalStateStore } from '@/store';
+import { STATUS } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { toast } from 'sonner';
@@ -24,13 +28,16 @@ export const useSocket = () => useContext(SocketContext);
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const { currentOrganizationId } = useGlobalLocalStateStore();
   const { data } = useUser();
-console.log({data})
+  const queryClient = useQueryClient();
   const connect = () => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_WS_URL!, {
+    const socketInstance = io('http://localhost:3333', {
       withCredentials: true,
-      autoConnect: false,
+      autoConnect: true,
       path: '/socket.io',
+
+      query: { userId: data?._id, organizationId: currentOrganizationId },
     });
 
     socketInstance.on('connect', () => {
@@ -45,7 +52,7 @@ console.log({data})
       toast.error('Disconnected from chat server');
     });
 
-    socketInstance.on('connect_error', (error) => {
+    socketInstance.on('connect_error', error => {
       console.error('Connection error:', error);
       toast.error('Failed to connect to chat server');
     });
@@ -73,8 +80,32 @@ console.log({data})
     };
   }, [data]);
 
+  useEffect(() => {
+    const handleUserStatusChange = (data: any) => {
+      const { userId, status } = data;
+      console.log(
+        `User ${userId} is now ${
+          status === STATUS.ONLINE ? 'online' : 'offline'
+        }`
+      );
+      queryClient.invalidateQueries({
+        queryKey: [CHAT_API.GET_USER_CHATS.name, currentOrganizationId],
+      });
+    };
+
+    // Listen for user status changes
+    socket?.on('userStatusChanged', handleUserStatusChange);
+
+    // Cleanup listener on component unmount
+    return () => {
+      socket?.off('userStatusChanged', handleUserStatusChange);
+    };
+  }, [socket]);
+
   return (
-    <SocketContext.Provider value={{ socket, isConnected, connect, disconnect }}>
+    <SocketContext.Provider
+      value={{ socket, isConnected, connect, disconnect }}
+    >
       {children}
     </SocketContext.Provider>
   );

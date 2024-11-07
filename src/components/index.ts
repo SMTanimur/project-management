@@ -5,4 +5,5 @@ export * from './layout'
 export * from './botflows'
 export * from './partials'
 export * from './organization'
+export * from './chat'
 

@@ -1,3 +1,9 @@
+
+export enum STATUS {
+  ONLINE='online',
+  OFFLINE='offline',
+}
+
 export interface IUser {
   firstName: string;
   lastName: string;
@@ -9,6 +15,8 @@ export interface IUser {
   role: string;
   _id: string;
   contact?: string;
+  connection_status: STATUS;
+  last_seen: Date;
   email_verified?: boolean;
 
 }

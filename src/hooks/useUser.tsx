@@ -1,4 +1,4 @@
-import { QUERY_KEY } from '@/lib';
+
 import { API_SERVICE } from '@/services';
 
 import Cookies from 'js-cookie';
@@ -8,7 +8,7 @@ export const useUser = () => {
   const session = Cookies.get('orga_sid');
 
   const profile = useQuery({
-    queryKey: [QUERY_KEY.ME],
+    queryKey: [API_SERVICE.USER.ME.name],
     queryFn: API_SERVICE.USER.ME,
   });
 

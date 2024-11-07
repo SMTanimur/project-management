@@ -27,4 +27,6 @@ export * from './collapsible'
 export * from './table'
 export * from './radio-group'
 export * from './delete-confirmation-dialog'
+export * from './progress'
+export * from './input-group'
 
