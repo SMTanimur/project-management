@@ -107,6 +107,7 @@ export interface IReaction {
 
 // Interface for Message
 export interface IMessage {
+  _id: string
   chat: IChat;
   sender: IUser;
   content: string;

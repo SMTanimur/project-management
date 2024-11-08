@@ -41,19 +41,13 @@ export const CHAT_API ={
   },
 
   // Create a new message in a chat
-  CREATE_MESSAGE: async (chatId: string, data: TCreateMessage, files?: File[]):Promise<{message:string}> => {
-    const formData = new FormData();
-    formData.append('createMessageDto', JSON.stringify(data));
-    if (files) {
-      files.forEach((file) => formData.append('files', file));
-    }
-    return await api.post(`${API_PATHS.CHAT}/${chatId}/messages`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+  CREATE_MESSAGE: async (chatId: string, data: TCreateMessage):Promise<{message:string}> => {
+   
+    return await api.post(`${API_PATHS.CHAT}/${chatId}/messages`,data);
   },
 
   // Update a message in a chat
-  UPDATE_MESSAGE: async (chatId: string, messageId: string, data: any) => {
+  UPDATE_MESSAGE: async (chatId: string, messageId: string, data: TCreateMessage) => {
     return await api.put(`${API_PATHS.CHAT}/${chatId}/messages/${messageId}`, data);
   },
 

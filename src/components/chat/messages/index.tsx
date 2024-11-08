@@ -16,6 +16,7 @@ import { IChat, IChatMember, IMessage, IUser } from '@/types';
 import { ChatType } from '@/types/chat/chat.enum';
 import { Avatar, AvatarFallback } from '@/components/ui';
 import { AvatarImage } from '@radix-ui/react-avatar';
+import { useChat } from '@/hooks';
 const chatAction = [
   {
     label: 'Remove',
@@ -119,6 +120,7 @@ export const Messages = ({
                     </DropdownMenu>
                   </div>
                   <div className='whitespace-pre-wrap break-all'>
+                 
                     <div className='bg-primary/70 text-primary-foreground  text-sm  py-2 px-3 rounded-2xl  flex-1  '>
                       {content}
                     </div>
@@ -159,7 +161,7 @@ export const Messages = ({
                         className=' w-5 h-5 text-destructive  absolute left-0 -top-3 z-[-1]  transform -rotate-[30deg]'
                       />
                     )}
-
+                    
                     <div className='bg-default-200  text-sm  py-2 px-3 rounded-2xl  flex-1  '>
                       {content}
                     </div>

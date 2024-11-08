@@ -291,6 +291,7 @@ export const MessagesScreen = () => {
                   <MessageFooter
                     handleSendMessage={handleSendMessage}
                     replay={replay}
+                    chatId={selectedChatId}
                     setReply={setReply}
                     replayData={replayData}
                   />

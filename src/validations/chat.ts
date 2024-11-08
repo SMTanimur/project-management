@@ -43,9 +43,9 @@ const MessageSchema = z.object({
   chat: objectId,
   sender: objectId,
   content: z
-    .string({ required_error: "Message content is required" })
-    .max(5000, { message: "Message content cannot exceed 5000 characters" }),
-  messageType: z.nativeEnum(MessageType).default(MessageType.TEXT),
+    .string({ required_error: "Message content is required" }).optional(),
+  
+  messageType: z.nativeEnum(MessageType).default(MessageType.TEXT).optional(),
   attachments: z.array(AttachmentSchema).optional(),
   mentions: z.array(objectId).optional(),
   reactions: z.array(ReactionSchema).optional(),
@@ -101,10 +101,8 @@ export const UpdateChatSchema = ChatSchema.pick({
 export type TUpdateChat = z.infer<typeof UpdateChatSchema>;
 
 export const CreateMessageSchema = MessageSchema.pick({
-  chat: true,
   content: true,
   messageType: true,
-  attachments: true,
   mentions: true,
   replyTo: true,
 })
