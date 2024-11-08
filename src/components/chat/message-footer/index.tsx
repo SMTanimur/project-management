@@ -41,48 +41,58 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
   replayData,
 }) => {
   const [message, setMessage] = useState<string>('');
-  const { handleTyping,isTyping,sendMessage,manageTyping} = useChat(chatId);
-  const {socket}=useSocket()
+  const { handleTyping, isTyping, sendMessage, manageTyping } = useChat(chatId);
+
+  const [isTypingPlayed, setIsTypingPlayed] = useState<boolean>(false);
   let typingTimeout: NodeJS.Timeout; // Define typingTimeout with the correct type
 
+  const playTypingSound = () => {
+    const audio = new Audio('/sounds/typing-sound.mp3'); // Replace with your audio file path
+    audio.play();
+  };
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    manageTyping()
+    manageTyping();
     setMessage(e.target.value);
     e.target.style.height = 'auto'; // Reset the height to auto to adjust
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
-    console.log("message",socket)
- 
-    handleTyping(message.length > 0)// Notify that the user is typing
-      // playTypingSound();
-   
 
-    // Reset typing state after a delay
+    // Handle typing notification and sound
+    const isCurrentlyTyping = e.target.value.length > 0;
+    handleTyping(message.length > 0); // Notify that the user is typing
+    // playTypingSound();
+
+    // Play sound only once when typing starts
+    if (isCurrentlyTyping && !isTypingPlayed) {
+      playTypingSound();
+      setIsTypingPlayed(true);
+    }
+
+    // Reset typing state and sound status after a delay
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
-      handleTyping(false); // Notify that the user stopped typing
-    }, 1000); // Adjust the delay as needed
-  };
-
-  const playTypingSound = () => {
-    const audio = new Audio('/path/to/typing-sound.mp3'); // Replace with your audio file path
-    audio.play();
+      handleTyping(false);
+      setIsTypingPlayed(false);
+    }, 1000);
   };
 
   const handleSelectEmoji = (emoji: any) => {
     setMessage(prevMessage => prevMessage + emoji.native);
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!message) return;
 
-  await sendMessage({ content: message, messageType: MessageType.TEXT }as TCreateMessage)
+    await sendMessage({
+      content: message,
+      messageType: MessageType.TEXT,
+    } as TCreateMessage);
     setReply(false);
     setMessage('');
     handleTyping(false); // Notify that the user is no longer typing
   };
 
-  console.log({isTyping})
+  console.log({ isTyping });
 
   return (
     <>
@@ -182,16 +192,14 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
         </div>
         <div className='flex-1'>
           <form onSubmit={handleSubmit}>
-          {isTyping && (
-                <span>issdgdsgdsgds</span>
-              )}
+            {isTyping && <span>issdgdsgdsgds</span>}
             <div className='flex gap-1 relative'>
               <textarea
                 value={message}
                 onChange={handleChange}
                 placeholder='Type your message...'
                 className='bg-background border border-default-200 outline-none focus:border-primary rounded-xl break-words pl-8 md:pl-3 px-3 flex-1 h-10 pt-2 p-1 pr-8 no-scrollbar'
-                onKeyDown={(e:any) => {
+                onKeyDown={(e: any) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     handleSubmit(e);
@@ -205,10 +213,7 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
                 }}
               />
 
-              {isTyping && (
-                <span>issdgdsgdsgds</span>
-              )}
-              
+              {isTyping && <span>issdgdsgdsgds</span>}
 
               <Popover>
                 <PopoverTrigger asChild>
