@@ -1,6 +1,6 @@
 import { api } from "@/api";
 import { API_PATHS } from "@/lib";
-import { IChat, IMessage } from "@/types";
+import { IChat, IMessage, IPagination } from "@/types";
 import { TCreateChat, TCreateMessage, TUpdateChat } from "@/validations";
 
 
@@ -36,7 +36,7 @@ export const CHAT_API ={
   },
 
   // Get messages of a chat
-  GET_CHAT_MESSAGES: async (chatId: string, query = {}):Promise<IMessage[]> => {
+  GET_CHAT_MESSAGES: async (chatId: string, query = {}):Promise<IPagination<IMessage>> => {
     return await api.get(`${API_PATHS.CHAT}/${chatId}/messages`, { params: query });
   },
 

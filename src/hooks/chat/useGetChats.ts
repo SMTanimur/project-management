@@ -34,10 +34,14 @@ export const useGetChatMessages = (chatId:string) =>{
     queryFn: () => CHAT_API.GET_CHAT_MESSAGES(chatId as string),
   });
 
+
   return {
     ...response,
-    messages: response.data,
-  };
+    messages: response.data?.data,
+    
+  }
+
+ 
 }
 
 

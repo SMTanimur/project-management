@@ -34,6 +34,7 @@ export interface IMessageQuery extends IPaginationQuery {
   search?: string;
 }
 
+
 // Interface for a Group result
 export interface GroupResult {
   id: string;
@@ -120,3 +121,6 @@ export interface IMessage {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+

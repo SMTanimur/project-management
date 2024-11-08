@@ -42,7 +42,7 @@ export const MessagesScreen = () => {
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
   const {
-    data: messages = [],
+    messages = [],
     isLoading: isMessageLoading,
     isError: isMessageError,
   } = useGetChatMessages(selectedChatId);
@@ -173,6 +173,8 @@ export const MessagesScreen = () => {
     
   }
 
+  console.log({messages})
+
   const isLg = useMediaQuery('(max-width: 1024px)');
   console.log({member})
   return (
@@ -254,16 +256,17 @@ export const MessagesScreen = () => {
                       <Loader />
                     ) : (
                       <>
-                        {isMessageError ? (
+                        {/* {isMessageError ? (
                           <EmptyMessage />
-                        ) : (
+                        ) : ( */}
+                        {
                           messages &&
                           messages.length > 0 &&
                           messages?.map((message: IMessage, i: number) => (
                             <Messages
                               key={`message-list-${i}`}
                               message={message}
-                              sender={member?.user as IUser}
+                
                               profile={user as IUser}
                               onDelete={onDelete}
                               index={i}
@@ -275,7 +278,7 @@ export const MessagesScreen = () => {
                               pinnedMessages={pinnedMessages}
                             />
                           ))
-                        )}
+                        }
                       </>
                     )}
                     {/* <PinnedMessages
