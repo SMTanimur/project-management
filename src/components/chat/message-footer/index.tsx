@@ -21,8 +21,9 @@ import {
   TooltipTrigger,
 } from '@/components';
 import { useChat } from '@/hooks';
-import { MessageType } from '@/types';
+import { ChatEvent, MessageType } from '@/types';
 import { TCreateMessage } from '@/validations';
+import { useSocket } from '@/app/provider/socketContext';
 
 interface MessageFooterProps {
   handleSendMessage: (message: string) => void;
@@ -40,17 +41,17 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
   replayData,
 }) => {
   const [message, setMessage] = useState<string>('');
-  const { handleTyping,isTyping,sendMessage} = useChat(chatId);
-
+  const { handleTyping,isTyping,sendMessage,manageTyping} = useChat(chatId);
+  const {socket}=useSocket()
   let typingTimeout: NodeJS.Timeout; // Define typingTimeout with the correct type
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    manageTyping()
     setMessage(e.target.value);
     e.target.style.height = 'auto'; // Reset the height to auto to adjust
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
-
+    console.log("message",socket)
  
-
     handleTyping(message.length > 0)// Notify that the user is typing
       // playTypingSound();
    

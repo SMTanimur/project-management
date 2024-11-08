@@ -12,6 +12,7 @@ import {
   ScrollArea,
 } from '@/components';
 import {
+  useChat,
   useGetChat,
   useGetChatMessages,
   useGetChats,
@@ -19,12 +20,13 @@ import {
   useUser,
 } from '@/hooks';
 import { cn } from '@/lib';
-import { IChat, IMessage, IUser } from '@/types';
+import { ChatEvent, IChat, IMessage, IUser } from '@/types';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { MyProfileHeader } from '../components';
 import Blank from './blank';
+import { useSocket } from '@/app/provider/socketContext';
 
 export const MessagesScreen = () => {
   const { data: user } = useUser();
@@ -32,6 +34,7 @@ export const MessagesScreen = () => {
   const [selectedChatId, setSelectedChatId] = useState<any | null>(null);
   const [showContactSidebar, setShowContactSidebar] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const {socket,isConnected}=useSocket()
 
   useEffect(() => {
     if (!user) {
@@ -172,8 +175,10 @@ export const MessagesScreen = () => {
     );
     
   }
+ 
 
-  console.log({messages})
+
+
 
   const isLg = useMediaQuery('(max-width: 1024px)');
   console.log({member})
@@ -262,7 +267,7 @@ export const MessagesScreen = () => {
                         {
                           messages &&
                           messages.length > 0 &&
-                          messages?.map((message: IMessage, i: number) => (
+                          messages.slice().reverse().map((message: IMessage, i: number) => (
                             <Messages
                               key={`message-list-${i}`}
                               message={message}

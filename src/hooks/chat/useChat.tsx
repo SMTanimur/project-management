@@ -1,4 +1,4 @@
-// useChat.ts
+// client/src/hooks/chat/useChat.tsx
 'use client';
 
 import { useSocket } from '@/app/provider/socketContext';
@@ -15,59 +15,77 @@ export function useChat(chatId: string) {
   const { socket, isConnected } = useSocket();
   const queryClient = useQueryClient();
   const [isTyping, setIsTyping] = useState(false);
+  let typingTimeout: NodeJS.Timeout | null = null;
 
-  // Query for fetching messages
+  // Fetch chat messages
   const { messages } = useGetChatMessages(chatId);
 
   // Mutation for sending messages
-  const { mutateAsync: createMessageMutateAsync } = useMutation({
-    mutationFn: ({ chatId, data }: { chatId: string; data: TCreateMessage }) => CHAT_API.CREATE_MESSAGE(chatId, data),
+  const { mutateAsync: createMessage } = useMutation({
+    mutationFn: ({ chatId, data }: { chatId: string; data: TCreateMessage }) =>
+      CHAT_API.CREATE_MESSAGE(chatId, data),
     mutationKey: [CHAT_API.CREATE_MESSAGE.name],
   });
 
   const sendMessage = async (data: TCreateMessage) => {
     if (!socket || !isConnected) throw new Error('Not connected');
-
- 
-    await createMessageMutateAsync({ chatId, data });
-
-    // Emit the message to the server
-    socket.emit('message', { chatId, content: data.content });
+    await createMessage({ chatId, data });
+    socket.emit(ChatEvent.NEW_MESSAGE, { chatId, content: data.content });
   };
 
-  // Handle typing indicator
   const handleTyping = (isTyping: boolean) => {
-    if (!socket || !isConnected) return;
+    if (!socket || !isConnected) {
+      console.warn('Socket is not connected');
+      return;
+    }
+  
+    // console.log('Emitting typing event:', { chatId, isTyping });
     socket.emit(ChatEvent.TYPING, { chatId, isTyping });
   };
 
-  // Join chat room
-  const joinChat = () => {
-    if (!socket || !isConnected) return;
-    socket.emit('joinChat', { chatId, currentOrganizationId });
+  const manageTyping = () => {
+    console.log('Managing typing event...')
+    setIsTyping(true);
+    handleTyping(true);
+    if (typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      setIsTyping(false);
+      handleTyping(false);
+    }, 1000);
   };
 
-  // Set up socket listeners
+  const joinChat = () => {
+    if (socket && isConnected) {
+      socket.emit(ChatEvent.JOIN, chatId);
+    }
+  };
+
   useEffect(() => {
     if (!socket || !chatId || !currentOrganizationId) return;
-
     joinChat();
 
-    // Listen for new messages
-    socket.on('newMessage', (message: IMessage) => {
-      queryClient.setQueryData([CHAT_API.GET_CHAT_MESSAGES.name, chatId], (old: IMessage[] | undefined) => {
-        return [...(old || []), message];
-      });
+    socket.on(ChatEvent.NEW_MESSAGE, (message: IMessage) => {
+      queryClient.setQueryData(
+        [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
+        (old: IMessage[] | []) => {
+          return  old.map((msg) => {
+            if (msg._id === message._id) {
+              return message;
+            }
+            return msg;
+          })
+        }
+      );
     });
 
-    // Listen for typing indicators
     socket.on(ChatEvent.TYPING, ({ userId, isTyping }) => {
       setIsTyping(isTyping);
     });
 
     return () => {
-      socket.off('newMessage');
+      socket.off(ChatEvent.NEW_MESSAGE);
       socket.off(ChatEvent.TYPING);
+      if (typingTimeout) clearTimeout(typingTimeout);
     };
   }, [socket, chatId, currentOrganizationId]);
 
@@ -76,5 +94,6 @@ export function useChat(chatId: string) {
     sendMessage,
     handleTyping,
     isTyping,
+    manageTyping,
   };
 }
