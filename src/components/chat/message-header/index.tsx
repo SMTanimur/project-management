@@ -29,6 +29,7 @@ export const MessageHeader = ({
   profile: IUser;
   mblChatHandler: () => void;
 }) => {
+  console.log({profile})
   let active = true;
   const isLg = useMediaQuery('(max-width: 1024px)');
 
@@ -45,7 +46,7 @@ export const MessageHeader = ({
           <Avatar>
             <AvatarImage src={profile?.avatar} alt='' />
             <AvatarFallback>
-              {profile?.firstName.slice(1)}, {profile?.lastName.slice(1)}
+              {profile?.firstName?.slice(1)}, {profile?.lastName?.slice(1)}
             </AvatarFallback>
             :
           </Avatar>

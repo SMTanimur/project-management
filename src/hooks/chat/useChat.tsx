@@ -1,96 +1,99 @@
+// client/src/hooks/chat/useChat.tsx
 'use client';
 
 import { useSocket } from '@/app/provider/socketContext';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useGetChatMessages } from './useGetChats';
+import { CHAT_API } from '@/services';
+import { TCreateMessage } from '@/validations';
+import { ChatEvent, IMessage } from '@/types';
+import { useGlobalLocalStateStore } from '@/store';
 
-interface Message {
-  id: string;
-  content: string;
-  sender: any;
-  createdAt: Date;
-}
-
-
-
-export function useChat(chatId: string, organizationId: string) {
+export function useChat(chatId: string) {
+  const { currentOrganizationId } = useGlobalLocalStateStore();
   const { socket, isConnected } = useSocket();
   const queryClient = useQueryClient();
   const [isTyping, setIsTyping] = useState(false);
+  let typingTimeout: NodeJS.Timeout | null = null;
 
-  // Query for fetching messages
-  const { data: messages, isLoading } = useQuery<Message[]>({
-    queryKey: ['chat-messages', chatId],
-    queryFn: async () => {
-      const response = await fetch(`/api/chats/${chatId}/messages`);
-      return response.json();
-    },
-    enabled: !!chatId,
-  });
+  // Fetch chat messages
+  const { messages } = useGetChatMessages(chatId);
 
   // Mutation for sending messages
-  const sendMessage = useMutation({
-    mutationFn: async (content: string) => {
-      if (!socket || !isConnected) throw new Error('Not connected');
-
-      return new Promise((resolve, reject) => {
-        socket.emit('message', { chatId, content }, (response: any) => {
-          if (response.error) reject(response.error);
-          else resolve(response);
-        });
-      });
-    },
-    onSuccess: (newMessage) => {
-      queryClient.setQueryData(['chat-messages', chatId], (old: Message[] = []) => [
-        ...old,
-        newMessage,
-      ]);
-    },
+  const { mutateAsync: createMessage } = useMutation({
+    mutationFn: ({ chatId, data }: { chatId: string; data: TCreateMessage }) =>
+      CHAT_API.CREATE_MESSAGE(chatId, data),
+    mutationKey: [CHAT_API.CREATE_MESSAGE.name],
   });
 
-  // Handle typing indicator
+  const sendMessage = async (data: TCreateMessage) => {
+    if (!socket || !isConnected) throw new Error('Not connected');
+    await createMessage({ chatId, data });
+    socket.emit(ChatEvent.NEW_MESSAGE, { chatId, content: data.content });
+  };
+
   const handleTyping = (isTyping: boolean) => {
-    if (!socket || !isConnected) return;
-    socket.emit('typing', { chatId, organizationId, isTyping });
+    if (!socket || !isConnected) {
+      console.warn('Socket is not connected');
+      return;
+    }
+  
+    // console.log('Emitting typing event:', { chatId, isTyping });
+    socket.emit(ChatEvent.TYPING, { chatId, isTyping });
   };
 
-  // Join chat room
-  const joinChat = async () => {
-    if (!socket || !isConnected) return;
-    socket.emit('joinChat', { chatId, organizationId });
+  const manageTyping = () => {
+    console.log('Managing typing event...')
+    setIsTyping(true);
+    handleTyping(true);
+    if (typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      setIsTyping(false);
+      handleTyping(false);
+    }, 1000);
   };
 
-  // Set up socket listeners
+  const joinChat = () => {
+    if (socket && isConnected) {
+      socket.emit(ChatEvent.JOIN, chatId);
+    }
+  };
+
   useEffect(() => {
-    if (!socket || !chatId || !organizationId) return;
-
-    // Join the chat room
+    if (!socket || !chatId || !currentOrganizationId) return;
     joinChat();
 
-    // Listen for new messages
-    socket.on('newMessage', (message: Message) => {
-      queryClient.setQueryData(['chat-messages', chatId], (old: Message[] = []) => [
-        ...old,
-        message,
-      ]);
+    socket.on(ChatEvent.NEW_MESSAGE, (message: IMessage) => {
+      queryClient.setQueryData(
+        [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
+        (old: IMessage[] | []) => {
+          return  old.map((msg) => {
+            if (msg._id === message._id) {
+              return message;
+            }
+            return msg;
+          })
+        }
+      );
     });
 
-    // Listen for typing indicators
-    socket.on('userTyping', ({ userId, isTyping }) => {
+    socket.on(ChatEvent.TYPING, ({ userId, isTyping }) => {
       setIsTyping(isTyping);
     });
 
     return () => {
-      socket.off('newMessage');
-      socket.off('userTyping');
+      socket.off(ChatEvent.NEW_MESSAGE);
+      socket.off(ChatEvent.TYPING);
+      if (typingTimeout) clearTimeout(typingTimeout);
     };
-  }, [socket, chatId, organizationId]);
+  }, [socket, chatId, currentOrganizationId]);
 
   return {
     messages,
-    isLoading,
     sendMessage,
     handleTyping,
     isTyping,
+    manageTyping,
   };
 }

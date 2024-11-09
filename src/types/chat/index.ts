@@ -1,5 +1,6 @@
 import { Organization } from '../oragnization';
 import { IUser } from '../user';
+export * from './chat.enum'
 import {
   ChatMemberRole,
   ChatType,
@@ -32,6 +33,7 @@ export interface IMessageQuery extends IPaginationQuery {
   messageType?: MessageType;
   search?: string;
 }
+
 
 // Interface for a Group result
 export interface GroupResult {
@@ -105,6 +107,7 @@ export interface IReaction {
 
 // Interface for Message
 export interface IMessage {
+  _id: string
   chat: IChat;
   sender: IUser;
   content: string;
@@ -119,3 +122,6 @@ export interface IMessage {
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+

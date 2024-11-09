@@ -2,17 +2,31 @@
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   ContactList,
+  EmptyMessage,
+  MessageFooter,
+  MessageHeader,
+  Messages,
   ScrollArea,
 } from '@/components';
-import { useGetChats, useMediaQuery, useUser } from '@/hooks';
+import {
+  useChat,
+  useGetChat,
+  useGetChatMessages,
+  useGetChats,
+  useMediaQuery,
+  useUser,
+} from '@/hooks';
 import { cn } from '@/lib';
-import { IChat, IUser } from '@/types';
+import { ChatEvent, IChat, IMessage, IUser } from '@/types';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MyProfileHeader } from '../components';
+import Blank from './blank';
+import { useSocket } from '@/app/provider/socketContext';
 
 export const MessagesScreen = () => {
   const { data: user } = useUser();
@@ -20,6 +34,7 @@ export const MessagesScreen = () => {
   const [selectedChatId, setSelectedChatId] = useState<any | null>(null);
   const [showContactSidebar, setShowContactSidebar] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const {socket,isConnected}=useSocket()
 
   useEffect(() => {
     if (!user) {
@@ -29,7 +44,11 @@ export const MessagesScreen = () => {
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
-
+  const {
+    messages = [],
+    isLoading: isMessageLoading,
+    isError: isMessageError,
+  } = useGetChatMessages(selectedChatId);
   // search state
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
 
@@ -44,9 +63,125 @@ export const MessagesScreen = () => {
     }
   };
 
+  const onDelete = (selectedChatId: any, index: number) => {
+    const obj = { selectedChatId, index };
+
+    // Remove the deleted message from pinnedMessages if it exists
+    const updatedPinnedMessages = pinnedMessages.filter(
+      msg => msg.selectedChatId !== selectedChatId && msg.index !== index
+    );
+
+    setPinnedMessages(updatedPinnedMessages);
+  };
+
+  const handleShowInfo = () => {
+    setShowInfo(!showInfo);
+  };
+  const handleSendMessage = (message: any) => {
+    if (!selectedChatId || !message) return;
+
+    console.log(message, 'ami msg');
+  };
+  const chatHeightRef = useRef<HTMLDivElement | null>(null);
+
+  // replay message
+  const handleReply = (data: any, contact: any) => {
+    const newObj = {
+      message: data,
+      contact,
+    };
+    setReply(true);
+    setReplyData(newObj);
+  };
+
+  useEffect(() => {
+    if (chatHeightRef.current) {
+      chatHeightRef.current.scrollTo({
+        top: chatHeightRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [handleSendMessage]);
+  useEffect(() => {
+    if (chatHeightRef.current) {
+      chatHeightRef.current.scrollTo({
+        top: chatHeightRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [pinnedMessages]);
+
+  // handle search bar
+
+  const handleSetIsOpenSearch = () => {
+    setIsOpenSearch(!isOpenSearch);
+  };
+  // handle pin note
+
+  const handlePinMessage = (note: any) => {
+    const updatedPinnedMessages = [...pinnedMessages];
+
+    const existingIndex = updatedPinnedMessages.findIndex(
+      msg => msg.note === note.note
+    );
+
+    if (existingIndex !== -1) {
+      updatedPinnedMessages.splice(existingIndex, 1); // Remove the message
+      //setIsPinned(false);
+    } else {
+      updatedPinnedMessages.push(note); // Add the message
+      // setIsPinned(true);
+    }
+
+    setPinnedMessages(updatedPinnedMessages);
+  };
+
+  const handleUnpinMessage = (pinnedMessage: any) => {
+    // Create a copy of the current pinned messages array
+    const updatedPinnedMessages = [...pinnedMessages];
+
+    // Find the index of the message to unpin in the updatedPinnedMessages array
+    const index = updatedPinnedMessages.findIndex(
+      msg =>
+        msg.note === pinnedMessage.note && msg.avatar === pinnedMessage.avatar
+    );
+
+    if (index !== -1) {
+      // If the message is found in the array, remove it (unpin)
+      updatedPinnedMessages.splice(index, 1);
+      // Update the state with the updated pinned messages array
+      setPinnedMessages(updatedPinnedMessages);
+    }
+  };
+
+  // Forward handle
+  const handleForward = () => {
+    setIsForward(!isForward);
+  };
+
   const { chats, isLoading } = useGetChats();
+  const { chat, isLoading: isChatLoading } = useGetChat(
+    selectedChatId as string
+  );
+
+  let status = 'offline';
+  // For direct chat, show member's name and avatar
+
+  let member = null;
+  
+  if (chat?.type === 'direct') {
+   member = chat.members.find(
+      member => member.user._id !== user?._id
+    );
+    
+  }
+ 
+
+
+
 
   const isLg = useMediaQuery('(max-width: 1024px)');
+  console.log({member})
   return (
     <div className='flex gap-5 pt-6 px-6 h-[calc(100vh-100px)]  relative space-x-reverse'>
       {isLg && showContactSidebar && (
@@ -96,45 +231,48 @@ export const MessagesScreen = () => {
       </div>
       {/* chat sidebar  end*/}
       {/* chat messages start */}
-      {/* {selectedChatId ? (
-        <div className="flex-1 ">
-          <div className=" flex space-x-5 h-full rtl:space-x-reverse">
-            <div className="flex-1">
-              <Card className="h-full flex flex-col ">
-                <CardHeader className="flex-none mb-0">
+      {selectedChatId ? (
+        <div className='flex-1 '>
+          <div className=' flex space-x-5 h-full rtl:space-x-reverse'>
+            <div className='flex-1'>
+              <Card className='h-full flex flex-col '>
+                <CardHeader className='flex-none mb-0'>
                   <MessageHeader
                     showInfo={showInfo}
                     handleShowInfo={handleShowInfo}
-                    profile={profileData}
+                    profile={member ? (member.user as IUser) : ({} as IUser)}
                     mblChatHandler={() =>
                       setShowContactSidebar(!showContactSidebar)
                     }
                   />
                 </CardHeader>
-                {isOpenSearch && (
+                {/* {isOpenSearch && (
                   <SearchMessages
                     handleSetIsOpenSearch={handleSetIsOpenSearch}
                   />
-                )}
+                )} */}
 
-                <CardContent className=" !p-0 relative flex-1 overflow-y-auto">
+                <CardContent className=' !p-0 relative flex-1 overflow-y-auto'>
                   <div
-                    className="h-full py-4 overflow-y-auto no-scrollbar"
+                    className='h-full py-4 overflow-y-auto no-scrollbar'
                     ref={chatHeightRef}
                   >
-                    {messageLoading ? (
+                    {isMessageLoading ? (
                       <Loader />
                     ) : (
                       <>
-                        {messageIsError ? (
+                        {/* {isMessageError ? (
                           <EmptyMessage />
-                        ) : (
-                          chats?.chat?.chat?.map((message: any, i: number) => (
+                        ) : ( */}
+                        {
+                          messages &&
+                          messages.length > 0 &&
+                          messages.slice().reverse().map((message: IMessage, i: number) => (
                             <Messages
                               key={`message-list-${i}`}
                               message={message}
-                              contact={chats?.contact}
-                              profile={profileData}
+                
+                              profile={user as IUser}
                               onDelete={onDelete}
                               index={i}
                               selectedChatId={selectedChatId}
@@ -145,19 +283,20 @@ export const MessagesScreen = () => {
                               pinnedMessages={pinnedMessages}
                             />
                           ))
-                        )}
+                        }
                       </>
                     )}
-                    <PinnedMessages
+                    {/* <PinnedMessages
                       pinnedMessages={pinnedMessages}
                       handleUnpinMessage={handleUnpinMessage}
-                    />
+                    /> */}
                   </div>
                 </CardContent>
-                <CardFooter className="flex-none flex-col px-0 py-4 border-t border-border">
+                <CardFooter className='flex-none flex-col px-0 py-4 border-t border-border'>
                   <MessageFooter
                     handleSendMessage={handleSendMessage}
                     replay={replay}
+                    chatId={selectedChatId}
                     setReply={setReply}
                     replayData={replayData}
                   />
@@ -165,7 +304,7 @@ export const MessagesScreen = () => {
               </Card>
             </div>
 
-            {showInfo && (
+            {/* {showInfo && (
               <ContactInfo
                 handleSetIsOpenSearch={handleSetIsOpenSearch}
                 handleShowInfo={handleShowInfo}
@@ -173,18 +312,12 @@ export const MessagesScreen = () => {
                   (contact: ContactType) => contact.id === selectedChatId
                 )}
               />
-            )}
+            )} */}
           </div>
         </div>
       ) : (
         <Blank mblChatHandler={() => setShowContactSidebar(true)} />
       )}
-      <ForwardMessage
-        open={isForward}
-
-        setIsOpen={setIsForward}
-        contacts={contacts}
-      /> */}
     </div>
   );
 };
