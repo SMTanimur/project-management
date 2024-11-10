@@ -30,7 +30,7 @@ export const MessageHeader = ({
   mblChatHandler: () => void;
 }) => {
   console.log({profile})
-  let active = true;
+  let active = profile?.connection_status === 'online'
   const isLg = useMediaQuery('(max-width: 1024px)');
 
   return (

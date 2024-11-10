@@ -294,9 +294,10 @@ export const MessagesScreen = () => {
                 </CardContent>
                 <CardFooter className='flex-none flex-col px-0 py-4 border-t border-border'>
                   <MessageFooter
-                    handleSendMessage={handleSendMessage}
                     replay={replay}
-                    chatId={selectedChatId}
+                    chat={chat as IChat}
+                    sendTo={member ? (member.user as IUser) : ({} as IUser)}
+                    currentUser={user as IUser}
                     setReply={setReply}
                     replayData={replayData}
                   />
