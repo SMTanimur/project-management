@@ -142,6 +142,17 @@ export const OrganizationsScreen = () => {
                       >
                         View
                       </DropdownMenuItem>
+                      <DropdownMenuItem
+                              className={cn('cursor-pointer',currentOrganizationId === organization._id && 'opacity-50')}
+                              disabled={currentOrganizationId === organization._id}
+                              onClick={() =>
+                                setGlobalStore({
+                                  currentOrganizationId: organization._id,
+                                })
+                              }
+                            >
+                              Activate layout
+                            </DropdownMenuItem>
 
                       <DropdownMenuItem
                         className='cursor-pointer'

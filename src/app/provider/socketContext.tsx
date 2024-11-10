@@ -91,6 +91,9 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       queryClient.invalidateQueries({
         queryKey: [CHAT_API.GET_USER_CHATS.name, currentOrganizationId],
       });
+      queryClient.invalidateQueries({
+        queryKey: [CHAT_API.GET_CHAT_BY_ID.name],
+      });
     };
 
     // Listen for user status changes

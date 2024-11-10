@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { Annoyed, SendHorizontal } from 'lucide-react';
 import data from '@emoji-mart/data';
@@ -20,63 +20,62 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components';
-import { useChat } from '@/hooks';
-import { ChatEvent, MessageType } from '@/types';
+import { useChat, useUser } from '@/hooks';
+import { IChat, IUser, MessageType } from '@/types';
 import { TCreateMessage } from '@/validations';
-import { useSocket } from '@/app/provider/socketContext';
 
 interface MessageFooterProps {
-  handleSendMessage: (message: string) => void;
   replay: boolean;
-  chatId: string;
+  chat: IChat;
+  sendTo?: IUser;
+  currentUser: IUser;
   setReply: React.Dispatch<React.SetStateAction<boolean>>;
   replayData: any; // You can replace 'any' with a more specific type if available
 }
 
 export const MessageFooter: React.FC<MessageFooterProps> = ({
-  handleSendMessage,
   replay,
   setReply,
-  chatId,
+  chat,
+  sendTo,
+  currentUser,
   replayData,
 }) => {
   const [message, setMessage] = useState<string>('');
-  const { handleTyping, isTyping, sendMessage, manageTyping } = useChat(chatId);
-
-  const [isTypingPlayed, setIsTypingPlayed] = useState<boolean>(false);
-  let typingTimeout: NodeJS.Timeout; // Define typingTimeout with the correct type
+  const { handleTyping, sendMessage ,isTyping} = useChat(chat?._id);
+  const typingPlayedRef = useRef(false);
 
   const playTypingSound = () => {
-    const audio = new Audio('/sounds/typing-sound.mp3'); // Replace with your audio file path
+    const audio = new Audio('/sounds/typing-sound.mp3');
     audio.play();
   };
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    manageTyping();
     setMessage(e.target.value);
-    e.target.style.height = 'auto'; // Reset the height to auto to adjust
+    e.target.style.height = 'auto';
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
 
-    // Handle typing notification and sound
     const isCurrentlyTyping = e.target.value.length > 0;
-    handleTyping(message.length > 0); // Notify that the user is typing
-    // playTypingSound();
 
-    // Play sound only once when typing starts
-    if (isCurrentlyTyping && !isTypingPlayed) {
+    // Play sound only if user starts typing and sound hasn't played yet
+    if (
+      isTyping &&  isCurrentlyTyping &&
+      !typingPlayedRef.current &&
+      chat.type === 'direct' &&
+      currentUser?._id !== sendTo?._id
+    ) {
       playTypingSound();
-      setIsTypingPlayed(true);
+      typingPlayedRef.current = true;
     }
 
-    // Reset typing state and sound status after a delay
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-      handleTyping(false);
-      setIsTypingPlayed(false);
-    }, 1000);
+    // Notify typing status
+    handleTyping(isCurrentlyTyping);
   };
 
-  const handleSelectEmoji = (emoji: any) => {
-    setMessage(prevMessage => prevMessage + emoji.native);
+  const handleBlur = () => {
+    // Reset the sound playback status when clicking outside the input area
+    handleTyping(false);
+    typingPlayedRef.current = false;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -87,12 +86,16 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
       content: message,
       messageType: MessageType.TEXT,
     } as TCreateMessage);
+
     setReply(false);
     setMessage('');
-    handleTyping(false); // Notify that the user is no longer typing
+    handleTyping(false);
+    typingPlayedRef.current = false; // Reset the sound status after sending a message
   };
 
-  console.log({ isTyping });
+  const handleSelectEmoji = (emoji: { native: string }) => {
+    setMessage(prevMessage => prevMessage + emoji.native);
+  };
 
   return (
     <>
@@ -160,45 +163,44 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
                   </span>
                 </div>
               </DropdownMenuItem>
-              {message.length > 0 && (
-                <>
-                  <DropdownMenuItem className='py-2 px-2 rounded-xl'>
-                    <Label htmlFor='attachement' className='flex items-center'>
-                      <Icon
-                        icon='tabler:file-filled'
-                        className='text-xl text-primary'
-                      />
-                      <Input type='file' className='hidden' id='attachement' />
-                      <span className='text-sm font-medium text-default-900 inline-block ml-1'>
-                        Attach a file
-                      </span>
-                    </Label>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className='py-2 px-2 rounded-xl'>
-                    <div className='flex items-center gap-1'>
-                      <Icon
-                        icon='fluent:sticker-12-filled'
-                        className='text-xl text-primary'
-                      />
-                      <span className='text-sm font-medium text-default-900 inline-block ml-1'>
-                        Choose a sticker
-                      </span>
-                    </div>
-                  </DropdownMenuItem>
-                </>
-              )}
+
+              <>
+                <DropdownMenuItem className='py-2 px-2 rounded-xl'>
+                  <Label htmlFor='attachement' className='flex items-center'>
+                    <Icon
+                      icon='tabler:file-filled'
+                      className='text-xl text-primary'
+                    />
+                    <Input type='file' className='hidden' id='attachement' />
+                    <span className='text-sm font-medium text-default-900 inline-block ml-1'>
+                      Attach a file
+                    </span>
+                  </Label>
+                </DropdownMenuItem>
+                <DropdownMenuItem className='py-2 px-2 rounded-xl'>
+                  <div className='flex items-center gap-1'>
+                    <Icon
+                      icon='fluent:sticker-12-filled'
+                      className='text-xl text-primary'
+                    />
+                    <span className='text-sm font-medium text-default-900 inline-block ml-1'>
+                      Choose a sticker
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              </>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
         <div className='flex-1'>
           <form onSubmit={handleSubmit}>
-            {isTyping && <span>issdgdsgdsgds</span>}
             <div className='flex gap-1 relative'>
               <textarea
                 value={message}
                 onChange={handleChange}
                 placeholder='Type your message...'
                 className='bg-background border border-default-200 outline-none focus:border-primary rounded-xl break-words pl-8 md:pl-3 px-3 flex-1 h-10 pt-2 p-1 pr-8 no-scrollbar'
+                onBlur={handleBlur}
                 onKeyDown={(e: any) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -213,11 +215,9 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
                 }}
               />
 
-              {isTyping && <span>issdgdsgdsgds</span>}
-
               <Popover>
                 <PopoverTrigger asChild>
-                  <span className='absolute ltr:right-12 rtl:left-12 bottom-1.5 h-7 w-7 rounded-full cursor-pointer'>
+                  <span className='absolute right-12  bottom-1.5 h-7 w-7 rounded-full cursor-pointer'>
                     <Annoyed className='w-6 h-6 text-primary' />
                   </span>
                 </PopoverTrigger>
