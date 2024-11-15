@@ -3,13 +3,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  const sessionToken = req.cookies.get('orga_sid');
+  const sessionToken = req.cookies.get('orga_sid')?.value;
 
   if (!sessionToken) {
     // If the session token is not present, redirect to the login page
     return NextResponse.redirect(new URL('/auth/login', req.url));
   }
-  console.log({pathName: req.nextUrl.pathname, sessionToken})
+ 
 
   if(sessionToken && req.nextUrl.pathname === '/auth/login') {
     return NextResponse.redirect(new URL('/', req.url))

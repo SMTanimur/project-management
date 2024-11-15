@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import {
   useGetChat,
+  useGetChatMessages,
   useGetChats,
   useMediaQuery,
   useUser,
@@ -37,8 +38,8 @@ export const MessagesScreen = () => {
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
-
-  const { messages, isLoading: isMessageLoading } = useChat(selectedChatId);
+   const {messages,isLoading:isMessageLoading}=useGetChatMessages(selectedChatId as string)
+  // const { messages, isLoading: isMessageLoading } = useChat(selectedChatId);
 
   // search state
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
