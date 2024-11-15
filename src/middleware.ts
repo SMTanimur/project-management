@@ -21,5 +21,5 @@ export function middleware(req: NextRequest) {
 
 // Specify the paths where the middleware should be applied
 export const config = {
-  matcher: ['/messages/:path*','/organizations/:path*'], // Apply middleware to all routes under /protected
+  matcher: ['/messages/:path*','/organizations/:path*','/auth/:path*'], // Apply middleware to all routes under /protected
 };
