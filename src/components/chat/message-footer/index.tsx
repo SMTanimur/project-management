@@ -42,14 +42,14 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
   replayData,
 }) => {
   const [message, setMessage] = useState<string>('');
-  const { handleTyping, sendMessage ,isTyping} = useChat(chat?._id);
+  const { handleTyping, sendMessage, isTyping,senderId } = useChat(chat?._id);
   const typingPlayedRef = useRef(false);
 
   const playTypingSound = () => {
     const audio = new Audio('/sounds/typing-sound.mp3');
     audio.play();
   };
-
+  console.log({currentUser, senderId})
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
     e.target.style.height = 'auto';
@@ -59,10 +59,11 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
 
     // Play sound only if user starts typing and sound hasn't played yet
     if (
-      isTyping &&  isCurrentlyTyping &&
+      isTyping &&
+      isCurrentlyTyping &&
       !typingPlayedRef.current &&
       chat.type === 'direct' &&
-      currentUser?._id !== sendTo?._id
+      currentUser._id === senderId
     ) {
       playTypingSound();
       typingPlayedRef.current = true;
