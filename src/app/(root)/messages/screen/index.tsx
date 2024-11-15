@@ -13,13 +13,12 @@ import {
 } from '@/components';
 import {
   useGetChat,
-  useGetChatMessages,
   useGetChats,
   useMediaQuery,
   useUser,
 } from '@/hooks';
 import { cn } from '@/lib';
-import { ChatEvent, IChat, IMessage, IUser } from '@/types';
+import { IChat, IMessage, IUser } from '@/types';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
@@ -34,13 +33,7 @@ export const MessagesScreen = () => {
   const [selectedChatId, setSelectedChatId] = useState<any | null>(null);
   const [showContactSidebar, setShowContactSidebar] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
-  const { socket, isConnected } = useSocket();
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-  }, [!user]);
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
