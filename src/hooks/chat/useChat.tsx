@@ -13,15 +13,7 @@ export function useChat(chatId: string) {
   const { currentOrganizationId } = useGlobalLocalStateStore();
   const { socket, isConnected } = useSocket();
   const { data: user } = useUser();
-  const {
-    messages,
-    setMessages,
-    addMessage,
-    isTyping,
-    setIsTyping,
-    fetchMessages,
-    isLoading,
-  } = useChatStore();
+  const { messages, setMessages, addMessage, isTyping, setIsTyping, fetchMessages, isLoading } = useChatStore();
   const [senderId, setSenderId] = useState<string>('');
   let typingTimeout: NodeJS.Timeout | null = null;
 
@@ -38,27 +30,15 @@ export function useChat(chatId: string) {
     mutationKey: [CHAT_API.CREATE_MESSAGE.name],
   });
 
-  // Optimistic UI for sending a new message
+  // Send a new message
   const sendMessage = async (data: TCreateMessage) => {
     if (!socket || !isConnected) throw new Error('Not connected');
 
-    // Optimistically update the chat messages before the server response
-    addMessage({
-      _id: 'optimistic-message',
-      content: data.content as string,
-      sender: user as IUser,
-      createdAt: new Date(),
-    } as IMessage);
-
     // Make the API call to create the message
-    await createMessage({ chatId, data });
+    const newMessage = await createMessage({ chatId, data });
 
     // Emit a message event to update other clients in real-time
-    socket.emit(ChatEvent.NEW_MESSAGE, {
-      chatId,
-      content: data.content,
-      sendTo: data.sendTo,
-    });
+    socket.emit(ChatEvent.NEW_MESSAGE, newMessage);
   };
 
   // Handle typing event
@@ -110,14 +90,7 @@ export function useChat(chatId: string) {
       socket.off(ChatEvent.TYPING);
       if (typingTimeout) clearTimeout(typingTimeout);
     };
-  }, [
-    socket,
-    chatId,
-    currentOrganizationId,
-    user?._id,
-    addMessage,
-    setIsTyping,
-  ]);
+  }, [socket, chatId, currentOrganizationId, user?._id, addMessage, setIsTyping]);
 
   return {
     messages,

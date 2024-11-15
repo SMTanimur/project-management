@@ -44,13 +44,9 @@ export const MessagesScreen = () => {
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
-  // const {
-  //   messages = [],
-  //   isLoading: isMessageLoading,
-  //   isError: isMessageError,
-  // } = useGetChatMessages(selectedChatId);
+
   const { messages, isLoading: isMessageLoading } = useChat(selectedChatId);
-  console.log({ messages });
+
   // search state
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
 
@@ -262,8 +258,6 @@ export const MessagesScreen = () => {
                         {messages &&
                           messages.length > 0 &&
                           messages
-                            .slice()
-                            .reverse()
                             .map((message: IMessage, i: number) => (
                               <Messages
                                 key={`message-list-${i}`}
