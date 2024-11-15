@@ -1,27 +1,23 @@
 'use client';
 
 import { useSocket } from '@/app/provider/socketContext';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { CHAT_API } from '@/services';
 import { TCreateMessage } from '@/validations';
 import { ChatEvent, IMessage, IUser } from '@/types';
-import { useChatStore, useGlobalLocalStateStore } from '@/store';
+import { useGlobalLocalStateStore } from '@/store';
 import { useUser } from '../useUser';
+import { isArray } from 'lodash';
 
 export function useChat(chatId: string) {
   const { currentOrganizationId } = useGlobalLocalStateStore();
   const { socket, isConnected } = useSocket();
   const { data: user } = useUser();
-  const { messages, setMessages, addMessage, isTyping, setIsTyping, fetchMessages, isLoading } = useChatStore();
+  const queryClient = useQueryClient();
   const [senderId, setSenderId] = useState<string>('');
+  const [isTyping, setIsTyping] = useState(false);
   let typingTimeout: NodeJS.Timeout | null = null;
-
-  useEffect(() => {
-    if (chatId) {
-      fetchMessages(chatId);
-    }
-  }, [chatId, fetchMessages]);
 
   // Mutation for sending messages
   const { mutateAsync: createMessage } = useMutation({
@@ -37,8 +33,7 @@ export function useChat(chatId: string) {
     // Make the API call to create the message
     const newMessage = await createMessage({ chatId, data });
 
-    // Emit a message event to update other clients in real-time
-    socket.emit(ChatEvent.NEW_MESSAGE, newMessage);
+    
   };
 
   // Handle typing event
@@ -69,36 +64,44 @@ export function useChat(chatId: string) {
   // Set up WebSocket listeners for real-time updates
   useEffect(() => {
     if (!socket || !chatId || !currentOrganizationId) return;
+
     joinChat();
 
-    // Listen for new messages and update the messages in state
-    socket.on(ChatEvent.NEW_MESSAGE, (message: IMessage) => {
-      addMessage(message);
-    });
+    const handleNewMessage = (message: IMessage) => {
+      queryClient.setQueryData(
+        [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
+        ({data}:{data:IMessage[]}) => {
+          return { data: [...data, message] }
+        }
+      );
+    };
 
-    // Listen for typing events and update the typing state
-    socket.on(ChatEvent.TYPING, ({ userId, isTyping, sendTo }) => {
+    const handleTypingEvent = ({ userId, isTyping, sendTo }: any) => {
       console.log({ userId, isTyping });
       setSenderId(sendTo);
       if (userId !== user?._id) return;
       setIsTyping(isTyping);
-    });
+    };
+
+    // Listen for new messages and update the messages in state
+    socket.on(ChatEvent.NEW_MESSAGE, handleNewMessage);
+
+    // Listen for typing events and update the typing state
+    socket.on(ChatEvent.TYPING, handleTypingEvent);
 
     // Clean up socket event listeners when the component unmounts
     return () => {
-      socket.off(ChatEvent.NEW_MESSAGE);
-      socket.off(ChatEvent.TYPING);
+      socket.off(ChatEvent.NEW_MESSAGE, handleNewMessage);
+      socket.off(ChatEvent.TYPING, handleTypingEvent);
       if (typingTimeout) clearTimeout(typingTimeout);
     };
-  }, [socket, chatId, currentOrganizationId, user?._id, addMessage, setIsTyping]);
+  }, [socket, chatId, currentOrganizationId, user?._id, queryClient]);
 
   return {
-    messages,
     senderId,
     sendMessage,
     handleTyping,
     isTyping,
     manageTyping,
-    isLoading,
   };
 }

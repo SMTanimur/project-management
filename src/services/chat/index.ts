@@ -41,7 +41,7 @@ export const CHAT_API ={
   },
 
   // Create a new message in a chat
-  CREATE_MESSAGE: async (chatId: string, data: TCreateMessage):Promise<{message:string}> => {
+  CREATE_MESSAGE: async (chatId: string, data: TCreateMessage):Promise<{newMessage:IMessage}> => {
    
     return await api.post(`${API_PATHS.CHAT}/${chatId}/messages`,data);
   },
