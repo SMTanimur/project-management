@@ -12,7 +12,6 @@ import {
   ScrollArea,
 } from '@/components';
 import {
-  useChat,
   useGetChat,
   useGetChatMessages,
   useGetChats,
@@ -27,6 +26,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MyProfileHeader } from '../components';
 import Blank from './blank';
 import { useSocket } from '@/app/provider/socketContext';
+import { useChat } from '@/hooks';
 
 export const MessagesScreen = () => {
   const { data: user } = useUser();
@@ -34,7 +34,7 @@ export const MessagesScreen = () => {
   const [selectedChatId, setSelectedChatId] = useState<any | null>(null);
   const [showContactSidebar, setShowContactSidebar] = useState<boolean>(false);
   const [showInfo, setShowInfo] = useState<boolean>(false);
-  const {socket,isConnected}=useSocket()
+  const { socket, isConnected } = useSocket();
 
   useEffect(() => {
     if (!user) {
@@ -44,11 +44,13 @@ export const MessagesScreen = () => {
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
-  const {
-    messages = [],
-    isLoading: isMessageLoading,
-    isError: isMessageError,
-  } = useGetChatMessages(selectedChatId);
+  // const {
+  //   messages = [],
+  //   isLoading: isMessageLoading,
+  //   isError: isMessageError,
+  // } = useGetChatMessages(selectedChatId);
+  const { messages, isLoading: isMessageLoading } = useChat(selectedChatId);
+  console.log({ messages });
   // search state
   const [isOpenSearch, setIsOpenSearch] = useState<boolean>(false);
 
@@ -168,20 +170,13 @@ export const MessagesScreen = () => {
   // For direct chat, show member's name and avatar
 
   let member = null;
-  
+
   if (chat?.type === 'direct') {
-   member = chat.members.find(
-      member => member.user._id !== user?._id
-    );
-    
+    member = chat.members.find(member => member.user._id !== user?._id);
   }
- 
-
-
-
 
   const isLg = useMediaQuery('(max-width: 1024px)');
-  console.log({member})
+  console.log({ member });
   return (
     <div className='flex gap-5 pt-6 px-6 h-[calc(100vh-100px)]  relative space-x-reverse'>
       {isLg && showContactSidebar && (
@@ -264,26 +259,26 @@ export const MessagesScreen = () => {
                         {/* {isMessageError ? (
                           <EmptyMessage />
                         ) : ( */}
-                        {
-                          messages &&
+                        {messages &&
                           messages.length > 0 &&
-                          messages.slice().reverse().map((message: IMessage, i: number) => (
-                            <Messages
-                              key={`message-list-${i}`}
-                              message={message}
-                
-                              profile={user as IUser}
-                              onDelete={onDelete}
-                              index={i}
-                              selectedChatId={selectedChatId}
-                              handleReply={handleReply}
-                              replayData={replayData}
-                              handleForward={handleForward}
-                              handlePinMessage={handlePinMessage}
-                              pinnedMessages={pinnedMessages}
-                            />
-                          ))
-                        }
+                          messages
+                            .slice()
+                            .reverse()
+                            .map((message: IMessage, i: number) => (
+                              <Messages
+                                key={`message-list-${i}`}
+                                message={message}
+                                profile={user as IUser}
+                                onDelete={onDelete}
+                                index={i}
+                                selectedChatId={selectedChatId}
+                                handleReply={handleReply}
+                                replayData={replayData}
+                                handleForward={handleForward}
+                                handlePinMessage={handlePinMessage}
+                                pinnedMessages={pinnedMessages}
+                              />
+                            ))}
                       </>
                     )}
                     {/* <PinnedMessages

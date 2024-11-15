@@ -49,7 +49,7 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
     const audio = new Audio('/sounds/typing-sound.mp3');
     audio.play();
   };
-
+  console.log({currentUser, senderId})
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
     e.target.style.height = 'auto';
@@ -63,7 +63,7 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
       isCurrentlyTyping &&
       !typingPlayedRef.current &&
       chat.type === 'direct' &&
-      currentUser?._id !== senderId
+      currentUser._id === senderId
     ) {
       playTypingSound();
       typingPlayedRef.current = true;
