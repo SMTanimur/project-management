@@ -42,40 +42,43 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
   replayData,
 }) => {
   const [message, setMessage] = useState<string>('');
-  const { handleTyping, sendMessage, isTyping, senderId } = useChat(chat?._id);
+  const {
+    handleTyping,
+    sendMessage,
+    isTyping,
+    senderId,
+    isMeTyping,
+    sendToId,
+  } = useChat(chat?._id);
   const typingPlayedRef = useRef(false);
 
   const playTypingSound = () => {
     const audio = new Audio('/sounds/typing-sound.mp3');
-    audio.play();
+    audio
+      .play()
+      .catch(error => console.error('Error playing typing sound:', error));
   };
-  console.log({ currentUser, senderId });
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
     e.target.style.height = 'auto';
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
-
-    const isCurrentlyTyping = e.target.value.length > 0;
-
-    // Play sound only if user starts typing and sound hasn't played yet
-    if (
-      isTyping &&
-      isCurrentlyTyping &&
-      !typingPlayedRef.current &&
-      chat.type === 'direct' &&
-      currentUser._id === senderId
-    ) {
-      playTypingSound();
-      typingPlayedRef.current = true;
-    }
-
     // Notify typing status
-    handleTyping(isCurrentlyTyping, sendTo?._id as string);
+    handleTyping(true, sendTo?._id as string, currentUser._id);
+    const isCurrentlyTyping = e.target.value.length > 0;
+    typingPlayedRef.current = true;
+    console.log({ isTyping });
+    // Play sound only if user starts typing and sound hasn't played yet
+    if (chat.type === 'direct' && !typingPlayedRef.current) {
+      typingPlayedRef.current = true;
+      console.log('playing sound');
+      playTypingSound();
+    }
   };
 
   const handleBlur = () => {
     // Reset the sound playback status when clicking outside the input area
-    handleTyping(false, sendTo?._id as string);
+    handleTyping(false, sendTo?._id as string, currentUser._id);
     typingPlayedRef.current = false;
   };
 
@@ -90,7 +93,7 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
 
     setReply(false);
     setMessage('');
-    handleTyping(false, sendTo?._id as string);
+    handleTyping(false, sendTo?._id as string, currentUser._id);
     typingPlayedRef.current = false; // Reset the sound status after sending a message
   };
 

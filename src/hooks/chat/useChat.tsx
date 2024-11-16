@@ -6,17 +6,19 @@ import { useEffect, useState } from 'react';
 import { CHAT_API } from '@/services';
 import { TCreateMessage } from '@/validations';
 import { ChatEvent, IMessage, IUser } from '@/types';
-import { useGlobalLocalStateStore } from '@/store';
+import { useChatStore, useGlobalLocalStateStore } from '@/store';
 import { useUser } from '../useUser';
 import { isArray } from 'lodash';
 
 export function useChat(chatId: string) {
   const { currentOrganizationId } = useGlobalLocalStateStore();
+  const {isTyping,setIsTyping,isOnType}=useChatStore()
   const { socket, isConnected } = useSocket();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
   const [senderId, setSenderId] = useState<string>('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [sendToId, setSendTo] = useState<string>('');
+  const [isMeTyping, setIsMeTyping] = useState<string>('');
   let typingTimeout: NodeJS.Timeout | null = null;
 
   // Mutation for sending messages
@@ -32,25 +34,34 @@ export function useChat(chatId: string) {
 
     // Make the API call to create the message
     const newMessage = await createMessage({ chatId, data });
+  };
 
-    
+  const playTypingSound = () => {
+    const audio = new Audio('/sounds/typing-sound.mp3');
+    audio
+      .play()
+      .catch(error => console.error('Error playing typing sound:', error));
   };
 
   // Handle typing event
-  const handleTyping = (isTyping: boolean, sendTo: string) => {
+  const handleTyping = (
+    isTyping: boolean,
+    sendTo: string,
+    senderId: string
+  ) => {
     if (!socket || !isConnected) {
       console.warn('Socket is not connected');
       return;
     }
-    socket.emit(ChatEvent.TYPING, { chatId, isTyping, sendTo });
+    socket.emit(ChatEvent.TYPING, { chatId, isTyping, sendTo, senderId });
   };
 
   // Manage typing timeout and emit typing event
   const manageTyping = () => {
-    handleTyping(true, senderId);
+    handleTyping(true, sendToId, senderId);
     if (typingTimeout) clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
-      handleTyping(false, senderId);
+      handleTyping(false, sendToId, senderId);
     }, 1000);
   };
 
@@ -70,17 +81,25 @@ export function useChat(chatId: string) {
     const handleNewMessage = (message: IMessage) => {
       queryClient.setQueryData(
         [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
-        ({data}:{data:IMessage[]}) => {
-          return { data: [...data, message] }
+        ({ data }: { data: IMessage[] }) => {
+          return { data: [...data, message] };
         }
       );
     };
 
-    const handleTypingEvent = ({ userId, isTyping, sendTo }: any) => {
-      console.log({ userId, isTyping });
-      setSenderId(sendTo);
-      if (userId !== user?._id) return;
+    const handleTypingEvent = ({
+      userId,
+      isTyping,
+      sendTo,
+      senderId,
+      isMeTyping,
+    }: any) => {
+      console.log({ userId, isTyping, sendTo, senderId, isMeTyping });
+      setSendTo(sendTo);
       setIsTyping(isTyping);
+      setSenderId(senderId);
+      setIsMeTyping(isMeTyping);
+     
     };
 
     // Listen for new messages and update the messages in state
@@ -99,6 +118,8 @@ export function useChat(chatId: string) {
 
   return {
     senderId,
+    sendToId,
+    isMeTyping,
     sendMessage,
     handleTyping,
     isTyping,
