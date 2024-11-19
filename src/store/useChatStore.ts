@@ -6,16 +6,19 @@ interface ChatState {
   messages: IMessage[];
   isLoading: boolean;
   isError: boolean;
+  isOnType: boolean;
   fetchMessages: (chatId: string) => Promise<void>;
   setMessages: (messages: IMessage[]) => void;
   addMessage: (message: IMessage) => void;
   isTyping: boolean;
   setIsTyping: (isTyping: boolean) => void;
+  setIsOnType: (isOnType: boolean) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
   messages: [],
   isLoading: false,
+  isOnType:false,
   isError: false,
   fetchMessages: async (chatId: string) => {
     set({ isLoading: true, isError: false });
@@ -26,6 +29,7 @@ export const useChatStore = create<ChatState>((set) => ({
       set({ isError: true, isLoading: false });
     }
   },
+  setIsOnType:(isOnType)=>set({isOnType}),
   setMessages: (messages) => set({ messages }),
   addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
   isTyping: false,
