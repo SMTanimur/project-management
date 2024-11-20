@@ -31,7 +31,6 @@ export const MyProfileHeader = ({ profile }: { profile: IUser }) => {
                 {profile?.firstName} {profile?.lastName}
               </span>
             </div>
-            {/* <span className="text-xs text-default-600">{profile?.bio}</span> */}
           </div>
         </div>
         <div className="hidden lg:block">
