@@ -99,7 +99,11 @@ export function useChat(chatId: string) {
       setIsTyping(isTyping);
       setSenderId(senderId);
       setIsMeTyping(isMeTyping);
-     
+      
+      // Play typing sound only if the sender is typing and is a hiring user
+      if (isTyping && senderId && user?.role === 'hiring') {
+        playTypingSound();
+      }
     };
 
     // Listen for new messages and update the messages in state

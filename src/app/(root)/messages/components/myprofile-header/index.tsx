@@ -14,13 +14,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IUser } from "@/types";
-import { EllipsisIcon } from "lucide-react";
 import { InputGroup, InputGroupText } from "@/components";
 export const MyProfileHeader = ({ profile }: { profile: IUser }) => {
   return (
     <>
       <div className="flex  justify-between mb-4">
-        <div className="flex   gap-3">
+        <div className="flex gap-3">
           <Avatar className="h-10 w-10">
             <AvatarImage src={profile?.avatar} alt="" />
             <AvatarFallback>{profile?.firstName}</AvatarFallback>
