@@ -156,8 +156,6 @@ export const MessagesScreen = () => {
     selectedChatId as string
   );
 
-  let status = 'offline';
-  // For direct chat, show member's name and avatar
 
   let member = null;
 
