@@ -15,6 +15,15 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
+  if (!sessionToken && req.nextUrl.pathname === '/organizations') {
+    return NextResponse.redirect(new URL('/auth/login', req.url));
+  }
+  
+
+
+   
+
+
   // If the session token is present or the user is on the login page, continue with the request
   return NextResponse.next();
 }
