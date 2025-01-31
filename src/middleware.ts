@@ -22,7 +22,7 @@ const protectedPaths = [
 ];
 
 export function middleware(req: NextRequest) {
-  const authToken = req.cookies.get('Authentication')?.value;
+  const authToken = req.cookies.get('Authentication')
   const { pathname } = req.nextUrl;
 
   // Check if the path is public
