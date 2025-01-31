@@ -1,31 +1,32 @@
-import { capitalize, isArray } from "lodash";
-import axios, { AxiosResponse } from "axios";
-import { toast } from "@/lib/toast";
+import { capitalize, isArray } from 'lodash';
+import axios, { AxiosResponse } from 'axios';
+import { toast } from '@/lib/toast';
 
-
-export const baseURL = process.env.NEXT_PUBLIC_API_URL + "/";
-export const socketBaseURL = process.env.NEXT_PUBLIC_API_URL 
+export const baseURL = process.env.NEXT_PUBLIC_API_URL + '/';
+export const socketBaseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL,
   withCredentials: true,
+  headers: {
+    'Access-Control-Allow-Credentials': 'true',
+  },
 });
 
 api.interceptors.request.use(
-  (config) => config,
-  (error) => Promise.reject(error)
+  config => config,
+  error => Promise.reject(error)
 );
 
 api.interceptors.response.use(
-  async(response:AxiosResponse) => {
-  
-    return  await response.data
+  async (response: AxiosResponse) => {
+    return await response.data;
   },
-  async (error) => {
+  async error => {
     if (error.response?.data?.message) {
       if (isArray(error.response?.data?.message)) {
         error.response.data.message.forEach((message: string) =>
-          toast({ title: capitalize(message), icon: "error" })
+          toast({ title: capitalize(message), icon: 'error' })
         );
       }
     }
