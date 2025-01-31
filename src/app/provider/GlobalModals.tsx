@@ -3,18 +3,12 @@
 
 
 import { CreateBotflowForm, Modal } from "@/components";
-import { useUser } from "@/hooks";
-import { useGlobalLocalStateStore, useGlobalModalStateStore } from "@/store";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useGlobalModalStateStore } from "@/store";
 
 
 const GlobalModals = () => {
   const globalModal = useGlobalModalStateStore((state) => state);
-  const { currentOrganizationId } = useGlobalLocalStateStore();
-  const { push } = useRouter();
-  const pathName = usePathname();
-  const { data } = useUser();
+
  
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment

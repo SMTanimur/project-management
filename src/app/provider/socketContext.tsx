@@ -5,7 +5,13 @@ import { CHAT_API } from '@/services';
 import { useGlobalLocalStateStore } from '@/store';
 import { STATUS } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { io, Socket } from 'socket.io-client';
 import { toast } from 'sonner';
 
@@ -31,7 +37,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const { currentOrganizationId } = useGlobalLocalStateStore();
   const { data } = useUser();
   const queryClient = useQueryClient();
-  const connect = () => {
+  const connect = useCallback(() => {
     const socketInstance = io('http://localhost:3333', {
       withCredentials: true,
       autoConnect: true,
@@ -59,14 +65,14 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
 
     setSocket(socketInstance);
     socketInstance.connect();
-  };
+  }, [currentOrganizationId, data?._id]);
 
-  const disconnect = () => {
+  const disconnect = useCallback(() => {
     if (socket) {
       socket.disconnect();
       setSocket(null);
     }
-  };
+  }, [socket]);
 
   useEffect(() => {
     if (data) {
@@ -78,7 +84,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     return () => {
       disconnect();
     };
-  }, [data]);
+  }, [connect, data, disconnect]);
 
   useEffect(() => {
     const handleUserStatusChange = (data: any) => {
@@ -103,7 +109,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     return () => {
       socket?.off('userStatusChanged', handleUserStatusChange);
     };
-  }, [socket]);
+  }, [currentOrganizationId, queryClient, socket]);
 
   return (
     <SocketContext.Provider
