@@ -2,33 +2,81 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Add paths that should be accessible without authentication
+const publicPaths = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+];
+
+// Add paths that require authentication
+const protectedPaths = [
+  '/organizations',
+  '/messages',
+  '/profile',
+  '/settings',
+  '/admin',
+  '/workflows',
+  '/actions',
+];
+
 export function middleware(req: NextRequest) {
-  const sessionToken = req.cookies.get('orga_sid')?.value;
+  const authToken = req.cookies.get('Authentication')?.value;
+  const { pathname } = req.nextUrl;
 
-  // If the session token is not present and the user is not on the login page, redirect to the login page
-  if (!sessionToken && req.nextUrl.pathname !== '/auth/login') {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  }
+  // Check if the path is public
+  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
 
-  // If the session token is present and the user is on the login page, redirect to the home page
-  if (sessionToken && req.nextUrl.pathname === '/auth/login') {
+  // Check if the path requires authentication
+  const isProtectedPath = protectedPaths.some(path =>
+    pathname.startsWith(path)
+  );
+
+  // If user is authenticated and tries to access auth pages, redirect to home
+  if (authToken && isPublicPath) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  if (!sessionToken && req.nextUrl.pathname === '/organizations') {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+  // If user is not authenticated and tries to access protected routes
+  if (!authToken && isProtectedPath) {
+    const loginUrl = new URL('/auth/login', req.url);
+    // Add the original URL as a callback parameter
+    loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(loginUrl);
   }
-  
 
+  // For API routes, check authentication
+  if (pathname.startsWith('/api') && !authToken) {
+    return new NextResponse(
+      JSON.stringify({ message: 'Authentication required' }),
+      {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
 
-   
-
-
-  // If the session token is present or the user is on the login page, continue with the request
   return NextResponse.next();
 }
 
-// Specify the paths where the middleware should be applied
+// Configure the paths where middleware should run
 export const config = {
-  matcher: ['/messages/:path*', '/organizations/:path*', '/auth/:path*'], // Apply middleware to all routes under /protected
+  matcher: [
+    // Protected Routes
+    '/organizations/:path*',
+    '/messages/:path*',
+    '/profile/:path*',
+    '/settings/:path*',
+    '/admin/:path*',
+    '/workflows/:path*',
+    '/actions/:path*',
+    // Auth Routes
+    '/auth/:path*',
+    // API Routes
+    '/api/:path*',
+    // Add more routes as needed
+  ],
 };
