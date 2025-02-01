@@ -10,7 +10,8 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useMemo,
+  useRef,
 } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { toast } from 'sonner';
@@ -32,28 +33,33 @@ const SocketContext = createContext<SocketContextType>({
 export const useSocket = () => useContext(SocketContext);
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
+  const socketRef = useRef<Socket | null>(null);
+  const isConnectedRef = useRef(false);
   const { currentOrganizationId } = useGlobalLocalStateStore();
-  const { data } = useUser();
+  const { data: user } = useUser();
   const queryClient = useQueryClient();
+
   const connect = useCallback(() => {
+    if (socketRef.current?.connected || !user?._id) return;
+
     const socketInstance = io('http://localhost:3333', {
       withCredentials: true,
-      autoConnect: true,
+      autoConnect: false,
       path: '/socket.io',
-
-      query: { userId: data?._id, organizationId: currentOrganizationId },
+      query: {
+        userId: user._id,
+        organizationId: currentOrganizationId,
+      },
     });
 
     socketInstance.on('connect', () => {
-      setIsConnected(true);
+      isConnectedRef.current = true;
       console.log('Connected to chat server');
       toast.success('Connected to chat server');
     });
 
     socketInstance.on('disconnect', () => {
-      setIsConnected(false);
+      isConnectedRef.current = false;
       console.log('Disconnected from chat server');
       toast.error('Disconnected from chat server');
     });
@@ -63,36 +69,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       toast.error('Failed to connect to chat server');
     });
 
-    setSocket(socketInstance);
-    socketInstance.connect();
-  }, [currentOrganizationId, data?._id]);
-
-  const disconnect = useCallback(() => {
-    if (socket) {
-      socket.disconnect();
-      setSocket(null);
-    }
-  }, [socket]);
-
-  useEffect(() => {
-    if (data) {
-      connect();
-    } else {
-      disconnect();
-    }
-
-    return () => {
-      disconnect();
-    };
-  }, [connect, data, disconnect]);
-
-  useEffect(() => {
-    const handleUserStatusChange = (data: any) => {
+    socketInstance.on('userStatusChanged', (data: any) => {
       const { userId, status } = data;
       console.log(
-        `User ${userId} is now ${
-          status === STATUS.ONLINE ? 'online' : 'offline'
-        }`
+        `User ${userId} is now ${status === STATUS.ONLINE ? 'online' : 'offline'}`
       );
       queryClient.invalidateQueries({
         queryKey: [CHAT_API.GET_USER_CHATS.name, currentOrganizationId],
@@ -100,22 +80,41 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       queryClient.invalidateQueries({
         queryKey: [CHAT_API.GET_CHAT_BY_ID.name],
       });
-    };
+    });
 
-    // Listen for user status changes
-    socket?.on('userStatusChanged', handleUserStatusChange);
+    socketRef.current = socketInstance;
+    socketInstance.connect();
+  }, [currentOrganizationId, user?._id, queryClient]);
 
-    // Cleanup listener on component unmount
+  const disconnect = useCallback(() => {
+    if (socketRef.current) {
+      socketRef.current.disconnect();
+      socketRef.current = null;
+      isConnectedRef.current = false;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?._id) {
+      connect();
+    }
+
     return () => {
-      socket?.off('userStatusChanged', handleUserStatusChange);
+      disconnect();
     };
-  }, [currentOrganizationId, queryClient, socket]);
+  }, [connect, disconnect, user?._id]);
+
+  const value = useMemo(
+    () => ({
+      socket: socketRef.current,
+      isConnected: isConnectedRef.current,
+      connect,
+      disconnect,
+    }),
+    [connect, disconnect]
+  );
 
   return (
-    <SocketContext.Provider
-      value={{ socket, isConnected, connect, disconnect }}
-    >
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={value}>{children}</SocketContext.Provider>
   );
 }

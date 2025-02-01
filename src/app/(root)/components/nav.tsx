@@ -17,13 +17,14 @@ interface NavProps {
   links: IOrganizationConfig[];
 }
 export function Nav({ links, isCollapsed }: NavProps) {
-  const pathname= usePathname()
-  const router = useRouter()
+  const pathname = usePathname();
+  const router = useRouter();
   const handleRedirect = (href: string) => {
-     if (pathname !== href) {
-       router.push(href)
-     }
-  }
+    console.log({ pathname, href });
+ 
+      router.push(href);
+   
+  };
   return (
     <div
       data-collapsed={isCollapsed}
@@ -35,7 +36,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
           return isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
-                <Link href={link.href ?? "#"} className={cn()}>
+                <Link href={link.href ?? '#'} className={cn()}>
                   <Icon
                     className={cn(
                       'w-[18px] h-[18px] mb-2 flex-none text-default-600',
@@ -56,7 +57,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
             </Tooltip>
           ) : (
             <button
-              onClick={()=>handleRedirect(link.href)}
+              onClick={() => handleRedirect(link.href)}
+              type='button'
+              title={link.title}
               key={`link-${index}`}
               className={cn(
                 'flex items-center gap-1.5 py-2.5 px-3 cursor-pointer group/item capitalize hover:bg-primary/10 rounded ease-in-out duration-200',
@@ -64,18 +67,16 @@ export function Nav({ links, isCollapsed }: NavProps) {
                   'bg-primary/10': false,
                 },
                 pathname === link.href ? 'bg-primary/10' : ''
-
               )}
             >
               <span className='flex gap-2 items-center '>
                 <Icon
-                  
                   className={cn(
                     'w-4 h-4 flex-none group-hover/item:text-primary-600 text-default-600 ease-in-out duration-150',
                     {
                       'text-primary': false,
                     },
-                     pathname === link.href ? 'text-primary' : ''
+                    pathname === link.href ? 'text-primary' : ''
                   )}
                 />
                 <span
@@ -84,7 +85,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                     {
                       'text-primary': false,
                     },
-                     pathname === link.href ? 'text-primary' : ''
+                    pathname === link.href ? 'text-primary' : ''
                   )}
                 >
                   {link.title}
