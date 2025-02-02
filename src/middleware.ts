@@ -35,11 +35,17 @@ function isProtectedPath(pathname: string): boolean {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Get the Authentication cookie from the request
+  // Get the Authentication cookie from the request - add more detailed logging
   const authToken = req.cookies.get('Authentication');
 
+  // Log all cookies for debugging
+  console.log('All cookies:', req.cookies.getAll());
+  console.log('Auth cookie details:', {
+    name: authToken?.name,
+    value: authToken?.value,
+  });
+
   const isAuthenticated = !!authToken?.value;
-  console.log({ authToken, isAuthenticated });
 
   // Skip middleware for static files and API routes that don't need auth
   if (
@@ -65,10 +71,7 @@ export function middleware(req: NextRequest) {
     return response;
   }
 
-
   const response = NextResponse.next();
-
-
 
   return response;
 }
