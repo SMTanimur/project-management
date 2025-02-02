@@ -83,17 +83,30 @@ export function middleware(req: NextRequest) {
   const response = NextResponse.next();
 
   // Ensure cookies are properly set for cross-domain
-  if (isAuthenticated) {
-    response.cookies.set({
-      name: 'Authentication',
-      value: authToken.value,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
-      path: '/',
-    });
-  }
+  // if (isAuthenticated) {
+  //   const commonOptions = {
+  //     httpOnly: true,
+  //     secure: true,
+  //     sameSite: 'none' as const,
+  //     path: '/',
+  //   };
+
+  //   // Set for production domain
+  //   response.cookies.set({
+  //     name: 'Authentication',
+  //     value: authToken.value,
+  //     ...commonOptions,
+  //     domain: '.vercel.app',
+  //   });
+
+  //   // Set for localhost
+  //   response.cookies.set({
+  //     name: 'Authentication',
+  //     value: authToken.value,
+  //     ...commonOptions,
+  //     domain: 'localhost',
+  //   });
+  // }
 
   return response;
 }
