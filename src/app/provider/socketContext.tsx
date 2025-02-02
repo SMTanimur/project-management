@@ -1,5 +1,6 @@
 'use client';
 
+import { baseURL } from '@/api';
 import { useUser } from '@/hooks';
 import { CHAT_API } from '@/services';
 import { useGlobalLocalStateStore } from '@/store';
@@ -44,7 +45,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const connect = useCallback(() => {
     if (socketRef.current?.connected || !user?._id) return;
 
-    const socketInstance = io(process.env.NEXT_PUBLIC_API_URL, {
+    const socketInstance = io(baseURL, {
       withCredentials: true,
       autoConnect: false,
       path: '/socket.io',
