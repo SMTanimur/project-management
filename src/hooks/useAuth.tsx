@@ -54,7 +54,21 @@ export const useAuth = () => {
     isPending: isLoginPending,
     isError: isLoginError,
   } = useMutation({
-    mutationFn: API_SERVICE.AUTH.LOGIN,
+    mutationFn: async (data: LogingInput) => {
+      const response = await fetch('/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      setAuthCookie(response);
+      return response.json();
+    },
     mutationKey: [QUERY_KEY.LOGIN],
   });
   const {
@@ -62,15 +76,29 @@ export const useAuth = () => {
     isPending: isRegisterPending,
     isError: isRegisterError,
   } = useMutation({
-    mutationFn: API_SERVICE.AUTH.REGISTER,
+    mutationFn: async (data: RegisterInput) => {
+      const response = await fetch('/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      setAuthCookie(response);
+
+      return response.json();
+    },
     mutationKey: [QUERY_KEY.LOGIN],
   });
   const login = loginForm.handleSubmit(async (data: LogingInput) => {
     try {
       loginMutateAsync(data, {
         onSuccess: data => {
-          setAuthCookie();
-
           toast({
             title: data.message,
           });
@@ -114,15 +142,26 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      await API_SERVICE.AUTH.LOGOUT();
-      Cookies.remove('Authentication');
+      const response = await fetch('/api/v1/auth/logout', {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+
       queryClient.clear();
       toast({
         title: 'Logged out',
         icon: 'success',
       });
       push('/');
-    } catch (error) {
+    } catch (error: any) {
+      toast({
+        title: error.message,
+        icon: 'error',
+      });
       console.error(error);
     }
   };

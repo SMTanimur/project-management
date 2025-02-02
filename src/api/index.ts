@@ -1,5 +1,11 @@
 import { capitalize, isArray } from 'lodash';
 import axios, { AxiosResponse } from 'axios';
+import { cookies } from 'next/headers';
+
+const getHeaders = () => ({
+  Cookie: cookies().toString(),
+});
+
 import { toast } from '@/lib/toast';
 
 export const baseURL = process.env.NEXT_PUBLIC_API_URL + '/';
@@ -8,9 +14,7 @@ export const socketBaseURL = process.env.NEXT_PUBLIC_API_URL;
 const api = axios.create({
   baseURL,
   withCredentials: true,
-  headers: {
-    'Access-Control-Allow-Credentials': 'true',
-  },
+  headers: getHeaders(),
 });
 
 api.interceptors.request.use(
