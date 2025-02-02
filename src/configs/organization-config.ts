@@ -28,7 +28,7 @@ export const organizationSidebarConfig: IOrganizationConfig[] = [
   {
     title: 'Dashboard',
     Icon: 'dashboard',
-    href: '/',
+    href: '/dashboard',
   },
   {
     title: 'Messages',
