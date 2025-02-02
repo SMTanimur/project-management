@@ -12,8 +12,7 @@ export const auth = {
   ): Promise<{
     message: string;
     user: IUser;
-    expires: number;
-    token: string;
+    userId: string;
   }> => {
     return await api.post(API_PATHS.REGISTER, payload);
   },

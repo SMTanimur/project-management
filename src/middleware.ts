@@ -45,6 +45,7 @@ export function middleware(req: NextRequest) {
     name: authToken?.name,
     value: authToken?.value,
   });
+  
 
   const isAuthenticated = !!authToken?.value;
 

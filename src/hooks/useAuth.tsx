@@ -1,7 +1,8 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-
+import { jwtDecode } from 'jwt-decode';
+import { cookies } from 'next/headers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -17,6 +18,19 @@ export const useAuth = () => {
 
   const queryClient = useQueryClient();
 
+  const setAuthCookie = (response: Response) => {
+    const setCookieHeader = response.headers.get('Set-Cookie');
+    if (setCookieHeader) {
+      const token = setCookieHeader.split(';')[0].split('=')[1];
+      cookies().set({
+        name: 'Authentication',
+        value: token,
+        secure: true,
+        httpOnly: true,
+        expires: new Date(jwtDecode(token).exp! * 1000),
+      });
+    }
+  };
   const loginForm = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -55,9 +69,8 @@ export const useAuth = () => {
     try {
       loginMutateAsync(data, {
         onSuccess: data => {
-          // Cookies.set('Authentication', data.token, {
-          //   expires: data.expires,
-          // });
+          setAuthCookie();
+
           toast({
             title: data.message,
           });
