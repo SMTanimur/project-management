@@ -66,50 +66,10 @@ export function middleware(req: NextRequest) {
     return response;
   }
 
-  // For API routes that need authentication
-  if (
-    pathname.startsWith('/api') &&
-    !pathname.startsWith('/api/public') &&
-    !isAuthenticated
-  ) {
-    return new NextResponse(
-      JSON.stringify({ message: 'Authentication required' }),
-      {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-  }
 
   const response = NextResponse.next();
 
-  // Ensure cookies are properly set for cross-domain
-  // if (isAuthenticated) {
-  //   const commonOptions = {
-  //     httpOnly: true,
-  //     secure: true,
-  //     sameSite: 'none' as const,
-  //     path: '/',
-  //   };
 
-  //   // Set for production domain
-  //   response.cookies.set({
-  //     name: 'Authentication',
-  //     value: authToken.value,
-  //     ...commonOptions,
-  //     domain: '.vercel.app',
-  //   });
-
-  //   // Set for localhost
-  //   response.cookies.set({
-  //     name: 'Authentication',
-  //     value: authToken.value,
-  //     ...commonOptions,
-  //     domain: 'localhost',
-  //   });
-  // }
 
   return response;
 }
