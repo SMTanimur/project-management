@@ -56,7 +56,7 @@ export const useAuth = () => {
       loginMutateAsync(data, {
         onSuccess: data => {
           Cookies.set('Authentication', data.token, {
-            expires: new Date(data.expires),
+            expires: data.expires,
           });
           toast({
             title: data.message,
@@ -80,7 +80,7 @@ export const useAuth = () => {
       registerMutateAsync(data, {
         onSuccess: data => {
           Cookies.set('Authentication', data.token, {
-            expires: new Date(data.expires),
+            expires: data.expires,
           });
           toast({
             title: data.message,

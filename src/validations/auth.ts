@@ -56,7 +56,7 @@ export interface mutationResponseSchema {
 }
 export interface loginResponseSchema {
   message: string;
-  expires: string;
+  expires: number;
   token: string;
 }
 
