@@ -5,13 +5,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { CHAT_API } from '@/services';
 import { TCreateMessage } from '@/validations';
-import { ChatEvent, ChatType, IMessage, IUser } from '@/types';
-import { useChatStore, useGlobalLocalStateStore } from '@/store';
+import { ChatEvent, ChatType, IMessage } from '@/types';
+
 import { useUser } from '../useUser';
 
 export function useChat(chatId: string) {
-  const { currentOrganizationId } = useGlobalLocalStateStore();
-  const { isTyping, setIsTyping } = useChatStore();
   const { socket, isConnected } = useSocket();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
