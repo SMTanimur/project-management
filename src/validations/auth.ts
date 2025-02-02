@@ -1,4 +1,3 @@
-
 import * as z from 'zod';
 
 const authSchema = z.object({
@@ -57,6 +56,8 @@ export interface mutationResponseSchema {
 }
 export interface loginResponseSchema {
   message: string;
+  expires: string;
+  token: string;
 }
 
 export interface mutationActivationResponse {
@@ -116,7 +117,6 @@ export const changePasswordSchema = changePassSchema.refine(
     message: 'Passwords do not match',
     path: ['passwordConfirm'],
   }
-)
+);
 
 export type TChangePassword = z.infer<typeof changePasswordSchema>;
-
