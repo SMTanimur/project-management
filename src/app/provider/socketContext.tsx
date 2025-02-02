@@ -44,7 +44,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const connect = useCallback(() => {
     if (socketRef.current?.connected || !user?._id) return;
 
-    const socketInstance = io('http://localhost:3333', {
+    const socketInstance = io(process.env.NEXT_PUBLIC_API_URL, {
       withCredentials: true,
       autoConnect: false,
       path: '/socket.io',
