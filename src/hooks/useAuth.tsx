@@ -1,36 +1,22 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { jwtDecode } from 'jwt-decode';
-import { cookies } from 'next/headers';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import Cookies from 'js-cookie';
 import { LogingInput, RegisterInput } from '@/types';
-import { QUERY_KEY, toast } from '@/lib';
-import { API_SERVICE } from '@/services';
+import { API_PATHS, QUERY_KEY, toast } from '@/lib';
 import { TLogin, TSignup, loginSchema, signupSchema } from '@/validations/auth';
 import { createUserSchema, TCreateUser } from '@/validations';
+import { setAuthCookie } from '@/utils';
+import { baseURL } from '@/api';
 
 export const useAuth = () => {
   const { push } = useRouter();
 
   const queryClient = useQueryClient();
 
-  const setAuthCookie = (response: Response) => {
-    const setCookieHeader = response.headers.get('Set-Cookie');
-    if (setCookieHeader) {
-      const token = setCookieHeader.split(';')[0].split('=')[1];
-      cookies().set({
-        name: 'Authentication',
-        value: token,
-        secure: true,
-        httpOnly: true,
-        expires: new Date(jwtDecode(token).exp! * 1000),
-      });
-    }
-  };
   const loginForm = useForm<TLogin>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -55,7 +41,7 @@ export const useAuth = () => {
     isError: isLoginError,
   } = useMutation({
     mutationFn: async (data: LogingInput) => {
-      const response = await fetch('/api/v1/auth/login', {
+      const response = await fetch(`${baseURL}${API_PATHS.LOGIN}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -77,7 +63,7 @@ export const useAuth = () => {
     isError: isRegisterError,
   } = useMutation({
     mutationFn: async (data: RegisterInput) => {
-      const response = await fetch('/api/v1/auth/register', {
+      const response = await fetch(`${baseURL}${API_PATHS.REGISTER}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -142,7 +128,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      const response = await fetch('/api/v1/auth/logout', {
+      const response = await fetch(`${baseURL}${API_PATHS.LOGOUT}`, {
         method: 'DELETE',
         credentials: 'include',
       });
