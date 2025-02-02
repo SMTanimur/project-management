@@ -14,7 +14,6 @@ const publicPaths = [
 const protectedPaths = [
   '/organizations',
   '/messages',
-  '/',
   '/profile',
   '/settings',
   '/admin',
