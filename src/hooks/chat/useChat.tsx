@@ -2,24 +2,36 @@
 
 import { useSocket } from '@/app/provider/socketContext';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { CHAT_API } from '@/services';
 import { TCreateMessage } from '@/validations';
-import { ChatEvent, IMessage, IUser } from '@/types';
+import { ChatEvent, ChatType, IMessage, IUser } from '@/types';
 import { useChatStore, useGlobalLocalStateStore } from '@/store';
 import { useUser } from '../useUser';
-import { isArray } from 'lodash';
 
 export function useChat(chatId: string) {
   const { currentOrganizationId } = useGlobalLocalStateStore();
-  const {isTyping,setIsTyping,isOnType}=useChatStore()
+  const { isTyping, setIsTyping } = useChatStore();
   const { socket, isConnected } = useSocket();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
-  const [senderId, setSenderId] = useState<string>('');
-  const [sendToId, setSendTo] = useState<string>('');
-  const [isMeTyping, setIsMeTyping] = useState<string>('');
-  let typingTimeout: NodeJS.Timeout | null = null;
+  const [typingUsers, setTypingUsers] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+  const [lastTypingTime, setLastTypingTime] = useState<{
+    [key: string]: number;
+  }>({});
+  const typingTimeoutRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
+  const hasPlayedSoundRef = useRef<{ [key: string]: boolean }>({});
+
+  // Get chat details to check if it's a direct chat
+  const { data: chat } = useQuery({
+    queryKey: [CHAT_API.GET_CHAT_BY_ID.name, chatId],
+    queryFn: () => CHAT_API.GET_CHAT_BY_ID(chatId),
+    enabled: !!chatId,
+  });
+
+  const isDirectChat = chat?.type === ChatType.DIRECT;
 
   // Mutation for sending messages
   const { mutateAsync: createMessage } = useMutation({
@@ -28,105 +40,157 @@ export function useChat(chatId: string) {
     mutationKey: [CHAT_API.CREATE_MESSAGE.name],
   });
 
+  // Play typing sound
+  const playTypingSound = useCallback(() => {
+    const audio = new Audio('/sounds/typing-sound.mp3');
+    audio.volume = 0.5;
+    audio
+      .play()
+      .catch(error => console.error('Error playing typing sound:', error));
+  }, []);
+
+  // Play message received sound
+  const playMessageSound = useCallback(() => {
+    const audio = new Audio('/sounds/message-received.mp3');
+    audio.volume = 0.3;
+    audio
+      .play()
+      .catch(error => console.error('Error playing message sound:', error));
+  }, []);
+
+  // Handle typing event
+  const handleTyping = useCallback(
+    (isTyping: boolean) => {
+      if (!socket || !isConnected || !user?._id || !isDirectChat) return;
+
+      socket.emit(ChatEvent.TYPING, {
+        chatId,
+        isTyping,
+        userId: user._id,
+        timestamp: Date.now(),
+      });
+    },
+    [socket, isConnected, user?._id, chatId, isDirectChat]
+  );
+
   // Send a new message
   const sendMessage = async (data: TCreateMessage) => {
     if (!socket || !isConnected) throw new Error('Not connected');
 
-    // Make the API call to create the message
-    const newMessage = await createMessage({ chatId, data });
-  };
+    try {
+      const newMessage = await createMessage({ chatId, data });
 
-  const playTypingSound = () => {
-    const audio = new Audio('/sounds/typing-sound.mp3');
-    audio
-      .play()
-      .catch(error => console.error('Error playing typing sound:', error));
-  };
+      // Emit the message through socket for real-time delivery
+      socket.emit(ChatEvent.NEW_MESSAGE, {
+        chatId,
+        message: newMessage,
+      });
 
-  // Handle typing event
-  const handleTyping = (
-    isTyping: boolean,
-    sendTo: string,
-    senderId: string
-  ) => {
-    if (!socket || !isConnected) {
-      console.warn('Socket is not connected');
-      return;
-    }
-    socket.emit(ChatEvent.TYPING, { chatId, isTyping, sendTo, senderId });
-  };
+      // Clear typing state after sending message
+      handleTyping(false);
 
-  // Manage typing timeout and emit typing event
-  const manageTyping = () => {
-    handleTyping(true, sendToId, senderId);
-    if (typingTimeout) clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-      handleTyping(false, sendToId, senderId);
-    }, 1000);
-  };
+      // Reset typing sound flags for all users when a message is sent
+      hasPlayedSoundRef.current = {};
 
-  // Join the chat when the component mounts
-  const joinChat = () => {
-    if (socket && isConnected) {
-      socket.emit(ChatEvent.JOIN, chatId);
+      return newMessage;
+    } catch (error) {
+      console.error('Error sending message:', error);
+      throw error;
     }
   };
 
-  // Set up WebSocket listeners for real-time updates
+  // Manage typing timeout
+  const manageTyping = useCallback(() => {
+    if (!user?._id) return;
+
+    handleTyping(true);
+
+    // Clear existing timeout
+    if (typingTimeoutRef.current[user._id]) {
+      clearTimeout(typingTimeoutRef.current[user._id]);
+    }
+
+    // Set new timeout
+    typingTimeoutRef.current[user._id] = setTimeout(() => {
+      handleTyping(false);
+      // Reset typing sound flag when typing stops
+      if (hasPlayedSoundRef.current[user._id]) {
+        hasPlayedSoundRef.current[user._id] = false;
+      }
+    }, 2000);
+  }, [handleTyping, user?._id]);
+
   useEffect(() => {
-    if (!socket || !chatId || !currentOrganizationId) return;
+    if (!socket || !chatId || !isDirectChat) return;
 
-    joinChat();
+    // Join chat room
+    socket.emit(ChatEvent.JOIN, chatId);
 
-    const handleNewMessage = (message: IMessage) => {
-      queryClient.setQueryData(
-        [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
-        ({ data }: { data: IMessage[] }) => {
-          return { data: [...data, message] };
-        }
-      );
-    };
+    // Handle typing events
+    const onTyping = ({ userId, isTyping, timestamp }: any) => {
+      if (userId === user?._id) return;
 
-    const handleTypingEvent = ({
-      userId,
-      isTyping,
-      sendTo,
-      senderId,
-      isMeTyping,
-    }: any) => {
-      console.log({ userId, isTyping, sendTo, senderId, isMeTyping });
-      setSendTo(sendTo);
-      setIsTyping(isTyping);
-      setSenderId(senderId);
-      setIsMeTyping(isMeTyping);
-      
-      // Play typing sound only if the sender is typing and is a hiring user
-      if (isTyping && senderId && user?.role === 'hiring') {
+      setTypingUsers(prev => ({ ...prev, [userId]: isTyping }));
+      setLastTypingTime(prev => ({ ...prev, [userId]: timestamp }));
+
+      // Play sound only if user just started typing and sound hasn't been played yet
+      if (isTyping && isDirectChat && !hasPlayedSoundRef.current[userId]) {
         playTypingSound();
+        hasPlayedSoundRef.current[userId] = true;
+      }
+
+      // Reset sound flag if user stops typing
+      if (!isTyping) {
+        hasPlayedSoundRef.current[userId] = false;
       }
     };
 
-    // Listen for new messages and update the messages in state
-    socket.on(ChatEvent.NEW_MESSAGE, handleNewMessage);
+    // Handle new messages
+    const onNewMessage = (message: IMessage) => {
+      if (message.sender._id !== user?._id && isDirectChat) {
+        playMessageSound();
+        // Reset typing sound flag for the sender
+        hasPlayedSoundRef.current[message.sender._id] = false;
+      }
 
-    // Listen for typing events and update the typing state
-    socket.on(ChatEvent.TYPING, handleTypingEvent);
-
-    // Clean up socket event listeners when the component unmounts
-    return () => {
-      socket.off(ChatEvent.NEW_MESSAGE, handleNewMessage);
-      socket.off(ChatEvent.TYPING, handleTypingEvent);
-      if (typingTimeout) clearTimeout(typingTimeout);
+      queryClient.setQueryData(
+        [CHAT_API.GET_CHAT_MESSAGES.name, chatId],
+        (old: any) => ({
+          ...old,
+          data: [...(old?.data || []), message],
+        })
+      );
     };
-  }, [socket, chatId, currentOrganizationId, user?._id, queryClient]);
+
+    socket.on(ChatEvent.TYPING, onTyping);
+    socket.on(ChatEvent.NEW_MESSAGE, onNewMessage);
+
+    return () => {
+      socket.off(ChatEvent.TYPING, onTyping);
+      socket.off(ChatEvent.NEW_MESSAGE, onNewMessage);
+
+      // Clear all typing timeouts
+      Object.values(typingTimeoutRef.current).forEach(timeout =>
+        clearTimeout(timeout)
+      );
+      // Reset all sound flags
+      hasPlayedSoundRef.current = {};
+    };
+  }, [
+    socket,
+    chatId,
+    user?._id,
+    queryClient,
+    isDirectChat,
+    playTypingSound,
+    playMessageSound,
+  ]);
 
   return {
-    senderId,
-    sendToId,
-    isMeTyping,
     sendMessage,
     handleTyping,
-    isTyping,
     manageTyping,
+    isTyping: Object.values(typingUsers).some(Boolean),
+    typingUsers,
   };
 }

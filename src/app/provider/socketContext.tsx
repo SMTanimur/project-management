@@ -12,6 +12,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { toast } from 'sonner';
@@ -34,10 +35,11 @@ export const useSocket = () => useContext(SocketContext);
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef<Socket | null>(null);
-  const isConnectedRef = useRef(false);
+  const [isConnected, setIsConnected] = useState(false);
   const { currentOrganizationId } = useGlobalLocalStateStore();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
 
   const connect = useCallback(() => {
     if (socketRef.current?.connected || !user?._id) return;
@@ -50,23 +52,34 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         userId: user._id,
         organizationId: currentOrganizationId,
       },
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
     });
 
     socketInstance.on('connect', () => {
-      isConnectedRef.current = true;
+      setIsConnected(true);
       console.log('Connected to chat server');
       toast.success('Connected to chat server');
     });
 
     socketInstance.on('disconnect', () => {
-      isConnectedRef.current = false;
+      setIsConnected(false);
       console.log('Disconnected from chat server');
       toast.error('Disconnected from chat server');
+
+      // Try to reconnect after 3 seconds
+      reconnectTimeoutRef.current = setTimeout(() => {
+        if (!socketRef.current?.connected) {
+          connect();
+        }
+      }, 3000);
     });
 
     socketInstance.on('connect_error', error => {
       console.error('Connection error:', error);
       toast.error('Failed to connect to chat server');
+      setIsConnected(false);
     });
 
     socketInstance.on('userStatusChanged', (data: any) => {
@@ -74,6 +87,8 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       console.log(
         `User ${userId} is now ${status === STATUS.ONLINE ? 'online' : 'offline'}`
       );
+
+      // Update user status in queries
       queryClient.invalidateQueries({
         queryKey: [CHAT_API.GET_USER_CHATS.name, currentOrganizationId],
       });
@@ -90,7 +105,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     if (socketRef.current) {
       socketRef.current.disconnect();
       socketRef.current = null;
-      isConnectedRef.current = false;
+      setIsConnected(false);
+    }
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
     }
   }, []);
 
@@ -107,11 +125,11 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo(
     () => ({
       socket: socketRef.current,
-      isConnected: isConnectedRef.current,
+      isConnected,
       connect,
       disconnect,
     }),
-    [connect, disconnect]
+    [connect, disconnect, isConnected]
   );
 
   return (

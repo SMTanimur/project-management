@@ -46,25 +46,23 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
     handleTyping,
     sendMessage,
     isTyping,
-    senderId,
-    isMeTyping,
-    sendToId,
+   
   } = useChat(chat?._id);
   const typingPlayedRef = useRef(false);
 
-  const playTypingSound = () => {
-    const audio = new Audio('/sounds/typing-sound.mp3');
-    audio
-      .play()
-      .catch(error => console.error('Error playing typing sound:', error));
-  };
+  // const playTypingSound = () => {
+  //   const audio = new Audio('/sounds/typing-sound.mp3');
+  //   audio
+  //     .play()
+  //     .catch(error => console.error('Error playing typing sound:', error));
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
     e.target.style.height = 'auto';
     e.target.style.height = `${e.target.scrollHeight - 15}px`;
     // Notify typing status
-    handleTyping(true, sendTo?._id as string, currentUser._id);
+    handleTyping(true);
     const isCurrentlyTyping = e.target.value.length > 0;
     typingPlayedRef.current = true;
     console.log({ isTyping });
@@ -72,13 +70,13 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
     if (chat.type === 'direct' && !typingPlayedRef.current) {
       typingPlayedRef.current = true;
       console.log('playing sound');
-      playTypingSound();
+   
     }
   };
 
   const handleBlur = () => {
     // Reset the sound playback status when clicking outside the input area
-    handleTyping(false, sendTo?._id as string, currentUser._id);
+    handleTyping(false);
     typingPlayedRef.current = false;
   };
 
@@ -93,7 +91,7 @@ export const MessageFooter: React.FC<MessageFooterProps> = ({
 
     setReply(false);
     setMessage('');
-    handleTyping(false, sendTo?._id as string, currentUser._id);
+    handleTyping(false);
     typingPlayedRef.current = false; // Reset the sound status after sending a message
   };
 
