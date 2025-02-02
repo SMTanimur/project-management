@@ -34,25 +34,29 @@ function isProtectedPath(pathname: string): boolean {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const authToken = req.cookies.get('Authentication')?.value;
+
+  // Get the Authentication cookie from the request
+  const authToken = req.cookies.get('Authentication');
+  const isAuthenticated = !!authToken?.value;
 
   // Skip middleware for static files and API routes that don't need auth
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/static') ||
-    pathname.startsWith('/api/public')
+    pathname.startsWith('/api/public') ||
+    pathname.includes('favicon.ico')
   ) {
     return NextResponse.next();
   }
 
   // If user is authenticated and tries to access auth pages, redirect to home
-  if (authToken && isPublicPath(pathname)) {
+  if (isAuthenticated && isPublicPath(pathname)) {
     const response = NextResponse.redirect(new URL(HOME_URL, req.url));
     return response;
   }
 
   // If user is not authenticated and tries to access protected routes
-  if (!authToken && isProtectedPath(pathname)) {
+  if (!isAuthenticated && isProtectedPath(pathname)) {
     const loginUrl = new URL('/auth/login', req.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
     const response = NextResponse.redirect(loginUrl);
@@ -63,7 +67,7 @@ export function middleware(req: NextRequest) {
   if (
     pathname.startsWith('/api') &&
     !pathname.startsWith('/api/public') &&
-    !authToken
+    !isAuthenticated
   ) {
     return new NextResponse(
       JSON.stringify({ message: 'Authentication required' }),
@@ -76,7 +80,22 @@ export function middleware(req: NextRequest) {
     );
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+
+  // Ensure cookies are properly set for cross-domain
+  if (isAuthenticated) {
+    response.cookies.set({
+      name: 'Authentication',
+      value: authToken.value,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+      path: '/',
+    });
+  }
+
+  return response;
 }
 
 // Configure the paths where middleware should run
