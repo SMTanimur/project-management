@@ -59,6 +59,11 @@ export function middleware(req: NextRequest) {
   }
 
   // If user is authenticated and tries to access auth pages, redirect to home
+  if (isAuthenticated && pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
+
+  // If user is authenticated and tries to access auth pages, redirect to home
   if (isAuthenticated && isPublicPath(pathname)) {
     const response = NextResponse.redirect(new URL(HOME_URL, req.url));
     return response;
