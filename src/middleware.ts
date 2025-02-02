@@ -14,6 +14,7 @@ const publicPaths = [
 const protectedPaths = [
   '/organizations',
   '/messages',
+  '/',
   '/profile',
   '/settings',
   '/admin',
@@ -37,7 +38,9 @@ export function middleware(req: NextRequest) {
 
   // Get the Authentication cookie from the request
   const authToken = req.cookies.get('Authentication');
+
   const isAuthenticated = !!authToken?.value;
+  console.log({ authToken, isAuthenticated });
 
   // Skip middleware for static files and API routes that don't need auth
   if (
