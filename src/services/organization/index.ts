@@ -12,47 +12,63 @@ export const ORGANIZATION_API = {
   CREATE: async (
     input: TCreateOrganization
   ): Promise<{ message: string; organization: Organization }> => {
-    return await api.post(API_PATHS.ORGANIZATION, input);
+    const response = await api.post(API_PATHS.ORGANIZATION, input);
+    return response.data;
   },
   UPDATE: async (
     id: string,
     input: TUpdateOrganization
   ): Promise<{ message: string }> => {
-    return await api.put(`${API_PATHS.ORGANIZATION}/${id}`, input);
+    const response = await api.put(`${API_PATHS.ORGANIZATION}/${id}`, input);
+    return response.data;
   },
 
   DELETE: async (id: string): Promise<{ message: string }> => {
-    return await api.delete(`${API_PATHS.ORGANIZATION}/${id}`);
+    const response = await api.delete(`${API_PATHS.ORGANIZATION}/${id}`);
+    return response.data;
   },
 
   GET_ORGANIZATION: async (organizationId: string): Promise<Organization> => {
-    return await api.get(`${API_PATHS.ORGANIZATION}/${organizationId}`);
+    const response = await api.get(
+      `${API_PATHS.ORGANIZATION}/${organizationId}`
+    );
+    return response.data;
   },
 
   GET_ORGANIZATIONS: async (query: {
     type: string;
   }): Promise<Organization[]> => {
-    return await api.get(API_PATHS.ORGANIZATION, { params: query });
+    const response = await api.get(API_PATHS.ORGANIZATION, { params: query });
+    return response.data;
   },
   INVITE_USER: async (input: TInvitationDto): Promise<{ message: string }> => {
-    return await api.post(`${API_PATHS.ORGANIZATION}/invitations`, input);
+    const response = await api.post(
+      `${API_PATHS.ORGANIZATION}/invitations`,
+      input
+    );
+    return response.data;
   },
 
   RESPOND_TO_INVITATION: async (
     id: string,
     input: TInvitationResponse
   ): Promise<{ message: string }> => {
-    return await api.put(
+    const response = await api.put(
       `${API_PATHS.ORGANIZATION}/${id}/invitations/respond`,
       { response: input.response }
     );
+    return response.data;
   },
 
   GET_PENDING_INVITATIONS: async (): Promise<IInvitation[]> => {
-    return await api.get(`${API_PATHS.ORGANIZATION}/invitations/pending`);
+    const response = await api.get(
+      `${API_PATHS.ORGANIZATION}/invitations/pending`
+    );
+    return response.data;
   },
 
   GET_INVITATIONS: async (): Promise<IInvitation[]> => {
-    return await api.get(`${API_PATHS.ORGANIZATION}/invitations`);
+    const response = await api.get(`${API_PATHS.ORGANIZATION}/invitations`);
+    return response.data;
   },
 };

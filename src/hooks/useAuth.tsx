@@ -8,7 +8,7 @@ import { LogingInput } from '@/types';
 import { QUERY_KEY, toast } from '@/lib';
 import { TLogin, loginSchema } from '@/validations/auth';
 import { createUserSchema, TCreateUser } from '@/validations';
-import { authService } from '@/services/auth';
+import { API_SERVICE } from '@/services';
 
 export const useAuth = () => {
   const { push } = useRouter();
@@ -38,8 +38,12 @@ export const useAuth = () => {
     isPending: isLoginPending,
     isError: isLoginError,
   } = useMutation({
-    mutationFn: authService.login.bind(authService),
+    mutationFn: API_SERVICE.AUTH.login,
     mutationKey: [QUERY_KEY.LOGIN],
+    onSuccess: data => {
+      console.log({ res: data });
+      push('/dashboard');
+    },
   });
 
   const {
@@ -47,36 +51,25 @@ export const useAuth = () => {
     isPending: isRegisterPending,
     isError: isRegisterError,
   } = useMutation({
-    mutationFn: authService.register.bind(authService),
-    mutationKey: [QUERY_KEY.LOGIN],
+    mutationFn: API_SERVICE.AUTH.register,
+    mutationKey: [QUERY_KEY.REGISTER],
+    onSuccess: data => {
+      console.log({ res: data });
+      push('/dashboard');
+    },
   });
 
   const login = loginForm.handleSubmit(async (data: LogingInput) => {
     try {
-      const response = await loginMutateAsync(data);
-      if (response) {
-        toast({
-          title: response.message,
-        });
-        push('/dashboard');
-      }
+      await loginMutateAsync(data);
     } catch (error: any) {
-      toast({
-        title: error.message || 'Login failed',
-        icon: 'error',
-      });
+      console.log({ error });
     }
   });
 
   const signUp = registerForm.handleSubmit(async (data: TCreateUser) => {
     try {
-      const response = await registerMutateAsync(data);
-      if (response) {
-        toast({
-          title: response.message,
-        });
-        push('/dashboard');
-      }
+      await registerMutateAsync(data);
     } catch (error: any) {
       toast({
         title: error.message || 'Registration failed',
@@ -87,7 +80,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      await authService.logout();
+      await API_SERVICE.AUTH.logout();
       queryClient.clear();
       toast({
         title: 'Logged out successfully',

@@ -4,10 +4,12 @@ import { IUser } from '@/types/user';
 
 export const user = {
   ME: async (): Promise<IUser> => {
-    return await api.get(API_PATHS.ME);
+    const response = await api.get(API_PATHS.ME);
+    return response.data;
   },
 
   GET_USERS: async ({ email }: { email: string }): Promise<IUser[]> => {
-    return await api.get(`${API_PATHS.USERS}?email=${email}`);
+    const response = await api.get(`${API_PATHS.USERS}?email=${email}`);
+    return response.data;
   },
 };

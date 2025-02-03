@@ -29,5 +29,3 @@ export const useGetUsers = (email?: string) => {
     users: response.data,
   };
 };
-
-
