@@ -54,10 +54,12 @@ export const useAuth = () => {
   const login = loginForm.handleSubmit(async (data: LogingInput) => {
     try {
       const response = await loginMutateAsync(data);
-      toast({
-        title: response.message,
-      });
-      push('/');
+      if (response) {
+        toast({
+          title: response.message,
+        });
+        push('/dashboard');
+      }
     } catch (error: any) {
       toast({
         title: error.message || 'Login failed',
@@ -69,10 +71,12 @@ export const useAuth = () => {
   const signUp = registerForm.handleSubmit(async (data: TCreateUser) => {
     try {
       const response = await registerMutateAsync(data);
-      toast({
-        title: response.message,
-      });
-      push('/dashboard');
+      if (response) {
+        toast({
+          title: response.message,
+        });
+        push('/dashboard');
+      }
     } catch (error: any) {
       toast({
         title: error.message || 'Registration failed',

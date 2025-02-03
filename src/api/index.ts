@@ -28,10 +28,10 @@ api.interceptors.request.use(
 
 // Handle responses
 api.interceptors.response.use(
-  async (response: AxiosResponse) => {
+  (response: AxiosResponse) => {
     return response.data;
   },
-  async error => {
+  error => {
     if (error.response?.data?.message) {
       if (isArray(error.response?.data?.message)) {
         error.response.data.message.forEach((message: string) =>
@@ -45,10 +45,10 @@ api.interceptors.response.use(
     // Handle authentication errors
     if (error.response?.status === 401) {
       Cookies.remove('Authentication');
-      window.location.href = '/auth/login';
+      // window.location.href = '/auth/login';
     }
 
-    return Promise.reject(error.response?.data);
+    return Promise.reject(error.response?.data || error);
   }
 );
 

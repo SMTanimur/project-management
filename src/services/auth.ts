@@ -46,19 +46,19 @@ class AuthService {
   }
 
   async login(payload: LogingInput): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>(API_PATHS.LOGIN, payload);
-    if (response.data.token) {
-      this.setToken(response.data.token);
+    const {data} = await api.post<AuthResponse>(API_PATHS.LOGIN, payload);
+    if (data && data.token) {
+      this.setToken(data.token);
     }
-    return response.data;
+    return data;
   }
 
   async register(payload: RegisterInput): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>(API_PATHS.REGISTER, payload);
-    if (response.data.token) {
-      this.setToken(response.data.token);
+    const {data} = await api.post<AuthResponse>(API_PATHS.REGISTER, payload);
+    if (data && data.token) {
+      this.setToken(data.token);
     }
-    return response.data;
+    return data;
   }
 
   async logout(): Promise<void> {

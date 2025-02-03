@@ -1,19 +1,20 @@
-
 import { API_SERVICE } from '@/services';
 
 import Cookies from 'js-cookie';
 import { useQuery } from '@tanstack/react-query';
 
 export const useUser = () => {
-  const session = Cookies.get('orga_sid');
+  const session = Cookies.get('Authentication');
 
   const profile = useQuery({
     queryKey: [API_SERVICE.USER.ME.name],
     queryFn: API_SERVICE.USER.ME,
+    enabled: !!session,
   });
 
   return {
     ...profile,
+    user: profile.data,
   };
 };
 
@@ -28,3 +29,5 @@ export const useGetUsers = (email?: string) => {
     users: response.data,
   };
 };
+
+
