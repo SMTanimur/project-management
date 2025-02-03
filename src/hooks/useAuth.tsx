@@ -1,20 +1,17 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LogingInput, RegisterInput } from '@/types';
-import { API_PATHS, QUERY_KEY, toast } from '@/lib';
-import { TLogin, TSignup, loginSchema, signupSchema } from '@/validations/auth';
+import { LogingInput } from '@/types';
+import { QUERY_KEY, toast } from '@/lib';
+import { TLogin, loginSchema } from '@/validations/auth';
 import { createUserSchema, TCreateUser } from '@/validations';
-import { setAuthCookie } from '@/utils';
-import { baseURL } from '@/api';
+import { authService } from '@/services/auth';
 
 export const useAuth = () => {
   const { push } = useRouter();
-
   const queryClient = useQueryClient();
 
   const loginForm = useForm<TLogin>({
@@ -35,120 +32,69 @@ export const useAuth = () => {
       contact: '',
     },
   });
+
   const {
     mutateAsync: loginMutateAsync,
     isPending: isLoginPending,
     isError: isLoginError,
   } = useMutation({
-    mutationFn: async (data: LogingInput) => {
-      const response = await fetch(`${baseURL}${API_PATHS.LOGIN}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      setAuthCookie(response);
-      return response.json();
-    },
+    mutationFn: authService.login.bind(authService),
     mutationKey: [QUERY_KEY.LOGIN],
   });
+
   const {
     mutateAsync: registerMutateAsync,
     isPending: isRegisterPending,
     isError: isRegisterError,
   } = useMutation({
-    mutationFn: async (data: RegisterInput) => {
-      const response = await fetch(`${baseURL}${API_PATHS.REGISTER}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-
-      setAuthCookie(response);
-
-      return response.json();
-    },
+    mutationFn: authService.register.bind(authService),
     mutationKey: [QUERY_KEY.LOGIN],
   });
+
   const login = loginForm.handleSubmit(async (data: LogingInput) => {
     try {
-      loginMutateAsync(data, {
-        onSuccess: data => {
-          toast({
-            title: data.message,
-          });
-          push('/');
-        },
-        onError: error => {
-          toast({
-            title: error.message,
-            icon: 'error',
-          });
-        },
+      const response = await loginMutateAsync(data);
+      toast({
+        title: response.message,
       });
-    } catch (error) {
-      console.error(error);
+      push('/');
+    } catch (error: any) {
+      toast({
+        title: error.message || 'Login failed',
+        icon: 'error',
+      });
     }
   });
 
   const signUp = registerForm.handleSubmit(async (data: TCreateUser) => {
     try {
-      registerMutateAsync(data, {
-        onSuccess: data => {
-          // Cookies.set('Authentication', data.token, {
-          //   expires: data.expires,
-          // });
-          toast({
-            title: data.message,
-          });
-          push('/dashboard');
-        },
-        onError: error => {
-          toast({
-            title: error.message,
-            icon: 'error',
-          });
-        },
+      const response = await registerMutateAsync(data);
+      toast({
+        title: response.message,
       });
-    } catch (error) {
-      console.error(error);
+      push('/dashboard');
+    } catch (error: any) {
+      toast({
+        title: error.message || 'Registration failed',
+        icon: 'error',
+      });
     }
   });
 
   const logout = async () => {
     try {
-      const response = await fetch(`${baseURL}${API_PATHS.LOGOUT}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error('Logout failed');
-      }
-
+      await authService.logout();
       queryClient.clear();
       toast({
-        title: 'Logged out',
+        title: 'Logged out successfully',
         icon: 'success',
       });
       push('/');
     } catch (error: any) {
       toast({
-        title: error.message,
+        title: error.message || 'Logout failed',
         icon: 'error',
       });
-      console.error(error);
     }
   };
 

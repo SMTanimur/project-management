@@ -1,36 +1,35 @@
-import { getCookie } from 'cookies-next';
 import { capitalize, isArray } from 'lodash';
 import axios, { AxiosResponse } from 'axios';
-
 import { toast } from '@/lib/toast';
-import { getHeaders } from '@/utils';
+import Cookies from 'js-cookie';
 
 export const baseURL = process.env.NEXT_PUBLIC_API_URL + '/';
 export const socketBaseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL,
-  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
 });
 
+// Add token to requests
 api.interceptors.request.use(
   config => {
-    const authToken = getCookie('Authentication');
-    if (authToken) {
-      config.headers['Authorization'] = `Bearer ${authToken}`;
+    const token = Cookies.get('Authentication');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
   error => Promise.reject(error)
 );
 
-api.defaults.headers.common['Accept'] = 'application/json';
-api.defaults.headers.common['X-Request-Source'] = 'web';
-api.defaults.withCredentials = true;
-
+// Handle responses
 api.interceptors.response.use(
   async (response: AxiosResponse) => {
-    return await response.data;
+    return response.data;
   },
   async error => {
     if (error.response?.data?.message) {
@@ -38,10 +37,15 @@ api.interceptors.response.use(
         error.response.data.message.forEach((message: string) =>
           toast({ title: capitalize(message), icon: 'error' })
         );
+      } else {
+        toast({ title: error.response.data.message, icon: 'error' });
       }
     }
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      // window.location.reload()
+
+    // Handle authentication errors
+    if (error.response?.status === 401) {
+      Cookies.remove('Authentication');
+      window.location.href = '/auth/login';
     }
 
     return Promise.reject(error.response?.data);

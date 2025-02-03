@@ -1,21 +1,69 @@
 import { api } from '@/api';
 import { API_PATHS } from '@/lib';
 import { IUser, LogingInput, RegisterInput } from '@/types';
-import { loginResponseSchema } from '@/validations/auth';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
-export const auth = {
-  LOGIN: async (payload: LogingInput): Promise<loginResponseSchema> => {
-    return await api.post(API_PATHS.LOGIN, payload);
-  },
-  REGISTER: async (
-    payload: RegisterInput
-  ): Promise<{
-    message: string;
-    user: IUser;
-    userId: string;
-  }> => {
-    return await api.post(API_PATHS.REGISTER, payload);
-  },
+export interface AuthResponse {
+  message: string;
+  token: string;
+  user: IUser;
+  userId: string;
+}
 
-  LOGOUT: async (): Promise<string> => await api.delete(API_PATHS.LOGOUT),
-};
+class AuthService {
+  private readonly COOKIE_NAME = 'Authentication';
+  private readonly COOKIE_EXPIRATION_DAYS = 7;
+
+  setToken(token: string) {
+    const decodedToken = jwtDecode(token);
+    Cookies.set(this.COOKIE_NAME, token, {
+      expires: this.COOKIE_EXPIRATION_DAYS,
+      secure: true,
+      sameSite: 'strict',
+    });
+  }
+
+  getToken(): string | null {
+    return Cookies.get(this.COOKIE_NAME) || null;
+  }
+
+  clearToken() {
+    Cookies.remove(this.COOKIE_NAME);
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp > currentTime;
+    } catch {
+      return false;
+    }
+  }
+
+  async login(payload: LogingInput): Promise<AuthResponse> {
+    const response = await api.post<AuthResponse>(API_PATHS.LOGIN, payload);
+    if (response.data.token) {
+      this.setToken(response.data.token);
+    }
+    return response.data;
+  }
+
+  async register(payload: RegisterInput): Promise<AuthResponse> {
+    const response = await api.post<AuthResponse>(API_PATHS.REGISTER, payload);
+    if (response.data.token) {
+      this.setToken(response.data.token);
+    }
+    return response.data;
+  }
+
+  async logout(): Promise<void> {
+    this.clearToken();
+  }
+}
+
+export const authService = new AuthService();

@@ -1,6 +1,7 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { jwtDecode } from 'jwt-decode';
 
 // Add paths that should be accessible without authentication
 const publicPaths = [
@@ -33,23 +34,20 @@ function isProtectedPath(pathname: string): boolean {
   return protectedPaths.some(path => pathname.startsWith(path));
 }
 
+function isTokenValid(token: string): boolean {
+  try {
+    const decodedToken: any = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decodedToken.exp > currentTime;
+  } catch {
+    return false;
+  }
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Get the Authentication cookie from the request - add more detailed logging
-  const authToken = req.cookies.get('Authentication');
-
-  // Log all cookies for debugging
-  console.log('All cookies:', req.cookies.getAll());
-  console.log('Auth cookie details:', {
-    name: authToken?.name,
-    value: authToken?.value,
-  });
-  
-
-  const isAuthenticated = !!authToken?.value;
-
-  // Skip middleware for static files and API routes that don't need auth
+  // Skip middleware for static files and API routes
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/static') ||
@@ -59,28 +57,22 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // If user is authenticated and tries to access auth pages, redirect to home
-  if (isAuthenticated && pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
+  const authToken = req.cookies.get('Authentication');
+  const isAuthenticated = authToken?.value && isTokenValid(authToken.value);
 
-  // If user is authenticated and tries to access auth pages, redirect to home
+  // If user is authenticated and tries to access auth pages, redirect to dashboard
   if (isAuthenticated && isPublicPath(pathname)) {
-    const response = NextResponse.redirect(new URL(HOME_URL, req.url));
-    return response;
+    return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
   // If user is not authenticated and tries to access protected routes
   if (!isAuthenticated && isProtectedPath(pathname)) {
     const loginUrl = new URL('/auth/login', req.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
-    const response = NextResponse.redirect(loginUrl);
-    return response;
+    return NextResponse.redirect(loginUrl);
   }
 
-  const response = NextResponse.next();
-
-  return response;
+  return NextResponse.next();
 }
 
 // Configure the paths where middleware should run
