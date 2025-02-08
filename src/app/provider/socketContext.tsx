@@ -91,9 +91,32 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
           organizationId: currentOrganizationId,
         },
         reconnection: true,
-        reconnectionAttempts: 3,
-        reconnectionDelay: 1000,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 2000,
+        reconnectionDelayMax: 10000,
         timeout: 20000,
+        forceNew: true,
+        secure: true,
+        rejectUnauthorized: false,
+        extraHeaders: {
+          'Access-Control-Allow-Credentials': 'true',
+        },
+      });
+
+      // Add connection state logging
+      socketInstance.io.on('reconnect_attempt', attempt => {
+        console.log(`Reconnection attempt ${attempt}`);
+      });
+
+      socketInstance.io.on('reconnect_error', error => {
+        console.error('Reconnection error:', error);
+      });
+
+      socketInstance.io.on('reconnect_failed', () => {
+        console.error('Failed to reconnect');
+        if (!isInitialConnection.current) {
+          toast.error('Unable to reconnect to chat server');
+        }
       });
 
       socketInstance.on('connect', () => {
