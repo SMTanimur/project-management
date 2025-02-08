@@ -64,6 +64,9 @@ export function middleware(req: NextRequest) {
   if (isAuthenticated && isPublicPath(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
+  if (isAuthenticated && pathname === HOME_URL) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
 
   // If user is not authenticated and tries to access protected routes
   if (!isAuthenticated && isProtectedPath(pathname)) {
