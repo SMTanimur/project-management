@@ -1,6 +1,6 @@
 import { api } from '@/api';
 import { API_PATHS } from '@/lib';
-import { IChat, IMessage, IPagination } from '@/types';
+import { IChat, IMessage, IPagination, STATUS } from '@/types';
 import { TCreateChat, TCreateMessage, TUpdateChat } from '@/validations';
 
 export const CHAT_API = {
@@ -76,6 +76,15 @@ export const CHAT_API = {
       `${API_PATHS.CHAT}/${chatId}/messages/${messageId}`,
       data
     );
+    return response.data;
+  },
+
+  UPDATE_USER_STATUS: async (data: {
+    userId: string;
+    status: STATUS;
+    lastSeen: Date;
+  }) => {
+    const response = await api.post('v1/users/status', data);
     return response.data;
   },
 

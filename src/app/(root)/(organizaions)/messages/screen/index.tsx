@@ -25,7 +25,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { MyProfileHeader } from '../components';
 import Blank from './blank';
-import { useSocket } from '@/app/provider/socketContext';
+import { useSocket } from '@/app/provider/pusher-provider';
 import { useChat } from '@/hooks';
 
 export const MessagesScreen = () => {
@@ -38,7 +38,9 @@ export const MessagesScreen = () => {
   // reply state
   const [replay, setReply] = useState<boolean>(false);
   const [replayData, setReplyData] = useState<any>({});
-   const {messages,isLoading:isMessageLoading}=useGetChatMessages(selectedChatId as string)
+  const { messages, isLoading: isMessageLoading } = useGetChatMessages(
+    selectedChatId as string
+  );
   // const { messages, isLoading: isMessageLoading } = useChat(selectedChatId);
 
   // search state
@@ -156,7 +158,6 @@ export const MessagesScreen = () => {
     selectedChatId as string
   );
 
-
   let member = null;
 
   if (chat?.type === 'direct') {
@@ -249,22 +250,21 @@ export const MessagesScreen = () => {
                         ) : ( */}
                         {messages &&
                           messages.length > 0 &&
-                          messages
-                            .map((message: IMessage, i: number) => (
-                              <Messages
-                                key={`message-list-${i}`}
-                                message={message}
-                                profile={user as IUser}
-                                onDelete={onDelete}
-                                index={i}
-                                selectedChatId={selectedChatId}
-                                handleReply={handleReply}
-                                replayData={replayData}
-                                handleForward={handleForward}
-                                handlePinMessage={handlePinMessage}
-                                pinnedMessages={pinnedMessages}
-                              />
-                            ))}
+                          messages.map((message: IMessage, i: number) => (
+                            <Messages
+                              key={`message-list-${i}`}
+                              message={message}
+                              profile={user as IUser}
+                              onDelete={onDelete}
+                              index={i}
+                              selectedChatId={selectedChatId}
+                              handleReply={handleReply}
+                              replayData={replayData}
+                              handleForward={handleForward}
+                              handlePinMessage={handlePinMessage}
+                              pinnedMessages={pinnedMessages}
+                            />
+                          ))}
                       </>
                     )}
                     {/* <PinnedMessages

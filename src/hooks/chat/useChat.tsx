@@ -1,16 +1,16 @@
 'use client';
 
-import { useSocket } from '@/app/provider/socketContext';
+import { usePusher } from '@/app/provider/pusher-provider';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { CHAT_API } from '@/services';
 import { TCreateMessage } from '@/validations';
-import { ChatEvent, ChatType, IMessage } from '@/types';
-
+import { ChatType, IMessage } from '@/types';
 import { useUser } from '../useUser';
+import { toast } from 'sonner';
 
 export function useChat(chatId: string) {
-  const { socket, isConnected } = useSocket();
+  const { pusher, isConnected } = usePusher();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
   const [typingUsers, setTypingUsers] = useState<{ [key: string]: boolean }>(
@@ -59,30 +59,26 @@ export function useChat(chatId: string) {
   // Handle typing event
   const handleTyping = useCallback(
     (isTyping: boolean) => {
-      if (!socket || !isConnected || !user?._id || !isDirectChat) return;
+      if (!pusher || !isConnected || !user?._id || !isDirectChat) return;
 
-      socket.emit(ChatEvent.TYPING, {
-        chatId,
-        isTyping,
-        userId: user._id,
-        timestamp: Date.now(),
-      });
+      const channel = pusher.channel(`private-chat-${chatId}`);
+      if (channel) {
+        channel.trigger('client-typing', {
+          userId: user._id,
+          isTyping,
+          timestamp: Date.now(),
+        });
+      }
     },
-    [socket, isConnected, user?._id, chatId, isDirectChat]
+    [pusher, isConnected, user?._id, chatId, isDirectChat]
   );
 
   // Send a new message
   const sendMessage = async (data: TCreateMessage) => {
-    if (!socket || !isConnected) throw new Error('Not connected');
+    if (!pusher || !isConnected) throw new Error('Not connected');
 
     try {
       const newMessage = await createMessage({ chatId, data });
-
-      // Emit the message through socket for real-time delivery
-      socket.emit(ChatEvent.NEW_MESSAGE, {
-        chatId,
-        message: newMessage,
-      });
 
       // Clear typing state after sending message
       handleTyping(false);
@@ -119,14 +115,15 @@ export function useChat(chatId: string) {
   }, [handleTyping, user?._id]);
 
   useEffect(() => {
-    if (!socket || !chatId || !isDirectChat) return;
+    if (!pusher || !chatId || !isDirectChat || !user?._id) return;
 
-    // Join chat room
-    socket.emit(ChatEvent.JOIN, chatId);
+    // Subscribe to chat channel
+    const chatChannel = pusher.subscribe(`private-chat-${chatId}`);
 
     // Handle typing events
-    const onTyping = ({ userId, isTyping, timestamp }: any) => {
-      if (userId === user?._id) return;
+    chatChannel.bind('typing', (data: any) => {
+      const { userId, isTyping, timestamp } = data;
+      if (userId === user._id) return;
 
       setTypingUsers(prev => ({ ...prev, [userId]: isTyping }));
       setLastTypingTime(prev => ({ ...prev, [userId]: timestamp }));
@@ -141,11 +138,11 @@ export function useChat(chatId: string) {
       if (!isTyping) {
         hasPlayedSoundRef.current[userId] = false;
       }
-    };
+    });
 
     // Handle new messages
-    const onNewMessage = (message: IMessage) => {
-      if (message.sender._id !== user?._id && isDirectChat) {
+    chatChannel.bind('newMessage', (message: IMessage) => {
+      if (message.sender._id !== user._id && isDirectChat) {
         playMessageSound();
         // Reset typing sound flag for the sender
         hasPlayedSoundRef.current[message.sender._id] = false;
@@ -158,14 +155,45 @@ export function useChat(chatId: string) {
           data: [...(old?.data || []), message],
         })
       );
-    };
+    });
 
-    socket.on(ChatEvent.TYPING, onTyping);
-    socket.on(ChatEvent.NEW_MESSAGE, onNewMessage);
+    // Subscribe to user-specific channel for notifications
+    const userChannel = pusher.subscribe(`private-user-${user._id}`);
+
+    // Handle new message notifications
+    userChannel.bind('newNotification', (data: any) => {
+      if (data.type === 'newMessage' && data.chatId !== chatId) {
+        // Show notification for messages from other chats
+        toast.info(
+          `New message from ${data.sender.firstName} ${data.sender.lastName}`,
+          {
+            action: {
+              label: 'View',
+              onClick: () => {
+                // Handle navigation to the chat
+                window.location.href = `/chat/${data.chatId}`;
+              },
+            },
+          }
+        );
+      }
+    });
+
+    // Handle user typing notifications
+    userChannel.bind('userTyping', (data: any) => {
+      if (data.chatId !== chatId) {
+        // Show typing indicator for other chats
+        toast.info(`${data.user.firstName} is typing...`, {
+          duration: 2000,
+        });
+      }
+    });
 
     return () => {
-      socket.off(ChatEvent.TYPING, onTyping);
-      socket.off(ChatEvent.NEW_MESSAGE, onNewMessage);
+      chatChannel.unbind_all();
+      userChannel.unbind_all();
+      pusher.unsubscribe(`private-chat-${chatId}`);
+      pusher.unsubscribe(`private-user-${user._id}`);
 
       // Clear all typing timeouts
       Object.values(typingTimeoutRef.current).forEach(timeout =>
@@ -175,7 +203,7 @@ export function useChat(chatId: string) {
       hasPlayedSoundRef.current = {};
     };
   }, [
-    socket,
+    pusher,
     chatId,
     user?._id,
     queryClient,
