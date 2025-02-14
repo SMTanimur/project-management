@@ -82,7 +82,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
         withCredentials: true,
         autoConnect: false,
         path: '/socket.io/',
-        transports: ['websocket', 'polling'],
+        transports: ['polling', 'websocket'],
         auth: {
           token,
         },
@@ -91,31 +91,38 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
           organizationId: currentOrganizationId,
         },
         reconnection: true,
-        reconnectionAttempts: 5,
-        reconnectionDelay: 2000,
-        reconnectionDelayMax: 10000,
-        timeout: 20000,
+        reconnectionAttempts: 3,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        timeout: 10000,
         forceNew: true,
         secure: true,
         rejectUnauthorized: false,
         extraHeaders: {
           'Access-Control-Allow-Credentials': 'true',
+          Origin: window.location.origin,
         },
       });
 
-      // Add connection state logging
-      socketInstance.io.on('reconnect_attempt', attempt => {
-        console.log(`Reconnection attempt ${attempt}`);
+      // Add better error handling
+      socketInstance.on('connect_error', error => {
+        console.error('Connection error:', error);
+        if (!isInitialConnection.current) {
+          toast.error('Connection error: ' + error.message);
+        }
       });
 
-      socketInstance.io.on('reconnect_error', error => {
-        console.error('Reconnection error:', error);
+      socketInstance.io.on('error', error => {
+        console.error('Transport error:', error);
+        if (!isInitialConnection.current) {
+          toast.error('Transport error occurred');
+        }
       });
 
       socketInstance.io.on('reconnect_failed', () => {
-        console.error('Failed to reconnect');
+        console.error('Failed to reconnect after all attempts');
         if (!isInitialConnection.current) {
-          toast.error('Unable to reconnect to chat server');
+          toast.error('Unable to connect to chat server');
         }
       });
 
@@ -156,21 +163,6 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
               connect();
             }, 5000); // Increased delay to prevent rapid reconnection attempts
           }
-        }
-      });
-
-      socketInstance.on('connect_error', error => {
-        console.error('Connection error:', error);
-        if (!isInitialConnection.current) {
-          toast.error('Failed to connect to chat server');
-        }
-        setIsConnected(false);
-      });
-
-      socketInstance.on('error', error => {
-        console.error('Socket error:', error);
-        if (!isInitialConnection.current) {
-          toast.error('Chat server error occurred');
         }
       });
 
