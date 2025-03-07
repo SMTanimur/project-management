@@ -20,7 +20,7 @@ type BotProps = {
 };
 const BotHeader = ({ botflow,onSave,isUpdating }: BotProps) => {
   return (
-    <div className='flex py-3 px-6 bg-white sticky top-0 w-full items-center justify-between border-b h-[calc(53px+1.30rem)] z-50'>
+    <div className='flex py-3  px-6 bg-white sticky top-0 w-full items-center justify-between border-b h-[calc(53px+1.30rem)] z-50'>
       <Breadcrumb className='ml-3'>
         <BreadcrumbList className='flex items-center'>
           <BreadcrumbItem className='text-xl'>
