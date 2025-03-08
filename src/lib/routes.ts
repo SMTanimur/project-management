@@ -6,7 +6,6 @@ export const API_PATHS ={
     CHAT: 'v1/chats',
     USER: 'v1/users/:id',
     ME:'v1/users/me',
-   //TODO: Workflows
    CreateBotflow: 'v1/workflows/create',
    GetBotflows: 'v1/workflows',
    GetBotflow: 'v1/workflows',
