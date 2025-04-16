@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
@@ -11,10 +10,11 @@ import {
 import { useMediaQuery, useUser } from '@/hooks';
 import { cn } from '@/lib';
 
-import React, { ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import { Nav } from './nav';
-import {  organizationSidebarConfig } from '@/configs';
+import { organizationSidebarConfig } from '@/configs';
 import { Separator } from '@radix-ui/react-select';
+import { getCookie } from '@/libs';
 
 interface LayoutWrapProps {
   children: ReactNode;
@@ -29,44 +29,42 @@ export const LayoutWrap: React.FC<LayoutWrapProps> = ({
   defaultCollapsed = false,
   navCollapsedSize,
 }) => {
-
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-  const { data } = useUser();
+  const cookie = getCookie();
   const isDesktop = useMediaQuery('(max-width: 1280px)');
 
-  return data ? (
+  return cookie ? (
     <div className='flex w-full h-[calc(100vh-65px)]'>
       <ResizablePanelGroup
-            direction="horizontal"
-            onLayout={(sizes) => {
-              document.cookie = `react-resizable-panels:layout=${JSON.stringify(
-                sizes
+        direction='horizontal'
+        onLayout={sizes => {
+          document.cookie = `react-resizable-panels:layout=${JSON.stringify(
+            sizes
+          )}`;
+        }}
+        className='relative '
+      >
+        {!isDesktop && (
+          <ResizablePanel
+            defaultSize={defaultLayout[0]}
+            collapsedSize={navCollapsedSize}
+            collapsible={true}
+            minSize={15}
+            maxSize={20}
+            onCollapse={collapsed => {
+              setIsCollapsed(collapsed);
+              document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                collapsed
               )}`;
             }}
-            className="relative "
+            className={cn(
+              '',
+              isCollapsed &&
+                'min-w-[50px] transition-all duration-300 ease-in-out '
+            )}
           >
-            {!isDesktop && (
-              <ResizablePanel
-                defaultSize={defaultLayout[0]}
-                collapsedSize={navCollapsedSize}
-                collapsible={true}
-                minSize={15}
-                maxSize={20}
-                
-                 onCollapse={(collapsed) => {
-                  setIsCollapsed(collapsed);
-                  document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-                    collapsed
-                  )}`;
-                 }}
-                className={cn(
-                  "",
-                  isCollapsed &&
-                  "min-w-[50px] transition-all duration-300 ease-in-out "
-                )}
-              >
-                <Card className="h-full overflow-auto no-scrollbar">
-                  {/* <CardHeader
+            <Card className='h-full overflow-auto no-scrollbar'>
+              {/* <CardHeader
                     className={cn(
                       "border-none mb-0 pb-0 sticky bg-card top-0  px-6 z-[99]",
                       {
@@ -87,28 +85,26 @@ export const LayoutWrap: React.FC<LayoutWrapProps> = ({
                       {!isCollapsed && "Compose"}
                     </Button>
                   </CardHeader> */}
-                  <CardContent
-                    className={cn("", {
-                      "px-2": isCollapsed,
-                    })}
-                  >
-                    <Nav
-                      isCollapsed={isCollapsed}
-                      links={organizationSidebarConfig}
-                    />
+              <CardContent
+                className={cn('', {
+                  'px-2': isCollapsed,
+                })}
+              >
+                <Nav
+                  isCollapsed={isCollapsed}
+                  links={organizationSidebarConfig}
+                />
 
-                    <Separator />
-                   
-                    
-                  </CardContent>
-                </Card>
-              </ResizablePanel>
-            )}
-            {!isDesktop && <ResizableHandle withHandle />}
-            <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-              {children}
-            </ResizablePanel>
-          </ResizablePanelGroup>
+                <Separator />
+              </CardContent>
+            </Card>
+          </ResizablePanel>
+        )}
+        {!isDesktop && <ResizableHandle withHandle />}
+        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+          {children}
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   ) : (
     // Render only children if data is not available
